@@ -1,8 +1,6 @@
-name: Node.js CI
+name: PR Test
 
 on:
-  push:
-    branches: [ "main", "develop" ]
   pull_request:
     branches: [ "main", "develop" ]
 
@@ -27,3 +25,4 @@ jobs:
         run: |
           npm test
           npm run test:e2e
+
