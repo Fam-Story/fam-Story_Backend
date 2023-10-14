@@ -1,22 +1,18 @@
 import {
   Column,
   Entity,
-  Index,
   JoinColumn,
   ManyToOne,
   OneToMany,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { FamilyEntity } from './family.entity';
 import { PhotoEntity } from './photo.entity';
 
-@Index('FK_family_TO_album_1', ['familyId'], {})
 @Entity('album', { schema: 'family_app_db' })
 export class AlbumEntity {
-  @Column('int', { primary: true, name: 'ID' })
+  @PrimaryGeneratedColumn({ name: 'ID' })
   id: number;
-
-  @Column('int', { primary: true, name: 'family_ID' })
-  familyId: number;
 
   @Column('int', { name: 'photo_number', nullable: true })
   photoNumber: number | null;
@@ -28,7 +24,7 @@ export class AlbumEntity {
     onDelete: 'CASCADE',
     onUpdate: 'NO ACTION',
   })
-  @JoinColumn([{ name: 'family_ID', referencedColumnName: 'id' }])
+  @JoinColumn({ name: 'family_ID', referencedColumnName: 'id' })
   family: FamilyEntity;
 
   @OneToMany(() => PhotoEntity, (photo) => photo.album)

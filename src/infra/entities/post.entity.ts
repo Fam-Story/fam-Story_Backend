@@ -1,11 +1,16 @@
-import { Column, Entity, Index, JoinColumn, ManyToOne } from 'typeorm';
-import { FamilymemberEntity } from './familymember.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { FamilyMemberEntity } from './familymember.entity';
 
-@Index('FK_family_member_TO_post_1', ['srcMemberId'], {})
 @Entity('post', { schema: 'family_app_db' })
 export class PostEntity {
-  @Column('varchar', { primary: true, name: 'ID', length: 255 })
-  id: string;
+  @PrimaryGeneratedColumn({ name: 'ID' })
+  id: number;
 
   @Column('int', { primary: true, name: 'src_member_ID' })
   srcMemberId: number;
@@ -19,10 +24,10 @@ export class PostEntity {
   @Column('date', { name: 'created_date', nullable: true })
   createdDate: string | null;
 
-  @ManyToOne(() => FamilymemberEntity, (familyMember) => familyMember.posts, {
+  @ManyToOne(() => FamilyMemberEntity, (familyMember) => familyMember.posts, {
     onDelete: 'CASCADE',
     onUpdate: 'NO ACTION',
   })
   @JoinColumn([{ name: 'src_member_ID', referencedColumnName: 'id' }])
-  srcMember: FamilymemberEntity;
+  srcMember: FamilyMemberEntity;
 }
