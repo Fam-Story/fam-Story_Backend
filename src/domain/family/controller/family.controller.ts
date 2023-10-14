@@ -1,7 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { FamilyService } from '../domain/family/family.service';
-import { CreateFamilyDto } from '../domain/family/dto/create-family.dto';
-import { UpdateFamilyDto } from '../domain/family/dto/update-family.dto';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
+import { FamilyService } from '../service/family.service';
+import { CreateFamilyDto } from '../dto/request/create-family.dto';
+import { UpdateFamilyDto } from '../dto/request/update-family.dto';
 
 @Controller('family')
 export class FamilyController {

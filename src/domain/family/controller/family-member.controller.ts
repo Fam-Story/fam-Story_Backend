@@ -1,7 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { FamilyMemberService } from '../domain/family-member/family-member.service';
-import { CreateFamilyMemberDto } from '../domain/family-member/dto/create-family-member.dto';
-import { UpdateFamilyMemberDto } from '../domain/family-member/dto/update-family-member.dto';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
+import { FamilyMemberService } from '../service/family-member.service';
+import { CreateFamilyMemberDto } from '../dto/request/create-family-member.dto';
+import { UpdateFamilyMemberDto } from '../dto/request/update-family-member.dto';
 
 @Controller('family-member')
 export class FamilyMemberController {
@@ -23,7 +31,10 @@ export class FamilyMemberController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFamilyMemberDto: UpdateFamilyMemberDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateFamilyMemberDto: UpdateFamilyMemberDto,
+  ) {
     return this.familyMemberService.update(+id, updateFamilyMemberDto);
   }
 

@@ -23,6 +23,9 @@ export class FamilyEntity {
   @OneToMany(() => FamilymemberEntity, (familyMember) => familyMember.family)
   familyMembers: FamilymemberEntity[];
 
-  @OneToMany(() => FamilyScheduleEntity, (familySchedule) => familySchedule.family)
+  @OneToMany(
+    () => FamilyScheduleEntity,
+    (familySchedule) => familySchedule.family,
+  )
   familySchedules: FamilyScheduleEntity[];
 }
