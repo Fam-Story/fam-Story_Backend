@@ -1,14 +1,16 @@
-import { Column, Entity, Index, JoinColumn, ManyToOne } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { AlbumEntity } from './album.entity';
 
-@Index('FK_album_TO_photo_1', ['albumId'], {})
 @Entity('photo', { schema: 'family_app_db' })
 export class PhotoEntity {
-  @Column('int', { primary: true, name: 'ID' })
+  @PrimaryGeneratedColumn({ name: 'ID' })
   id: number;
-
-  @Column('int', { primary: true, name: 'album_ID' })
-  albumId: number;
 
   @Column('varchar', { name: 'S3_image_URL', nullable: true, length: 100 })
   s3ImageUrl: string | null;

@@ -1,11 +1,11 @@
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { AlbumEntity } from './album.entity';
-import { FamilymemberEntity } from './familymember.entity';
+import { FamilyMemberEntity } from './familymember.entity';
 import { FamilyScheduleEntity } from './familySchedule.entity';
 
 @Entity('family', { schema: 'family_app_db' })
 export class FamilyEntity {
-  @Column('int', { primary: true, name: 'ID' })
+  @PrimaryGeneratedColumn({ name: 'ID' })
   id: number;
 
   @Column('int', { name: 'member_number', nullable: true })
@@ -20,8 +20,8 @@ export class FamilyEntity {
   @OneToMany(() => AlbumEntity, (album) => album.family)
   albums: AlbumEntity[];
 
-  @OneToMany(() => FamilymemberEntity, (familyMember) => familyMember.family)
-  familyMembers: FamilymemberEntity[];
+  @OneToMany(() => FamilyMemberEntity, (familyMember) => familyMember.family)
+  familyMembers: FamilyMemberEntity[];
 
   @OneToMany(
     () => FamilyScheduleEntity,
