@@ -5,10 +5,10 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { FamilyEntity } from './family.entity';
+import { Family } from './family.entity';
 
 @Entity('family_schedule', { schema: 'family_app_db' })
-export class FamilyScheduleEntity {
+export class FamilySchedule {
   @PrimaryGeneratedColumn({ name: 'ID' })
   id: number;
 
@@ -18,10 +18,10 @@ export class FamilyScheduleEntity {
   @Column('date', { name: 'schedule_date', nullable: true })
   scheduleDate: string | null;
 
-  @ManyToOne(() => FamilyEntity, (family) => family.familySchedules, {
+  @ManyToOne(() => Family, (family) => family.familySchedules, {
     onDelete: 'CASCADE',
     onUpdate: 'NO ACTION',
   })
   @JoinColumn([{ name: 'family_ID', referencedColumnName: 'id' }])
-  family: FamilyEntity;
+  family: Family;
 }

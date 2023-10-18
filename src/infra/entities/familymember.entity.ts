@@ -6,13 +6,13 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { FamilyEntity } from './family.entity';
-import { UserEntity } from './user.entity';
-import { IndividualScheduleEntity } from './individualSchedule.entity';
-import { PostEntity } from './post.entity';
+import { Family } from './family.entity';
+import { User } from './user.entity';
+import { IndividualSchedule } from './individualSchedule.entity';
+import { Post } from './post.entity';
 
 @Entity('family_member', { schema: 'family_app_db' })
-export class FamilyMemberEntity {
+export class FamilyMember {
   @PrimaryGeneratedColumn({ name: 'ID' })
   id: number;
 
@@ -25,26 +25,26 @@ export class FamilyMemberEntity {
   @Column('int', { name: 'talk_count', nullable: true })
   talkCount: number | null;
 
-  @ManyToOne(() => FamilyEntity, (family) => family.familyMembers, {
+  @ManyToOne(() => Family, (family) => family.familyMembers, {
     onDelete: 'CASCADE',
     onUpdate: 'NO ACTION',
   })
   @JoinColumn([{ name: 'family_ID', referencedColumnName: 'id' }])
-  family: FamilyEntity;
+  family: Family;
 
-  @ManyToOne(() => UserEntity, (user) => user.familyMembers, {
+  @ManyToOne(() => User, (user) => user.familyMembers, {
     onDelete: 'CASCADE',
     onUpdate: 'NO ACTION',
   })
   @JoinColumn([{ name: 'user_ID', referencedColumnName: 'id' }])
-  user: UserEntity;
+  user: User;
 
   @OneToMany(
-    () => IndividualScheduleEntity,
+    () => IndividualSchedule,
     (individualSchedule) => individualSchedule.member,
   )
-  individualSchedules: IndividualScheduleEntity[];
+  individualSchedules: IndividualSchedule[];
 
-  @OneToMany(() => PostEntity, (post) => post.srcMember)
-  posts: PostEntity[];
+  @OneToMany(() => Post, (post) => post.srcMember)
+  posts: Post[];
 }

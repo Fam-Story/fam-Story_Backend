@@ -5,10 +5,10 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { AlbumEntity } from './album.entity';
+import { Album } from './album.entity';
 
 @Entity('photo', { schema: 'family_app_db' })
-export class PhotoEntity {
+export class Photo {
   @PrimaryGeneratedColumn({ name: 'ID' })
   id: number;
 
@@ -21,10 +21,10 @@ export class PhotoEntity {
   @Column('date', { name: 'created_date', nullable: true })
   createdDate: string | null;
 
-  @ManyToOne(() => AlbumEntity, (album) => album.photos, {
+  @ManyToOne(() => Album, (album) => album.photos, {
     onDelete: 'CASCADE',
     onUpdate: 'NO ACTION',
   })
   @JoinColumn([{ name: 'album_ID', referencedColumnName: 'id' }])
-  album: AlbumEntity;
+  album: Album;
 }
