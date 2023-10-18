@@ -1,8 +1,8 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { FamilyMemberEntity } from './familymember.entity';
+import { FamilyMember } from './familymember.entity';
 
 @Entity('user', { schema: 'family_app_db' })
-export class UserEntity {
+export class User {
   @Column('int', { primary: true, name: 'ID' })
   @PrimaryGeneratedColumn({ name: 'ID' })
   id: number;
@@ -25,6 +25,6 @@ export class UserEntity {
   @Column('int', { name: 'gender', nullable: true })
   gender: number | null;
 
-  @OneToMany(() => FamilyMemberEntity, (familyMember) => familyMember.user)
-  familyMembers: FamilyMemberEntity[];
+  @OneToMany(() => FamilyMember, (familyMember) => familyMember.user)
+  familyMembers: FamilyMember[];
 }

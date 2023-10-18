@@ -5,10 +5,10 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { FamilyMemberEntity } from './familymember.entity';
+import { FamilyMember } from './familymember.entity';
 
 @Entity('post', { schema: 'family_app_db' })
-export class PostEntity {
+export class Post {
   @PrimaryGeneratedColumn({ name: 'ID' })
   id: number;
 
@@ -24,10 +24,10 @@ export class PostEntity {
   @Column('date', { name: 'created_date', nullable: true })
   createdDate: string | null;
 
-  @ManyToOne(() => FamilyMemberEntity, (familyMember) => familyMember.posts, {
+  @ManyToOne(() => FamilyMember, (familyMember) => familyMember.posts, {
     onDelete: 'CASCADE',
     onUpdate: 'NO ACTION',
   })
   @JoinColumn([{ name: 'src_member_ID', referencedColumnName: 'id' }])
-  srcMember: FamilyMemberEntity;
+  srcMember: FamilyMember;
 }

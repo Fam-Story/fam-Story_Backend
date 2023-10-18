@@ -1,10 +1,10 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { AlbumEntity } from './album.entity';
-import { FamilyMemberEntity } from './familymember.entity';
-import { FamilyScheduleEntity } from './familySchedule.entity';
+import { Album } from './album.entity';
+import { FamilyMember } from './familymember.entity';
+import { FamilySchedule } from './familySchedule.entity';
 
 @Entity('family', { schema: 'family_app_db' })
-export class FamilyEntity {
+export class Family {
   @PrimaryGeneratedColumn({ name: 'ID' })
   id: number;
 
@@ -17,15 +17,12 @@ export class FamilyEntity {
   @Column('date', { name: 'created_date', nullable: true })
   createdDate: string | null;
 
-  @OneToMany(() => AlbumEntity, (album) => album.family)
-  albums: AlbumEntity[];
+  @OneToMany(() => Album, (album) => album.family)
+  albums: Album[];
 
-  @OneToMany(() => FamilyMemberEntity, (familyMember) => familyMember.family)
-  familyMembers: FamilyMemberEntity[];
+  @OneToMany(() => FamilyMember, (familyMember) => familyMember.family)
+  familyMembers: FamilyMember[];
 
-  @OneToMany(
-    () => FamilyScheduleEntity,
-    (familySchedule) => familySchedule.family,
-  )
-  familySchedules: FamilyScheduleEntity[];
+  @OneToMany(() => FamilySchedule, (familySchedule) => familySchedule.family)
+  familySchedules: FamilySchedule[];
 }

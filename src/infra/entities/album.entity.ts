@@ -6,11 +6,11 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { FamilyEntity } from './family.entity';
-import { PhotoEntity } from './photo.entity';
+import { Family } from './family.entity';
+import { Photo } from './photo.entity';
 
 @Entity('album', { schema: 'family_app_db' })
-export class AlbumEntity {
+export class Album {
   @PrimaryGeneratedColumn({ name: 'ID' })
   id: number;
 
@@ -20,13 +20,13 @@ export class AlbumEntity {
   @Column('varchar', { name: 'album_name', nullable: true, length: 50 })
   albumName: string | null;
 
-  @ManyToOne(() => FamilyEntity, (family) => family.albums, {
+  @ManyToOne(() => Family, (family) => family.albums, {
     onDelete: 'CASCADE',
     onUpdate: 'NO ACTION',
   })
   @JoinColumn({ name: 'family_ID', referencedColumnName: 'id' })
-  family: FamilyEntity;
+  family: Family;
 
-  @OneToMany(() => PhotoEntity, (photo) => photo.album)
-  photos: PhotoEntity[];
+  @OneToMany(() => Photo, (photo) => photo.album)
+  photos: Photo[];
 }
