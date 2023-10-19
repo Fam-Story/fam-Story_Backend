@@ -16,14 +16,14 @@ export class Post {
   @Column('int', { name: 'Src_Member_ID' })
   srcMemberId: number;
 
-  @Column('varchar', { name: 'Title', nullable: true, length: 50 })
-  title: string | null;
+  @Column('varchar', { name: 'Title', nullable: false, length: 50 })
+  title: string;
 
-  @Column('varchar', { name: 'Context', nullable: true, length: 50 })
-  context: string | null;
+  @Column('varchar', { name: 'Context', nullable: false, length: 50 })
+  context: string;
 
-  @Column('date', { name: 'Created_Date', nullable: true })
-  createdDate: string | null;
+  @Column('date', { name: 'Created_Date', nullable: false })
+  createdDate: string;
 
   @ManyToOne(() => FamilyMember, (familyMember) => familyMember.posts, {
     onDelete: 'CASCADE',

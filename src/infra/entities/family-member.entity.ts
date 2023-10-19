@@ -23,14 +23,14 @@ export class FamilyMember {
   @Column('int', { name: 'Family_ID' })
   familyId: number;
 
-  @Column('int', { name: 'Role', nullable: true })
-  role: number | null;
+  @Column('int', { name: 'Role', nullable: false })
+  role: number;
 
-  @Column('int', { name: 'Poke_Count', nullable: true })
-  pokeCount: number | null;
+  @Column('int', { name: 'Poke_Count', nullable: false })
+  pokeCount: number;
 
-  @Column('int', { name: 'Talk_Count', nullable: true })
-  talkCount: number | null;
+  @Column('int', { name: 'Talk_Count', nullable: false })
+  talkCount: number;
 
   @ManyToOne(() => Family, (family) => family.familyMembers, {
     onDelete: 'CASCADE',

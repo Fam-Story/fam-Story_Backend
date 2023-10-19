@@ -18,11 +18,11 @@ export class Album {
   @Column('int', { name: 'Family_ID' })
   familyId: number;
 
-  @Column('int', { name: 'Photo_Number', nullable: true })
-  photoNumber: number | null;
+  @Column('int', { name: 'Photo_Number', nullable: false })
+  photoNumber: number;
 
-  @Column('varchar', { name: 'Album_Name', nullable: true, length: 50 })
-  albumName: string | null;
+  @Column('varchar', { name: 'Album_Name', nullable: false, length: 50 })
+  albumName: string;
 
   @ManyToOne(() => Family, (family) => family.albums, {
     onDelete: 'CASCADE',

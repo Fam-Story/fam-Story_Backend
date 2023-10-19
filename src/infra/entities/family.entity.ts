@@ -8,14 +8,14 @@ export class Family {
   @PrimaryGeneratedColumn({ type: 'int', name: 'ID' })
   id: number;
 
-  @Column('int', { name: 'Member_Number', nullable: true })
-  memberNumber: number | null;
+  @Column('int', { name: 'Member_Number', nullable: false })
+  memberNumber: number;
 
-  @Column('varchar', { name: 'Family_Name', nullable: true, length: 50 })
-  familyName: string | null;
+  @Column('varchar', { name: 'Family_Name', nullable: false, length: 50 })
+  familyName: string;
 
-  @Column('date', { name: 'Created_Date', nullable: true })
-  createdDate: string | null;
+  @Column('date', { name: 'Created_Date', nullable: false })
+  createdDate: string;
 
   @OneToMany(() => Album, (album) => album.family)
   albums: Album[];

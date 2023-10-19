@@ -16,14 +16,14 @@ export class Photo {
   @Column('int', { name: 'Album_ID' })
   albumId: number;
 
-  @Column('varchar', { name: 'S3_Image_URL', nullable: true, length: 100 })
-  s3ImageUrl: string | null;
+  @Column('varchar', { name: 'S3_Image_URL', nullable: false, length: 100 })
+  s3ImageUrl: string;
 
-  @Column('varchar', { name: 'Name', nullable: true, length: 50 })
-  name: string | null;
+  @Column('varchar', { name: 'Name', nullable: false, length: 50 })
+  name: string;
 
-  @Column('date', { name: 'Created_Date', nullable: true })
-  createdDate: string | null;
+  @Column('date', { name: 'Created_Date', nullable: false })
+  createdDate: string;
 
   @ManyToOne(() => Album, (album) => album.photos, {
     onDelete: 'CASCADE',

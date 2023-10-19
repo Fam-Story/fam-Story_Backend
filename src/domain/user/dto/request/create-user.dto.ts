@@ -13,7 +13,6 @@ export class CreateUserDto {
   readonly password: string;
 
   @IsString()
-  @IsNotEmpty()
   readonly nickname: string;
 
   @IsNotEmpty()

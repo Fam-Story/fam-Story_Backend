@@ -16,11 +16,11 @@ export class IndividualSchedule {
   @Column('int', { name: 'Member_ID' })
   memberId: number;
 
-  @Column('varchar', { name: 'Schedule_Name', nullable: true, length: 50 })
-  scheduleName: string | null;
+  @Column('varchar', { name: 'Schedule_Name', nullable: false, length: 50 })
+  scheduleName: string;
 
-  @Column('date', { name: 'Schedule_Date', nullable: true })
-  scheduleDate: string | null;
+  @Column('date', { name: 'Schedule_Date', nullable: false })
+  scheduleDate: string;
 
   @ManyToOne(
     () => FamilyMember,
