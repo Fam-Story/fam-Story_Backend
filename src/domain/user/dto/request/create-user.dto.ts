@@ -6,21 +6,21 @@ export class CreateUserDto {
 
   @IsString()
   @IsNotEmpty()
-  username: string;
+  readonly username: string;
 
   @IsString()
   @IsNotEmpty()
-  password: string;
+  readonly password: string;
 
   @IsString()
   @IsNotEmpty()
-  nickname: string;
+  readonly nickname: string;
 
   @IsNotEmpty()
   @IsNumber()
-  age: number;
+  readonly age: number;
 
   @IsNotEmpty()
   @IsNumber()
-  gender: number;
+  readonly gender: number;
 }
