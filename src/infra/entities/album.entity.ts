@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   OneToMany,
@@ -11,20 +12,23 @@ import { Photo } from './photo.entity';
 
 @Entity('album', { schema: 'family_app_db' })
 export class Album {
-  @PrimaryGeneratedColumn({ name: 'ID' })
+  @PrimaryGeneratedColumn({ type: 'int', name: 'ID' })
   id: number;
 
-  @Column('int', { name: 'photo_number', nullable: true })
+  @Column('int', { name: 'Family_ID' })
+  familyId: number;
+
+  @Column('int', { name: 'Photo_Number', nullable: true })
   photoNumber: number | null;
 
-  @Column('varchar', { name: 'album_name', nullable: true, length: 50 })
+  @Column('varchar', { name: 'Album_Name', nullable: true, length: 50 })
   albumName: string | null;
 
   @ManyToOne(() => Family, (family) => family.albums, {
     onDelete: 'CASCADE',
-    onUpdate: 'NO ACTION',
+    onUpdate: 'CASCADE',
   })
-  @JoinColumn({ name: 'family_ID', referencedColumnName: 'id' })
+  @JoinColumn([{ name: 'Family_ID', referencedColumnName: 'id' }])
   family: Family;
 
   @OneToMany(() => Photo, (photo) => photo.album)
