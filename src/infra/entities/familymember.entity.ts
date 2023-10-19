@@ -4,6 +4,7 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Family } from './family.entity';
@@ -32,7 +33,7 @@ export class FamilyMember {
   @JoinColumn([{ name: 'family_ID', referencedColumnName: 'id' }])
   family: Family;
 
-  @ManyToOne(() => User, (user) => user.familyMembers, {
+  @OneToOne(() => User, (user) => user.familyMember, {
     onDelete: 'CASCADE',
     onUpdate: 'NO ACTION',
   })

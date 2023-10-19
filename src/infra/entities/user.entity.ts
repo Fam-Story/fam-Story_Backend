@@ -1,14 +1,8 @@
-import {
-  Column,
-  Entity,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { FamilyMember } from './familymember.entity';
 
 @Entity('user', { schema: 'family_app_db' })
 export class User {
-  @Column('int', { primary: true, name: 'ID' })
   @PrimaryGeneratedColumn({ name: 'ID' })
   id: number;
 

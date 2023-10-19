@@ -9,7 +9,7 @@ import { Module } from '@nestjs/common';
       username: 'root',
       password: '12345678',
       database: 'family_app_db',
-      entities: [],
+      entities: [__dirname + '/../**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
   ],
