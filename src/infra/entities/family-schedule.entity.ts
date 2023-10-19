@@ -16,11 +16,11 @@ export class FamilySchedule {
   @Column('int', { name: 'Family_ID' })
   familyId: number;
 
-  @Column('varchar', { name: 'Schedule_Name', nullable: true, length: 50 })
-  scheduleName: string | null;
+  @Column('varchar', { name: 'Schedule_Name', nullable: false, length: 50 })
+  scheduleName: string;
 
-  @Column('date', { name: 'Schedule_Date', nullable: true })
-  scheduleDate: string | null;
+  @Column('date', { name: 'Schedule_Date', nullable: false })
+  scheduleDate: string;
 
   @ManyToOne(() => Family, (family) => family.familySchedules, {
     onDelete: 'CASCADE',

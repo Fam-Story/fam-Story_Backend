@@ -6,23 +6,23 @@ export class User {
   @PrimaryGeneratedColumn({ type: 'int', name: 'ID' })
   id: number;
 
-  @Column('varchar', { name: 'Email', nullable: true, length: 50 })
-  email: string | null;
+  @Column('varchar', { name: 'Email', nullable: false, length: 50 })
+  email: string;
 
-  @Column('varchar', { name: 'PW', nullable: true, length: 25 })
-  pw: string | null;
+  @Column('varchar', { name: 'PW', nullable: false, length: 25 })
+  password: string;
 
-  @Column('varchar', { name: 'Username', nullable: true, length: 50 })
-  username: string | null;
+  @Column('varchar', { name: 'Username', nullable: false, length: 50 })
+  username: string;
 
   @Column('varchar', { name: 'Nickname', nullable: true, length: 50 })
   nickname: string | null;
 
-  @Column('int', { name: 'Age', nullable: true })
-  age: number | null;
+  @Column('int', { name: 'Age', nullable: false })
+  age: number;
 
-  @Column('int', { name: 'Gender', nullable: true })
-  gender: number | null;
+  @Column('int', { name: 'Gender', nullable: false })
+  gender: number;
 
   @OneToMany(() => FamilyMember, (familyMember) => familyMember.user)
   familyMembers: FamilyMember[];
