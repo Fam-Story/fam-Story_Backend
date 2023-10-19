@@ -1,20 +1,20 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Album } from './album.entity';
-import { FamilyMember } from './familymember.entity';
-import { FamilySchedule } from './familySchedule.entity';
+import { FamilyMember } from './family-member.entity';
+import { FamilySchedule } from './family-schedule.entity';
 
 @Entity('family', { schema: 'family_app_db' })
 export class Family {
-  @PrimaryGeneratedColumn({ name: 'ID' })
+  @PrimaryGeneratedColumn({ type: 'int', name: 'ID' })
   id: number;
 
-  @Column('int', { name: 'member_number', nullable: true })
+  @Column('int', { name: 'Member_Number', nullable: true })
   memberNumber: number | null;
 
-  @Column('varchar', { name: 'family_name', nullable: true, length: 50 })
+  @Column('varchar', { name: 'Family_Name', nullable: true, length: 50 })
   familyName: string | null;
 
-  @Column('date', { name: 'created_date', nullable: true })
+  @Column('date', { name: 'Created_Date', nullable: true })
   createdDate: string | null;
 
   @OneToMany(() => Album, (album) => album.family)

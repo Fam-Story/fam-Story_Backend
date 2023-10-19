@@ -1,29 +1,29 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { FamilyMember } from './familymember.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { FamilyMember } from './family-member.entity';
 
 @Entity('user', { schema: 'family_app_db' })
 export class User {
-  @PrimaryGeneratedColumn({ name: 'ID' })
+  @PrimaryGeneratedColumn({ type: 'int', name: 'ID' })
   id: number;
 
-  @Column('varchar', { name: 'email', nullable: true, length: 50 })
+  @Column('varchar', { name: 'Email', nullable: true, length: 50 })
   email: string | null;
 
-  @Column('varchar', { name: 'user_password', nullable: true, length: 25 })
-  userPassword: string | null;
+  @Column('varchar', { name: 'PW', nullable: true, length: 25 })
+  pw: string | null;
 
-  @Column('varchar', { name: 'username', nullable: true, length: 50 })
+  @Column('varchar', { name: 'Username', nullable: true, length: 50 })
   username: string | null;
 
-  @Column('varchar', { name: 'nickname', nullable: true, length: 50 })
+  @Column('varchar', { name: 'Nickname', nullable: true, length: 50 })
   nickname: string | null;
 
-  @Column('int', { name: 'age', nullable: true })
+  @Column('int', { name: 'Age', nullable: true })
   age: number | null;
 
-  @Column('int', { name: 'gender', nullable: true })
+  @Column('int', { name: 'Gender', nullable: true })
   gender: number | null;
 
-  @OneToOne(() => FamilyMember, (familyMember) => familyMember.user)
-  familyMember: FamilyMember;
+  @OneToMany(() => FamilyMember, (familyMember) => familyMember.user)
+  familyMembers: FamilyMember[];
 }
