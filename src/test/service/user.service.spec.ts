@@ -3,6 +3,7 @@ import { UserService } from '../../domain/user/user.service';
 import { CreateUserDto } from '../../domain/user/dto/request/create-user.dto';
 import { User } from '../../infra/entities/user.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import {UpdateUserDto} from "../../domain/user/dto/request/update-user.dto";
 
 describe('UserService', () => {
   const mockRepository = () => ({
@@ -49,5 +50,20 @@ describe('UserService', () => {
       const result = await service.findUserById(testId);
       expect(result.username).toEqual('test');
     });
+  });
+
+  describe('updateUser', () => {
+    it('should update user', async () => {
+      const updateUserDto: UpdateUserDto = {
+        userId: 1,
+        email: 'test@test.com',
+        username: 'test',
+        password: 'test',
+        nickname: 'test',
+        age: 20,
+        gender: 1,
+      };
+    });
+
   });
 });

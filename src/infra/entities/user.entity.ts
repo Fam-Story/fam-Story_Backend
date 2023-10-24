@@ -1,5 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { FamilyMember } from './family-member.entity';
+import { CreateUserDto } from '../../domain/user/dto/request/create-user.dto';
 
 @Entity('user', { schema: 'family_app_db' })
 export class User {
