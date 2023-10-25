@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateAlbumDto } from '../dto/request/create-album.dto';
-import { UpdateAlbumDto } from '../dto/request/update-album.dto';
+import { CreateAlbumDto, UpdateAlbumDto } from '../dto';
 
 @Injectable()
 export class AlbumService {

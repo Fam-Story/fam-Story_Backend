@@ -7,9 +7,8 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { AlbumService } from '../service/album.service';
-import { CreateAlbumDto } from '../dto/request/create-album.dto';
-import { UpdateAlbumDto } from '../dto/request/update-album.dto';
+import { AlbumService } from '../service';
+import { CreateAlbumDto, UpdateAlbumDto } from '../dto';
 
 @Controller('album')
 export class AlbumController {

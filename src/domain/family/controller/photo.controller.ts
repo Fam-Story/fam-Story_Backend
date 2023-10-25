@@ -7,9 +7,8 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { PhotoService } from '../service/photo.service';
-import { CreatePhotoDto } from '../dto/request/create-photo.dto';
-import { UpdatePhotoDto } from '../dto/request/update-photo.dto';
+import { PhotoService } from '../service';
+import { CreatePhotoDto, UpdatePhotoDto } from '../dto';
 
 @Controller('photo')
 export class PhotoController {
