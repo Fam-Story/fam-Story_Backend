@@ -1,7 +1,6 @@
 import {
   Column,
   Entity,
-  Index,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -13,16 +12,13 @@ export class Post {
   @PrimaryGeneratedColumn({ type: 'int', name: 'ID' })
   id: number;
 
-  @Column('int', { name: 'Src_Member_ID' })
-  srcMemberId: number;
-
-  @Column('varchar', { name: 'Title', nullable: false, length: 50 })
+  @Column('varchar', { name: 'Title', length: 50 })
   title: string;
 
-  @Column('varchar', { name: 'Context', nullable: false, length: 50 })
+  @Column('varchar', { name: 'Context', length: 50 })
   context: string;
 
-  @Column('date', { name: 'Created_Date', nullable: false })
+  @Column('date', { name: 'Created_Date' })
   createdDate: string;
 
   @ManyToOne(() => FamilyMember, (familyMember) => familyMember.posts, {

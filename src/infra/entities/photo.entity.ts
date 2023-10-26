@@ -1,34 +1,33 @@
 import {
   Column,
   Entity,
-  Index,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Album } from './album.entity';
+import { Family } from './family.entity';
 
 @Entity('photo', { schema: 'family_app_db' })
 export class Photo {
   @PrimaryGeneratedColumn({ type: 'int', name: 'ID' })
   id: number;
 
-  @Column('int', { name: 'Album_ID' })
-  albumId: number;
-
-  @Column('varchar', { name: 'S3_Image_URL', nullable: false, length: 100 })
+  @Column('varchar', { name: 'S3_Image_URL', length: 100 })
   s3ImageUrl: string;
 
-  @Column('varchar', { name: 'Name', nullable: false, length: 50 })
+  @Column('varchar', { name: 'Name', length: 50 })
   name: string;
 
-  @Column('date', { name: 'Created_Date', nullable: false })
+  @Column('date', { name: 'Created_Date' })
   createdDate: string;
 
-  @ManyToOne(() => Album, (album) => album.photos, {
+  @Column('int', { name: 'family_ID' })
+  familyId: number;
+
+  @ManyToOne(() => Family, (family) => family.photos, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
-  @JoinColumn([{ name: 'Album_ID', referencedColumnName: 'id' }])
-  album: Album;
+  @JoinColumn([{ name: 'family_ID', referencedColumnName: 'id' }])
+  family: Family;
 }
