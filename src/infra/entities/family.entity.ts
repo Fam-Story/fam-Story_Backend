@@ -15,7 +15,7 @@ export class Family {
   familyName: string;
 
   @Column('date', { name: 'Created_Date' })
-  createdDate: string;
+  createdDate: Date;
 
   @OneToMany(() => FamilyMember, (familyMember) => familyMember.family)
   familyMembers: FamilyMember[];

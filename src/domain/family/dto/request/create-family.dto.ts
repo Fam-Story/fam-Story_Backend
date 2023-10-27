@@ -15,5 +15,5 @@ export class CreateFamilyDto {
 
   @IsNotEmpty()
   @IsDate()
-  createdDate: string;
+  createdDate: Date;
 }

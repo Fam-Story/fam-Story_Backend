@@ -1,12 +1,12 @@
-import { ResponseFamilyScheduleDto } from '../../../family-schedule/dto';
+import { ResponseFamilyScheduleDto } from '../../../family-schedule';
 import { ResponseFamilyMemberDto } from '../../../family-member';
-import { ResponsePhotoDto } from '../../../photo/dto';
+import { ResponsePhotoDto } from '../../../photo';
 
 export class ResponseFamilyDto {
   readonly familyId: number;
   readonly memberNumber: number;
   readonly familyName: string;
-  readonly createdDate: string;
+  readonly createdDate: Date;
   readonly familyMembers: ResponseFamilyMemberDto[];
   readonly familySchedules: ResponseFamilyScheduleDto[];
   readonly photos: ResponsePhotoDto[];
@@ -15,7 +15,7 @@ export class ResponseFamilyDto {
     familyId: number,
     memberNumber: number,
     familyName: string,
-    createdDate: string,
+    createdDate: Date,
     familyMembers: ResponseFamilyMemberDto[],
     familySchedules: ResponseFamilyScheduleDto[],
     photos: ResponsePhotoDto[],
@@ -33,7 +33,7 @@ export class ResponseFamilyDto {
     familyId: number,
     memberNumber: number,
     familyName: string,
-    createdDate: string,
+    createdDate: Date,
     familyMembers: ResponseFamilyMemberDto[],
     familySchedules: ResponseFamilyScheduleDto[],
     photos: ResponsePhotoDto[],

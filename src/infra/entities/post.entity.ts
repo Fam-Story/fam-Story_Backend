@@ -19,7 +19,7 @@ export class Post {
   context: string;
 
   @Column('date', { name: 'Created_Date' })
-  createdDate: string;
+  createdDate: Date;
 
   @ManyToOne(() => FamilyMember, (familyMember) => familyMember.posts, {
     onDelete: 'CASCADE',

@@ -19,7 +19,7 @@ export class Photo {
   name: string;
 
   @Column('date', { name: 'Created_Date' })
-  createdDate: string;
+  createdDate: Date;
 
   @ManyToOne(() => Family, (family) => family.photos, {
     onDelete: 'CASCADE',

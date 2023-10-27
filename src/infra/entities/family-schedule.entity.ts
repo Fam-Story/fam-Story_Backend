@@ -16,7 +16,7 @@ export class FamilySchedule {
   scheduleName: string;
 
   @Column('date', { name: 'Schedule_Date' })
-  scheduleDate: string;
+  scheduleDate: Date;
 
   @ManyToOne(() => Family, (family) => family.familySchedules, {
     onDelete: 'CASCADE',
