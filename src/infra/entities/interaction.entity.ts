@@ -15,19 +15,20 @@ export class Interaction {
   @Column('int', { name: 'src_member_id' })
   srcMemberId: number;
 
-  @Column('int', { name: 'dst_member_id' })
-  dstMemberId: number;
+  @ManyToOne(
+    () => FamilyMember,
+    (familyMember) => familyMember.receivedInteractions,
+    {
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
+    },
+  )
+  @JoinColumn([{ name: 'dst_member_id', referencedColumnName: 'id' }])
+  dstMember: FamilyMember;
 
   @Column('tinyint', { name: 'icChecked', width: 1 })
   icChecked: boolean;
 
   @Column('int', { name: 'interactionType' })
   interactionType: number;
-
-  @ManyToOne(() => FamilyMember, (familyMember) => familyMember.interactions, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
-  @JoinColumn([{ name: 'src_member_id', referencedColumnName: 'id' }])
-  srcMember: FamilyMember;
 }

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber } from 'class-validator';
 import { Long } from 'typeorm';
 
 export class CreateFamilyMemberDto {

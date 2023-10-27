@@ -39,8 +39,8 @@ export class FamilyMember {
   @JoinColumn([{ name: 'User_ID', referencedColumnName: 'id' }])
   user: User;
 
-  @OneToMany(() => Interaction, (interaction) => interaction.srcMember)
-  interactions: Interaction[];
+  @OneToMany(() => Interaction, (interaction) => interaction.dstMember)
+  receivedInteractions: Interaction[];
 
   @OneToMany(() => Post, (post) => post.srcMember)
   posts: Post[];

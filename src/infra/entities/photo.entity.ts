@@ -21,9 +21,6 @@ export class Photo {
   @Column('date', { name: 'Created_Date' })
   createdDate: string;
 
-  @Column('int', { name: 'family_ID' })
-  familyId: number;
-
   @ManyToOne(() => Family, (family) => family.photos, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
