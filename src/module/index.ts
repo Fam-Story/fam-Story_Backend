@@ -4,3 +4,4 @@ export * from './family-schedule.module';
 export * from './photo.module';
 export * from './user.module';
 export * from './post.module';
+export * from './interaction.module';

@@ -8,6 +8,7 @@ import {
   FamilyScheduleModule,
   PhotoModule,
   PostModule,
+  InteractionModule,
 } from './module';
 import { MysqlModule } from './infra/database/mysql.module';
 
@@ -20,6 +21,7 @@ import { MysqlModule } from './infra/database/mysql.module';
     FamilyScheduleModule,
     PhotoModule,
     PostModule,
+    InteractionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
