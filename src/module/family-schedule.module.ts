@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { FamilyScheduleController } from './family-schedule.controller';
-import { FamilyScheduleService } from './family-schedule.service';
+import { FamilyScheduleController } from '../domain/family-schedule/family-schedule.controller';
+import { FamilyScheduleService } from '../domain/family-schedule/family-schedule.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { FamilySchedule } from '../../infra/entities';
+import { FamilySchedule } from '../infra/entities';
 
 @Module({
   imports: [TypeOrmModule.forFeature([FamilySchedule])],

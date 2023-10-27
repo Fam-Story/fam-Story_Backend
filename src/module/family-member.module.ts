@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { FamilyMemberController } from './family-member.controller';
-import { FamilyMemberService } from './family-member.service';
+import { FamilyMemberController } from '../domain/family-member/family-member.controller';
+import { FamilyMemberService } from '../domain/family-member/family-member.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { FamilyMember } from '../../infra/entities';
+import { FamilyMember } from '../infra/entities';
 
 @Module({
   imports: [TypeOrmModule.forFeature([FamilyMember])],
