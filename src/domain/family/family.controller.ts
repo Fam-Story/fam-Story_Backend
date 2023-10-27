@@ -8,7 +8,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { FamilyService } from '../service';
-import { CreateFamilyDto, UpdateFamilyDto } from '../dto';
+import { CreateFamilyDto, UpdateFamilyDto } from './dto';
 
 @Controller('family')
 export class FamilyController {

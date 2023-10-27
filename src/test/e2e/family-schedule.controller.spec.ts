@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { FamilyScheduleController } from '../../domain/family/controller/family-schedule.controller';
-import { FamilyScheduleService } from '../../domain/family/service/family-schedule.service';
+import { FamilyScheduleController } from '../../domain/family-schedule/family-schedule.controller';
+import { FamilyScheduleService } from '../../domain/family-schedule/family-schedule.service';
 
 describe('FamilyScheduleController', () => {
   let controller: FamilyScheduleController;

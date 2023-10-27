@@ -1,41 +1,21 @@
 import { Module } from '@nestjs/common';
 import {
-  AlbumService,
   FamilyService,
-  FamilyMemberService,
-  FamilyScheduleService,
-  IndividualScheduleService,
-  PhotoService,
-  PostService,
-} from './service';
+
+} from './family.service';
 import {
-  AlbumController,
   FamilyController,
-  FamilyMemberController,
-  FamilyScheduleController,
-  IndividualScheduleController,
-  PhotoController,
-  PostController,
-} from './controller';
+
+} from './family.controller';
 
 @Module({
   controllers: [
     FamilyController,
-    AlbumController,
-    FamilyMemberController,
-    FamilyScheduleController,
-    IndividualScheduleController,
-    PhotoController,
-    PostController,
+
   ],
   providers: [
     FamilyService,
-    AlbumService,
-    FamilyMemberService,
-    FamilyScheduleService,
-    IndividualScheduleService,
-    PhotoService,
-    PostService,
+
   ],
 })
 export class FamilyModule {}

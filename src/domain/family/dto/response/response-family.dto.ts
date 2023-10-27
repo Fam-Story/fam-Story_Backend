@@ -1,6 +1,6 @@
-import { ResponseFamilyScheduleDto } from '../../family-schedule';
-import { ResponseFamilyMemberDto } from '../../family-member';
-import { ResponsePhotoDto } from '../../photo';
+import { ResponseFamilyScheduleDto } from '../../../family-schedule/dto';
+import { ResponseFamilyMemberDto } from '../../../family-member';
+import { ResponsePhotoDto } from '../../../photo/dto';
 
 export class ResponseFamilyDto {
   readonly familyId: number;

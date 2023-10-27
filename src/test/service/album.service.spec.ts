@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AlbumService } from '../../domain/family/service/album.service';
+import { AlbumService } from '../../domain/album/album.service';
 
 describe('AlbumService', () => {
   let service: AlbumService;

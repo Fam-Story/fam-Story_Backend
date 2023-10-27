@@ -7,8 +7,8 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { FamilyScheduleService } from '../service';
-import { CreateFamilyScheduleDto, UpdateFamilyScheduleDto } from '../dto';
+import { FamilyScheduleService } from '../family/service';
+import { CreateFamilyScheduleDto, UpdateFamilyScheduleDto } from '../family/dto';
 
 @Controller('family-schedule')
 export class FamilyScheduleController {

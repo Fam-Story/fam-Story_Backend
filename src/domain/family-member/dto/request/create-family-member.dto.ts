@@ -8,5 +8,9 @@ export class CreateFamilyMemberDto {
 
   @IsNotEmpty()
   @IsNumber()
+  familyId: Long;
+
+  @IsNotEmpty()
+  @IsNumber()
   role: number;
 }

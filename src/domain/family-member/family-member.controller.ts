@@ -7,8 +7,8 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { FamilyMemberService } from '../service';
-import { CreateFamilyMemberDto, UpdateFamilyMemberDto } from '../dto';
+import { FamilyMemberService } from '../family/service';
+import { CreateFamilyMemberDto, UpdateFamilyMemberDto } from '../family/dto';
 
 @Controller('family-member')
 export class FamilyMemberController {
