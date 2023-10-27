@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { PhotoController } from '../../domain/photo/photo.controller';
-import { PhotoService } from '../../domain/photo/photo.service';
+import { PhotoController } from '../../domain/photo';
+import { PhotoService } from '../../domain/photo';
 
 describe('PhotoController', () => {
   let controller: PhotoController;

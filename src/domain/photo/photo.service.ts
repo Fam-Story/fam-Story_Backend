@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePhotoDto, UpdatePhotoDto } from '../family/dto';
+import { CreatePhotoDto, UpdatePhotoDto } from './dto';
 
 @Injectable()
 export class PhotoService {
