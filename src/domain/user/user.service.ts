@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateUserDto } from './dto/request/create-user.dto';
+import { CreateUserDto } from './dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from '../../infra/entities/user.entity';
-import { UpdateUserDto } from './dto/request/update-user.dto';
+import { User } from '../../infra/entities';
+import { UpdateUserDto } from './dto';
 
 @Injectable()
 export class UserService {
