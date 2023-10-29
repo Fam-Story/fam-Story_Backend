@@ -11,6 +11,8 @@ import {
   InteractionModule,
 } from './module';
 import { MysqlModule } from './infra/database/mysql.module';
+import { AuthModule } from './auth';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -22,6 +24,11 @@ import { MysqlModule } from './infra/database/mysql.module';
     PhotoModule,
     PostModule,
     InteractionModule,
+    AuthModule,
+    ConfigModule.forRoot({
+      envFilePath: '.env.dev',
+      isGlobal: true,
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

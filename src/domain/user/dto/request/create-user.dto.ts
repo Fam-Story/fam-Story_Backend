@@ -10,7 +10,7 @@ export class CreateUserDto {
 
   @IsString()
   @IsNotEmpty()
-  readonly password: string;
+  password: string; //Hashed 비밀번호로 다시 재저장 해야됨
 
   @IsString()
   readonly nickname: string;

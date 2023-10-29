@@ -52,6 +52,29 @@ describe('UserService', () => {
     });
   });
 
+  describe('hashPassword', () => {
+    it('should save hashed password', async () => {
+      const createUserDto: CreateUserDto = {
+        email: 'test@test.com',
+        username: 'test',
+        password: 'test',
+        nickname: 'test',
+        age: 20,
+        gender: 1,
+      };
+      createUserDto.password = await service.hashPassword(
+        createUserDto.password,
+      );
+      jest.spyOn(userRepository, 'save').mockResolvedValue(1);
+      jest.spyOn(userRepository, 'findOne').mockResolvedValue(createUserDto);
+
+      const testId = await service.saveUser(createUserDto);
+      const user = await service.findUserById(testId);
+      const hashedPassword = user.password;
+      expect(hashedPassword).not.toEqual('test');
+    });
+  });
+
   describe('updateUser', () => {
     it('should update user', async () => {
       const updateUserDto: UpdateUserDto = {

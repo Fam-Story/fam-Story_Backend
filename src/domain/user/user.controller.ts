@@ -1,23 +1,36 @@
 import {
+  Body,
   Controller,
   Get,
-  Post,
-  Body,
-  Patch,
   Param,
-  Delete,
+  Post,
   Put,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto, UpdateUserDto } from './dto';
+import { LocalServiceAuthGuard } from '../../auth';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
+  async createUser(@Body() createUserDto: CreateUserDto) {
+    await this.userService.findUserByEmail(createUserDto.email);
+
+    createUserDto.password = await this.userService.hashPassword(
+      createUserDto.password,
+    );
     return this.userService.saveUser(createUserDto);
+  }
+
+  //유저 로그인
+  @Post('/login')
+  @UseGuards(LocalServiceAuthGuard)
+  async login(@Req() req) {
+    return req.user;
   }
 
   @Put('/update')
@@ -28,15 +41,5 @@ export class UserController {
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.userService.findUserById(id);
-  }
-
-  @Get('/all')
-  async findAll() {
-    const userList = await this.userService.findAll();
-    return Object.assign({
-      data: userList,
-      statusCode: 200,
-      statusMsg: 'success',
-    });
   }
 }
