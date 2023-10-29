@@ -1,5 +1,6 @@
-# Mobile App Development Team project - Backend
+# fam'Story - Backend
 
 ---
 ## Tech Stacks
 - Nest.js
+- MySQL
