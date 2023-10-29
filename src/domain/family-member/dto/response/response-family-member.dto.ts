@@ -1,15 +1,15 @@
-import { Post } from 'src/infra/entities';
+import { ResponsePostDto } from '../../../post';
 
 export class ResponseFamilyMemberDto {
-  familyMemberId: number;
-  familyId: number;
-  userId: number;
+  readonly familyMemberId: number;
+  readonly familyId: number;
+  readonly userId: number;
 
-  role: number;
-  pokeCount: number;
-  talkCount: number;
+  readonly role: number;
+  readonly pokeCount: number;
+  readonly talkCount: number;
 
-  posts: Post[];
+  readonly posts: ResponsePostDto[];
 
   private constructor(
     familyMemberId: number,
@@ -18,7 +18,7 @@ export class ResponseFamilyMemberDto {
     role: number,
     pokeCount: number,
     talkCount: number,
-    posts: Post[],
+    posts: ResponsePostDto[],
   ) {
     this.familyMemberId = familyMemberId;
     this.familyId = familyId;
@@ -27,5 +27,25 @@ export class ResponseFamilyMemberDto {
     this.pokeCount = pokeCount;
     this.talkCount = talkCount;
     this.posts = posts;
+  }
+
+  static of(
+    familyMemberId: number,
+    familyId: number,
+    userId: number,
+    role: number,
+    pokeCount: number,
+    talkCount: number,
+    posts: ResponsePostDto[],
+  ): ResponseFamilyMemberDto {
+    return new ResponseFamilyMemberDto(
+      familyMemberId,
+      familyId,
+      userId,
+      role,
+      pokeCount,
+      talkCount,
+      posts,
+    );
   }
 }
