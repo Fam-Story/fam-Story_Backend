@@ -12,7 +12,7 @@ describe('UserService', () => {
     save: jest.fn(),
   });
 
-  let service: UserService;
+  let userService: UserService;
   let userRepository;
 
   beforeEach(async () => {
@@ -25,12 +25,12 @@ describe('UserService', () => {
         },
       ],
     }).compile();
-    service = moduleRef.get<UserService>(UserService);
+    userService = moduleRef.get<UserService>(UserService);
     userRepository = moduleRef.get(getRepositoryToken(User));
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(userService).toBeDefined();
   });
 
   describe('saveUser', () => {
@@ -46,8 +46,8 @@ describe('UserService', () => {
       jest.spyOn(userRepository, 'save').mockResolvedValue(1);
       jest.spyOn(userRepository, 'findOne').mockResolvedValue(createUserDto);
 
-      const testId = await service.saveUser(createUserDto);
-      const result = await service.findUserById(testId);
+      const testId = await userService.saveUser(createUserDto);
+      const result = await userService.findUserById(testId);
       expect(result.username).toEqual('test');
     });
   });
@@ -62,14 +62,14 @@ describe('UserService', () => {
         age: 20,
         gender: 1,
       };
-      createUserDto.password = await service.hashPassword(
+      createUserDto.password = await userService.hashPassword(
         createUserDto.password,
       );
       jest.spyOn(userRepository, 'save').mockResolvedValue(1);
       jest.spyOn(userRepository, 'findOne').mockResolvedValue(createUserDto);
 
-      const testId = await service.saveUser(createUserDto);
-      const user = await service.findUserById(testId);
+      const testId = await userService.saveUser(createUserDto);
+      const user = await userService.findUserById(testId);
       const hashedPassword = user.password;
       expect(hashedPassword).not.toEqual('test');
     });
