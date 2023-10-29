@@ -3,7 +3,7 @@ import { UserService } from '../../domain/user/user.service';
 import { CreateUserDto } from '../../domain/user/dto/request/create-user.dto';
 import { User } from '../../infra/entities/user.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import {UpdateUserDto} from "../../domain/user/dto/request/update-user.dto";
+import { UpdateUserDto } from '../../domain/user/dto/request/update-user.dto';
 
 describe('UserService', () => {
   const mockRepository = () => ({
@@ -64,6 +64,5 @@ describe('UserService', () => {
         gender: 1,
       };
     });
-
   });
 });

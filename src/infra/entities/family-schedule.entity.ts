@@ -1,7 +1,6 @@
 import {
   Column,
   Entity,
-  Index,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -13,14 +12,11 @@ export class FamilySchedule {
   @PrimaryGeneratedColumn({ type: 'int', name: 'ID' })
   id: number;
 
-  @Column('int', { name: 'Family_ID' })
-  familyId: number;
-
-  @Column('varchar', { name: 'Schedule_Name', nullable: false, length: 50 })
+  @Column('varchar', { name: 'Schedule_Name', length: 50 })
   scheduleName: string;
 
-  @Column('date', { name: 'Schedule_Date', nullable: false })
-  scheduleDate: string;
+  @Column('date', { name: 'Schedule_Date' })
+  scheduleDate: Date;
 
   @ManyToOne(() => Family, (family) => family.familySchedules, {
     onDelete: 'CASCADE',

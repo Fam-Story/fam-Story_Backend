@@ -1,7 +1,6 @@
 import {
   Column,
   Entity,
-  Index,
   JoinColumn,
   ManyToOne,
   OneToMany,
@@ -9,7 +8,7 @@ import {
 } from 'typeorm';
 import { Family } from './family.entity';
 import { User } from './user.entity';
-import { IndividualSchedule } from './individual-schedule.entity';
+import { Interaction } from './interaction.entity';
 import { Post } from './post.entity';
 
 @Entity('family_member', { schema: 'family_app_db' })
@@ -17,19 +16,13 @@ export class FamilyMember {
   @PrimaryGeneratedColumn({ type: 'int', name: 'ID' })
   id: number;
 
-  @Column('int', { name: 'User_ID' })
-  userId: number;
-
-  @Column('int', { name: 'Family_ID' })
-  familyId: number;
-
-  @Column('int', { name: 'Role', nullable: false })
+  @Column('int', { name: 'Role' })
   role: number;
 
-  @Column('int', { name: 'Poke_Count', nullable: false })
+  @Column('int', { name: 'Poke_Count' })
   pokeCount: number;
 
-  @Column('int', { name: 'Talk_Count', nullable: false })
+  @Column('int', { name: 'Talk_Count' })
   talkCount: number;
 
   @ManyToOne(() => Family, (family) => family.familyMembers, {
@@ -46,11 +39,8 @@ export class FamilyMember {
   @JoinColumn([{ name: 'User_ID', referencedColumnName: 'id' }])
   user: User;
 
-  @OneToMany(
-    () => IndividualSchedule,
-    (individualSchedule) => individualSchedule.member,
-  )
-  individualSchedules: IndividualSchedule[];
+  @OneToMany(() => Interaction, (interaction) => interaction.dstMember)
+  receivedInteractions: Interaction[];
 
   @OneToMany(() => Post, (post) => post.srcMember)
   posts: Post[];
