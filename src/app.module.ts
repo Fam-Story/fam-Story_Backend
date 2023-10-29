@@ -11,6 +11,7 @@ import {
   InteractionModule,
 } from './module';
 import { MysqlModule } from './infra/database/mysql.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { MysqlModule } from './infra/database/mysql.module';
     PhotoModule,
     PostModule,
     InteractionModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

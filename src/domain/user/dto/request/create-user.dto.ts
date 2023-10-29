@@ -22,5 +22,4 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsNumber()
   readonly gender: number;
-
 }
