@@ -10,12 +10,15 @@ import { ConfigService } from '@nestjs/config';
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
+      //session 사용 비활성화
     PassportModule.register({ session: false }),
+      //JWT 토큰 설정. 30분 완료되는 토큰을 반환하도록 설정
     JwtModule.registerAsync({
-      useFactory: (configService: ConfigService) => {
+      useFactory: (configService: ConfigService) => { //팩토리 메소드를 통해 configService를 주입
         return {
-          secret: configService.get('JWT_SECRET'),
-          signOptions: { expiresIn: '30m' },
+          //configService를 통해 환경변수 (.env)에 등록된 JWT_SECRET 접근
+          secret: configService.get('JWT_SECRET'), //JwtModule에서 사용하는 secret, JWT_SECRET을 통해 JWT 암호화
+          signOptions: { expiresIn: '30m' }, //30분 뒤 만료
         };
       },
       inject: [ConfigService],
