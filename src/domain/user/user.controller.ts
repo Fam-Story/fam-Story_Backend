@@ -1,6 +1,16 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto, UpdateUserDto } from './dto';
+import { LocalServiceAuthGuard } from '../../auth';
 
 @Controller('user')
 export class UserController {
@@ -14,6 +24,13 @@ export class UserController {
       createUserDto.password,
     );
     return this.userService.saveUser(createUserDto);
+  }
+
+  //유저 로그인
+  @Post('/login')
+  @UseGuards(LocalServiceAuthGuard)
+  async login(@Req() req) {
+    return req.user;
   }
 
   @Put('/update')

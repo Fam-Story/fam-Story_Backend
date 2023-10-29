@@ -27,7 +27,7 @@ import { ConfigModule } from '@nestjs/config';
     AuthModule,
     ConfigModule.forRoot({
       envFilePath: '.env.dev',
-      isGlobal: false,
+      isGlobal: true,
     }),
   ],
   controllers: [AppController],
