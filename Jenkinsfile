@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Clone repository') {
             steps {
-                git 'https://github.com/Fam-Story/fam-Story_Backend.git'
+                git branch: 'develop', credentialsId: 'synoti21-github-token', url: 'https://github.com/Fam-Story/fam-Story_Backend'
             }
         }
         stage('Build and push Docker image') {
