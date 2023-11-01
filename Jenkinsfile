@@ -37,7 +37,8 @@ pipeline {
         stage('Build and push Docker image') {
             steps {
                 script {
-                    docker.build("$REGISTRY/$DOCKER_IMAGE:$TAG").push()
+                    sh "docker build -t ${REGISTRY}/${DOCKER_IMAGE}:${TAG} ."
+                    sh "docker push ${REGISTRY}/${DOCKER_IMAGE}:${TAG}"
                 }
             }
         }
