@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: famstory-deploy
+  labels:
+    app: famstory
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: famstory
+  template:
+    metadata:
+      labels:
+        app: famstory
+    spec:
+      containers:
+        - name: famstory
+          image: synoti21/famstory:latest
+          ports:
+              - containerPort: 3030
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
