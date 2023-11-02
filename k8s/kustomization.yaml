@@ -4,4 +4,5 @@ resources:
 - deployment.yaml
 images:
 - name: synoti21/famstory-backend
-  newTag: ebdd4670
+  newName: synoti21/famstory-backend
+  newTag: b0f4e807
