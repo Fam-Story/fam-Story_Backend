@@ -1,0 +1,16 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: famstory-route
+  namespace: cicd
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`famstory.${DDNS}`)
+      kind: Rule
+      services:
+        - name: famstory-svc
+          port: 3030
+  tls:
+    certResolver: myresolver
