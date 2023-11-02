@@ -51,9 +51,9 @@ pipeline {
             steps {
                 container('kaniko') {
                     sh """
-                    /kaniko/executor --context ${WORKSPACE} \
-                                     --dockerfile ${WORKSPACE}/Dockerfile \
-                                     --destination ${DOCKER_REGISTRY}/${DOCKER_USERNAME}/${DOCKER_IMAGE}:${TAG}
+                    executor --context=${WORKSPACE} \
+                                     --dockerfile=${WORKSPACE}/Dockerfile \
+                                     --destination=${DOCKER_REGISTRY}/${DOCKER_USERNAME}/${DOCKER_IMAGE}:${TAG}
                     """
                 }
             }
