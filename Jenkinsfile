@@ -11,9 +11,6 @@ pipeline {
               containers:
               - name: kaniko
                 image: gcr.io/kaniko-project/executor:latest
-                args: ["--dockerfile=/workspace/dockerfile",
-                        "--context=dir://workspace",
-                        "--destination=synoti21/famstory-backend"]
                 volumeMounts:
                   - name: kaniko-secret
                     mountPath: /kaniko/.docker
