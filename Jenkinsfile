@@ -1,53 +1,39 @@
 pipeline {
-    agent {
-        kubernetes {
-          yaml '''
-            apiVersion: v1
-            kind: Pod
-            spec:
-              containers:
-              - name: docker
-                image: docker:latest
-                command:
-                - cat
-                tty: true
-                volumeMounts:
-                 - mountPath: /var/run/docker.sock
-                   name: docker-sock
-              volumes:
-              - name: docker-sock
-                hostPath:
-                  path: /var/run/docker.sock    
-            '''
-        }
-  }
+    agent any
 
     environment {
-        DOCKER_IMAGE = "famstory"
-        REGISTRY = "synoti21"
-        TAG = "latest"
+        DOCKER_REGISTRY = 'docker.io'
+        DOCKER_USERNAME = 'synoti21'
+        DOCKER_IMAGE = 'famstory-backend'
+        TAG = 'latest'
     }
 
     stages {
-        stage('Clone repository') {
+        stage('Checkout Code') {
             steps {
-                git branch: 'develop', credentialsId: 'synoti21-github-token', url: 'https://github.com/Fam-Story/fam-Story_Backend'
+                checkout scm
             }
         }
-        stage('Build and push Docker image') {
-            steps {
-                container('docker') {
-                    sh "docker build -t ${REGISTRY}/${DOCKER_IMAGE}:${TAG} ."
-                    sh "docker push ${REGISTRY}/${DOCKER_IMAGE}:${TAG}"
-                }
-            }
-        }
-        stage('Update Kubernetes manifests') {
+        
+        stage('Build and Push Docker Image') {
             steps {
                 script {
-                    sh "sed -i 's#image: .*#image: $REGISTRY/$DOCKER_IMAGE:$TAG#' k8s/manifest.yaml"
+                    sh """
+                    /kaniko/executor --context ${WORKSPACE} \
+                                     --dockerfile ${WORKSPACE}/Dockerfile \
+                                     --destination ${DOCKER_REGISTRY}/${DOCKER_USERNAME}/${DOCKER_IMAGE}:${TAG}
+                    """
                 }
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Build and push succeeded'
+        }
+        failure {
+            echo 'Build and push failed'
         }
     }
 }
