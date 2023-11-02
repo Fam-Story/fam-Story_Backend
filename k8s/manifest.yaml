@@ -75,7 +75,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`famstory.${DDNS}`)
+    - match: Host(`famstory.thisiswandol.com`)
       kind: Rule
       services:
         - name: famstory-svc
