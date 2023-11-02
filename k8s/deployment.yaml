@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: famstory
-          image: synoti21/famstory:latest
+          image: synoti21/famstory-backend:latest
           ports:
               - containerPort: 3030
           resources:
