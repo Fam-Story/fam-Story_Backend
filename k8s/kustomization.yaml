@@ -6,4 +6,4 @@ images:
 - name: moapp-backend
   newTag: 73f0d771
 - name: synoti21/famstory-backend
-  newTag: latest
+  newTag: ebdd4670
