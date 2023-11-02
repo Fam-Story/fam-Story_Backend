@@ -17,7 +17,7 @@ pipeline {
         
         stage('Build and Push Docker Image') {
             steps {
-                script {
+                container('kaniko') {
                     sh """
                     /kaniko/executor --context ${WORKSPACE} \
                                      --dockerfile ${WORKSPACE}/Dockerfile \
