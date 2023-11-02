@@ -50,11 +50,9 @@ pipeline {
         stage('Build and Push Docker Image') {
             steps {
                 container('kaniko') {
-                    sh """
-                    /kaniko/executor --dockerfile=${WORKSPACE}/Dockerfile \
-                    --context=${WORKSPACE} \
-                    --destination=${DOCKER_REGISTRY}/${DOCKER_USERNAME}/${DOCKER_IMAGE}:${TAG}
-                    """
+                    sh "executor --dockerfile=Dockerfile \
+                      --context=dir://${WORKSPACE} \
+                      --destination=${DOCKER_USERNAME}/${DOCKER_IMAGE}:${TAG}"
                 }
             }
         }
