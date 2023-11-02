@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: famstory-deploy
   labels:
-    app: famstory-deploy
+    app: famstory
 spec:
   replicas: 2
   selector:
@@ -21,7 +21,7 @@ spec:
             - containerPort: 3000
           resources:
             limits:
-              memory: "128Mi"
+              memory: "512Mi"
               cpu: "500m"
           envFrom:
           - secretRef:
@@ -32,7 +32,7 @@ apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
   name: famstory-hpa
-  namespace: default
+  namespace: famstory
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
