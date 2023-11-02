@@ -34,11 +34,17 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
           logout: true
 
+      - name: Get version
+        id: image
+        run: |
+          VERSION=$(echo ${{ github.sha }} | cut -c1-8)
+          echo VERSION=$VERSION
+          echo "::set-output name=version::$VERSION"
+
       - name: Build and push to DockerHub
         run: |
-          docker build -t ${{ secrets.PROJECT_NAME }} .
-          docker tag ${{ secrets.PROJECT_NAME }}:latest ${{ secrets.DOCKER_USERNAME }}/${{ secrets.PROJECT_NAME }}:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.PROJECT_NAME }}:latest
+          docker build -t synoti21/${{ secrets.PROJECT_NAME }}:${{ steps.image.outputs.version }} .
+          docker push synoti21/${{ secrets.PROJECT_NAME }}:${{ steps.image.outputs.version }}
 
           
   update-manifest:
@@ -67,8 +73,8 @@ jobs:
         - name: Update Kubernetes resources
           run: |
             cd fam-Story_Backend/k8s/
-            kustomize edit set image synoti21/${{ secrets.PROJECT_NAME }}:${{ steps.image.outputs.version }}
-            cat kustomization.yaml
+            kustomize edit set image synoti21/${{ secrets.PROJECT_NAME }}=synoti21/${{ secrets.PROJECT_NAME }}:${{ steps.image.outputs.version }}
+            kustomize build .
   
         - name: Commit and push the updated manifest
           run: |
