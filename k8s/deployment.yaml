@@ -18,8 +18,20 @@ spec:
         - name: famstory
           image: synoti21/famstory-backend:latest
           ports:
-              - containerPort: 3030
+              - containerPort: 3000
           resources:
             limits:
               memory: "128Mi"
               cpu: "500m"
+          env:
+          - name: DB_HOST
+            value: mysql-service
+          - name: MYSQL_USER
+            value: root
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: famstory-secret
+                key: password
+          - name: MYSQL_DATABASE
+            value: family_app_db
