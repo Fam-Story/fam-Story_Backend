@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: famstory-deploy
   labels:
-    app: famstory
+    app: famstory-deploy
 spec:
   replicas: 2
   selector:
