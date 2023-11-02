@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../infra/entities';
 import { PassportModule } from '@nestjs/passport';
@@ -27,7 +26,6 @@ import { LocalServiceStrategy } from './strategies/local-service.strategy';
       inject: [ConfigService],
     }),
   ],
-  controllers: [AuthController],
   providers: [AuthService, LocalServiceStrategy],
   exports: [AuthService],
 })
