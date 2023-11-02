@@ -70,7 +70,7 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: famstory-route
-  namespace: cicd
+  namespace: famstory
 spec:
   entryPoints:
     - websecure
