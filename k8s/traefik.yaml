@@ -11,6 +11,6 @@ spec:
       kind: Rule
       services:
         - name: famstory-svc
-          port: 3030
+          port: 3000
   tls:
     certResolver: myresolver
