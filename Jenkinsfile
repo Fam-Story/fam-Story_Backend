@@ -53,7 +53,7 @@ pipeline {
                     sh """
                     executor --dockerfile=Dockerfile \
                     --context=dir://${WORKSPACE} \
-                    --destination=${DOCKER_REGISTRY}/${DOCKER_USERNAME}/${DOCKER_IMAGE}:${TAG}
+                    --destination=${DOCKER_USERNAME}/${DOCKER_IMAGE}:${TAG}
                     """
                 }
             }
