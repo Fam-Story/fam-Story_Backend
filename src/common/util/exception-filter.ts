@@ -5,6 +5,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
+import {ApiResponse} from "../api/api-response";
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -14,9 +15,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const request = ctx.getRequest();
 
     const status =
-      exception instanceof HttpException
-        ? exception.getStatus()
-        : HttpStatus.INTERNAL_SERVER_ERROR;
+        exception instanceof HttpException
+            ? exception.getStatus()
+            : HttpStatus.INTERNAL_SERVER_ERROR;
 
     const res: any = exception.getResponse();
 
@@ -24,13 +25,13 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const error: string = res.error;
     const timestamp: string = new Date().toISOString();
 
+    const exceptionResponse = exception.getResponse();
+    const message = (exceptionResponse as any).message || exception.message;
+
     console.log('요청 url : ', url);
     console.log('error 정보 : ', error);
     console.log('발생 시간 : ', timestamp);
 
-    response.status(status).json({
-      success: false,
-      message: res.message,
-    });
+    response.status(status).json(ApiResponse.fail(message, null));
   }
 }
