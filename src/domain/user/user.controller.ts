@@ -30,6 +30,7 @@ export class UserController {
   @Post('/login')
   @UseGuards(LocalServiceAuthGuard)
   async login(@Req() req) {
+    //@Req은 요청 객체 전체를 의미한다.
     return req.user;
   }
 
