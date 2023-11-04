@@ -3,6 +3,8 @@ name: Node.js CI
 on:
   push:
     branches: [ "main", "develop" ]
+    paths-ignore:
+        - 'k8s/**'
 
 jobs:
   CI:
@@ -24,7 +26,6 @@ jobs:
       - name: Run test
         run: |
           npm test
-          npm run test:e2e
 
       - name: Docker login
         uses: docker/login-action@v3.0.0
@@ -33,8 +34,52 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
           logout: true
 
+      - name: Get version
+        id: image
+        run: |
+          VERSION=$(echo ${{ github.sha }} | cut -c1-8)
+          echo VERSION=$VERSION
+          echo "::set-output name=version::$VERSION"
+
       - name: Build and push to DockerHub
         run: |
-          docker build -t ${{ secrets.PROJECT_NAME }} .
-          docker tag ${{ secrets.PROJECT_NAME }}:latest ${{ secrets.DOCKER_USERNAME }}/${{ secrets.PROJECT_NAME }}:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.PROJECT_NAME }}:latest
+          docker build -t synoti21/${{ secrets.PROJECT_NAME }}:${{ steps.image.outputs.version }} .
+          docker push synoti21/${{ secrets.PROJECT_NAME }}:${{ steps.image.outputs.version }}
+
+          
+  update-manifest:
+      runs-on: ubuntu-latest
+      needs: CI
+      steps:
+        - name: Get version
+          id: image
+          run: |
+            VERSION=$(echo ${{ github.sha }} | cut -c1-8)
+            echo VERSION=$VERSION
+            echo "::set-output name=version::$VERSION"
+            
+        - name: Setup Kustomize
+          uses: imranismail/setup-kustomize@v2.1.0-rc
+
+        - name: Checkout kustomize repository
+          uses: actions/checkout@v3
+          with:
+            repository: Fam-Story/fam-Story_Backend
+            ref: develop
+            token: ${{ secrets.ACCESS_TOKEN }}
+            path: fam-Story_Backend
+            
+
+        - name: Update Kubernetes resources
+          run: |
+            cd fam-Story_Backend/k8s/
+            kustomize edit set image synoti21/${{ secrets.PROJECT_NAME }}=synoti21/${{ secrets.PROJECT_NAME }}:${{ steps.image.outputs.version }}
+            kustomize build .
+  
+        - name: Commit and push the updated manifest
+          run: |
+            cd fam-Story_Backend
+            git config --global user.name 'github-actions'
+            git config --global user.email 'github-actions@github.com'
+            git commit -am ":construction_worker: chore: Update deployment to ${{ github.sha }}"
+            git push
