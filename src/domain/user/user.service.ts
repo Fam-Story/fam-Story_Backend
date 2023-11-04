@@ -8,6 +8,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../../infra/entities';
 import * as bcrypt from 'bcrypt';
+import { UserException } from '../../common/exception/user.exception';
+import { ResponseCode } from '../../common';
 
 @Injectable()
 export class UserService {
@@ -57,7 +59,7 @@ export class UserService {
     });
 
     if (!user) {
-      throw new NotFoundException('해당 유저가 존재하지 않습니다.');
+      throw new UserException(ResponseCode.USER_NOT_FOUND);
     }
     return user;
   }
