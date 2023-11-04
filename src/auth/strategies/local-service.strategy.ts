@@ -15,6 +15,7 @@ export class LocalServiceStrategy extends PassportStrategy(
     }); //passport-local의 Strategy 객체를 사용하므로, 부모 객체의 usernameField, passwordField를 설정해준다.
   }
   async validate(email: string, password: string): Promise<any> {
+    //validate로 함수명을 정해야 함
     const user = await this.authService.validateUser(email, password);
     if (!user) {
       throw new UnauthorizedException();

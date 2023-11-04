@@ -3,12 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../infra/entities';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private jwtService: JwtService,
   ) {}
 
   //유저 검증
@@ -25,5 +27,16 @@ export class AuthService {
       throw new ForbiddenException('비밀번호가 일치하지 않습니다.');
     }
     return user;
+  }
+
+  loginServiceUser(user: User) {
+    const payload = {
+      id: user.id,
+      email: user.email,
+      username: user.username,
+    };
+    return {
+      token: this.jwtService.sign(payload), //유저의 정보를 담은 payload를 통해 access_token을 발급한다.
+    };
   }
 }
