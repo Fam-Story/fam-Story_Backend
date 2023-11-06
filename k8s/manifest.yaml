@@ -6,6 +6,7 @@ metadata:
     app: famstory
 spec:
   replicas: 2
+  revisionHistoryLimit: 3
   selector:
     matchLabels:
       app: famstory
@@ -14,7 +15,6 @@ spec:
       labels:
         app: famstory
     spec:
-      revisionHistoryLimit: 3
       containers:
         - name: famstory
           image: synoti21/famstory-backend:latest
