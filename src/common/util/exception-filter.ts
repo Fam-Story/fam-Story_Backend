@@ -3,40 +3,36 @@ import {
   Catch,
   ArgumentsHost,
   HttpException,
-  HttpStatus,
 } from '@nestjs/common';
-import { ApiResponse } from '../api/api-response';
+import { ApiResponse } from '../api';
 import { BaseException } from '../exception/base.exeception';
 
-@Catch(BaseException)
+@Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
-  catch(exception: BaseException, host: ArgumentsHost) {
+  catch(exception: HttpException | BaseException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
-    const request = ctx.getRequest();
-
-    const status =
-      exception instanceof HttpException
-        ? exception.getStatus()
-        : HttpStatus.INTERNAL_SERVER_ERROR;
-
-    const res: any = exception.getResponse();
-
-    const url: string = request.url;
-    const error: string = res.error;
-    const timestamp: string = new Date().toISOString();
-
+    ctx.getRequest();
+    const status = exception.getStatus();
     const exceptionResponse = exception.getResponse();
-    const message = (exceptionResponse as any).message || exception.message;
 
-    console.log('요청 url : ', url);
-    console.log('error 정보 : ', error);
-    console.log('발생 시간 : ', timestamp);
-    console.log(exceptionResponse);
-    console.log(message);
+    let message = (exceptionResponse as any).message;
+    const error = (exceptionResponse as any).error;
 
-    response
-      .status(status)
-      .json(ApiResponse.fail(exception.getResponseCode(), null));
+    if (exception instanceof BaseException) {
+      // 예외 유형이 BaseException 일 때
+      const responseCode = exception.getResponseCode();
+      response.status(status).json(ApiResponse.fail(responseCode, null));
+    } else {
+      //아니라면
+      if (!message) {
+        message = 'An unexpected error occurred';
+      }
+      response
+        .status(status)
+        .json(
+          ApiResponse.fail({ code: status, message: error || message }, null),
+        );
+    }
   }
 }

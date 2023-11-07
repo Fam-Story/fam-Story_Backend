@@ -8,7 +8,6 @@ import {
   Put,
   Req,
   Res,
-  UseFilters,
   UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
@@ -80,7 +79,6 @@ export class UserController {
     description: '유저 정보를 조회한다.',
   })
   @ApiOkResponse({ description: '유저 정보 조회 성공', type: ApiResponse })
-  @UseFilters(HttpExceptionFilter)
   //@ApiBearerAuth('access-token')
   //@UseGuards(JwtServiceAuthGuard)
   async findOne(@Res() res, @Param('id') id: number) {

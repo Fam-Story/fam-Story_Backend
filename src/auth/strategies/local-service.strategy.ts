@@ -2,6 +2,8 @@ import { PassportStrategy } from '@nestjs/passport';
 import { AuthService } from '../auth.service';
 import { Strategy } from 'passport-local';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {UserException} from "../../common/exception/user.exception";
+import {ResponseCode} from "../../common";
 
 @Injectable()
 export class LocalServiceStrategy extends PassportStrategy(
@@ -18,7 +20,7 @@ export class LocalServiceStrategy extends PassportStrategy(
     //validate로 함수명을 정해야 함
     const user = await this.authService.validateUser(email, password);
     if (!user) {
-      throw new UnauthorizedException();
+      throw new UserException(ResponseCode.USER_LOGIN_FAIL);
     }
     return user;
   }
