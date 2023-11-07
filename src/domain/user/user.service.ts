@@ -3,7 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateUserDto, UpdateUserDto } from './dto';
+import { CreateUserDto, ResponseUserDto, UpdateUserDto } from './dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../../infra/entities';
@@ -53,7 +53,7 @@ export class UserService {
   }
 
   //고유 ID로 유저 정보 조회
-  async findUserById(userId: number): Promise<User> {
+  async findUserById(userId: number): Promise<ResponseUserDto> {
     const user = await this.userRepository.findOne({
       where: { id: userId },
     });
@@ -61,6 +61,6 @@ export class UserService {
     if (!user) {
       throw new UserException(ResponseCode.USER_NOT_FOUND);
     }
-    return user;
+    return ResponseUserDto.from(user);
   }
 }

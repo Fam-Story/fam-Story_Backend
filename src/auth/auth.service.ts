@@ -4,6 +4,8 @@ import { User } from '../infra/entities';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { UserException } from '../common/exception/user.exception';
+import { ResponseCode } from '../common';
 
 @Injectable()
 export class AuthService {
@@ -20,11 +22,11 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new ForbiddenException('해당 유저가 존재하지 않습니다.');
+      throw new UserException(ResponseCode.USER_NOT_FOUND);
     }
 
     if (!(await bcrypt.compare(password, user.password))) {
-      throw new ForbiddenException('비밀번호가 일치하지 않습니다.');
+      throw new UserException(ResponseCode.USER_LOGIN_FAIL);
     }
     return user;
   }
