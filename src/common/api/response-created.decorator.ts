@@ -6,10 +6,14 @@ import {
 } from '@nestjs/swagger';
 import { ApiResponse } from './api-response';
 
-export const CustomApiCreatedResponse = (model: any) => {
+export const CustomApiCreatedResponse = (
+  model: any,
+  apiDescription: string,
+) => {
   return applyDecorators(
     ApiExtraModels(ApiResponse, model),
     ApiCreatedResponse({
+      description: apiDescription,
       schema: {
         allOf: [
           { $ref: getSchemaPath(ApiResponse) },
