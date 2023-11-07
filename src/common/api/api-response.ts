@@ -8,11 +8,10 @@ export class ApiResponse<T> {
   message: string;
   data: T;
 
-  constructor(header: ApiHeader, message: string, data: T,) {
+  constructor(header: ApiHeader, message: string, data: T) {
     this.header = header;
     this.message = message;
     this.data = data;
-
   }
 
   static success<T>(responseCode: ResponseCode, data: T): ApiResponse<T> {

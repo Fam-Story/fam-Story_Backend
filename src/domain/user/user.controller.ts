@@ -11,12 +11,13 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import {CreateUserDto, ResponseUserDto, UpdateUserDto} from './dto';
+import { CreateUserDto, ResponseUserDto, UpdateUserDto } from './dto';
 import { AuthService, LocalServiceAuthGuard } from '../../auth';
 import {
   ApiBearerAuth,
   ApiBody,
-  ApiCreatedResponse, ApiOkResponse,
+  ApiCreatedResponse,
+  ApiOkResponse,
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
@@ -24,8 +25,8 @@ import { User } from '../../infra/entities';
 import { LoginUserDto } from './dto/request/login-user.dto';
 import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
 import { ApiResponse, HttpExceptionFilter, ResponseCode } from '../../common';
-import {CustomApiOKResponse} from "../../common/api/response-ok.decorator";
-import {CustomApiCreatedResponse} from "../../common/api/response-created.decorator";
+import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
+import { CustomApiCreatedResponse } from '../../common/api/response-created.decorator';
 
 @ApiTags('유저 API')
 @Controller('user')
