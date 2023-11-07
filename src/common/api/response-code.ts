@@ -47,4 +47,10 @@ export class ResponseCode {
     code: HttpStatus.NOT_FOUND,
     message: '유저 조회 실패',
   };
+
+  //409
+    static readonly USER_ALREADY_EXIST = {
+    code: HttpStatus.CONFLICT,
+    message: '유저 중복 생성',
+    }
 }

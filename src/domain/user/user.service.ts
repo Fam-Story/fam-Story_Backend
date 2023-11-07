@@ -35,7 +35,7 @@ export class UserService {
     });
 
     if (!user) {
-      throw new NotFoundException('해당 유저가 존재하지 않습니다.');
+      throw new UserException(ResponseCode.USER_NOT_FOUND);
     }
     await this.userRepository.save(updateUserDto);
   }
@@ -47,7 +47,7 @@ export class UserService {
     });
 
     if (user) {
-      throw new BadRequestException('이미 존재하는 유저입니다.');
+      throw new UserException(ResponseCode.USER_ALREADY_EXIST);
     }
     return user;
   }
