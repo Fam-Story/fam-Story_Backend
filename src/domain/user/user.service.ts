@@ -24,7 +24,16 @@ export class UserService {
 
   //유저 정보 저장
   async saveUser(createUserDto: CreateUserDto): Promise<number> {
-    const savedUser: User = await this.userRepository.save(createUserDto);
+    const user = User.createUser(
+      createUserDto.email,
+      createUserDto.password,
+      createUserDto.username,
+      createUserDto.nickname,
+      createUserDto.age,
+      createUserDto.gender,
+    );
+    console.log(user);
+    const savedUser: User = await this.userRepository.save(user);
     return savedUser.id;
   }
 

@@ -49,8 +49,8 @@ export class ResponseCode {
   };
 
   //409
-    static readonly USER_ALREADY_EXIST = {
+  static readonly USER_ALREADY_EXIST = {
     code: HttpStatus.CONFLICT,
     message: '유저 중복 생성',
-    }
+  };
 }

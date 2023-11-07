@@ -24,6 +24,28 @@ export class User {
   @Column('int', { name: 'Gender' })
   gender: number;
 
+  @Column('tinyint', { name: 'BelongsToFamily' })
+  belongsToFamily: boolean;
+
   @OneToMany(() => FamilyMember, (familyMember) => familyMember.user)
   familyMembers: FamilyMember[];
+
+  static createUser(
+    email: string,
+    password: string,
+    username: string,
+    nickname: string,
+    age: number,
+    gender: number,
+  ): User {
+    const user: User = new User();
+    user.email = email;
+    user.password = password;
+    user.username = username;
+    user.nickname = nickname;
+    user.age = age;
+    user.gender = gender;
+    user.belongsToFamily = false;
+    return user;
+  }
 }

@@ -6,6 +6,7 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { UserException } from '../common/exception/user.exception';
 import { ResponseCode } from '../common';
+import { ResponseLoginDto } from './dto/response-login.dto';
 
 @Injectable()
 export class AuthService {
@@ -37,8 +38,10 @@ export class AuthService {
       email: user.email,
       username: user.username,
     };
-    return {
-      token: this.jwtService.sign(payload), //유저의 정보를 담은 payload를 통해 access_token을 발급한다.
-    };
+
+    return ResponseLoginDto.of(
+      this.jwtService.sign(payload),
+      user.belongsToFamily,
+    );
   }
 }
