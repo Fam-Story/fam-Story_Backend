@@ -1,28 +1,33 @@
 import { ResponseCode } from './response-code';
 import { ApiHeader } from './api-header';
+import { ApiProperty } from '@nestjs/swagger';
 export class ApiResponse<T> {
+  @ApiProperty({ type: ApiHeader })
   header: ApiHeader;
-  data: T;
+  @ApiProperty()
   message: string;
-  constructor(header: ApiHeader, data: T, message: string) {
+  data: T;
+
+  constructor(header: ApiHeader, message: string, data: T,) {
     this.header = header;
-    this.data = data;
     this.message = message;
+    this.data = data;
+
   }
 
   static success<T>(responseCode: ResponseCode, data: T): ApiResponse<T> {
     return new ApiResponse<T>(
       new ApiHeader(responseCode.code, true),
-      data,
       responseCode.message,
+      data,
     );
   }
 
   static fail<T>(responseCode: ResponseCode, data: T): ApiResponse<T> {
     return new ApiResponse<T>(
       new ApiHeader(responseCode.code, false),
-      data,
       responseCode.message,
+      data,
     );
   }
 }

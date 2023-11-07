@@ -1,11 +1,24 @@
 import { User } from '../../../../infra/entities';
+import { ApiProperty, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('유저 응답 dto')
 export class ResponseUserDto {
+  @ApiProperty({ example: 1 })
   readonly userId: number;
+
+  @ApiProperty({ example: 'example@example.com' })
   readonly email: string;
+
+  @ApiProperty({ example: 'example' })
   readonly username: string;
+
+  @ApiProperty({ example: 'nickname' })
   readonly nickname: string;
+
+  @ApiProperty({ example: 20 })
   readonly age: number;
+
+  @ApiProperty({ example: 0 })
   readonly gender: number;
 
   private constructor(

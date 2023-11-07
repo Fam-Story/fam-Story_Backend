@@ -11,7 +11,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto, UpdateUserDto } from './dto';
+import {CreateUserDto, ResponseUserDto, UpdateUserDto} from './dto';
 import { AuthService, LocalServiceAuthGuard } from '../../auth';
 import {
   ApiBearerAuth,
@@ -24,6 +24,8 @@ import { User } from '../../infra/entities';
 import { LoginUserDto } from './dto/request/login-user.dto';
 import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
 import { ApiResponse, HttpExceptionFilter, ResponseCode } from '../../common';
+import {CustomApiOKResponse} from "../../common/api/response-ok.decorator";
+import {CustomApiCreatedResponse} from "../../common/api/response-created.decorator";
 
 @ApiTags('유저 API')
 @Controller('user')
@@ -35,7 +37,10 @@ export class UserController {
 
   @Post()
   @ApiOperation({ summary: '유저 생성', description: '유저를 생성한다.' })
-  @ApiCreatedResponse({ description: '유저 생성 성공', type: User })
+  @CustomApiCreatedResponse(
+    Number,
+    '유저를 생성하면 유저의 고유 ID를 integer로 반환한다.',
+  )
   async createUser(@Res() res, @Body() createUserDto: CreateUserDto) {
     await this.userService.findUserByEmail(createUserDto.email);
 
@@ -54,6 +59,7 @@ export class UserController {
   @ApiOperation({ summary: '유저 로그인', description: '유저를 로그인한다.' })
   @ApiBody({ type: LoginUserDto })
   @UseGuards(LocalServiceAuthGuard)
+  @CustomApiOKResponse(1, '로그인을 하면 JWT TOKEN 문자열을 반환한다.')
   async login(@Req() req, @Body() loginUserDto: LoginUserDto) {
     const token = this.authService.loginServiceUser(req.user);
     return ApiResponse.success(ResponseCode.USER_LOGIN_SUCCESS, token);
@@ -65,7 +71,10 @@ export class UserController {
     description: '유저 정보를 수정한다.',
   })
   //@UseGuards(JwtServiceAuthGuard)
-  @ApiCreatedResponse({ description: '유저 정보 수정 성공', type: User })
+  @ApiCreatedResponse({
+    description: '유저 정보를 수정하면 statusCode 200을 반환한다.',
+    type: ApiResponse<null>,
+  })
   async update(@Res() res, @Body() updateUserDto: UpdateUserDto) {
     return await this.userService.updateUser(updateUserDto).then((result) => {
       res
@@ -78,7 +87,10 @@ export class UserController {
     summary: '유저 정보 조회',
     description: '유저 정보를 조회한다.',
   })
-  @ApiOkResponse({ description: '유저 정보 조회 성공', type: ApiResponse })
+  @CustomApiOKResponse(
+    ResponseUserDto,
+    '유저 정보를 조회하면 유저 정보를 반환한다.',
+  )
   //@ApiBearerAuth('access-token')
   //@UseGuards(JwtServiceAuthGuard)
   async findOne(@Res() res, @Param('id') id: number) {
