@@ -1,32 +1,24 @@
-import { ResponseFamilyScheduleDto } from '../../../family-schedule';
-import { ResponseFamilyMemberDto } from '../../../family-member';
-import { ResponsePhotoDto } from '../../../photo';
+import { Family } from '../../../../infra/entities';
 
 export class ResponseFamilyDto {
   readonly familyId: number;
   readonly memberNumber: number;
   readonly familyName: string;
   readonly createdDate: Date;
-  readonly familyMembers: ResponseFamilyMemberDto[];
-  readonly familySchedules: ResponseFamilyScheduleDto[];
-  readonly photos: ResponsePhotoDto[];
+  readonly familyKeyCode: string;
 
   private constructor(
     familyId: number,
     memberNumber: number,
     familyName: string,
     createdDate: Date,
-    familyMembers: ResponseFamilyMemberDto[],
-    familySchedules: ResponseFamilyScheduleDto[],
-    photos: ResponsePhotoDto[],
+    familyKeyCode: string,
   ) {
     this.familyId = familyId;
     this.memberNumber = memberNumber;
     this.familyName = familyName;
     this.createdDate = createdDate;
-    this.familyMembers = familyMembers;
-    this.familySchedules = familySchedules;
-    this.photos = photos;
+    this.familyKeyCode = familyKeyCode;
   }
 
   static of(
@@ -34,18 +26,24 @@ export class ResponseFamilyDto {
     memberNumber: number,
     familyName: string,
     createdDate: Date,
-    familyMembers: ResponseFamilyMemberDto[],
-    familySchedules: ResponseFamilyScheduleDto[],
-    photos: ResponsePhotoDto[],
+    familyKeyCode: string,
   ): ResponseFamilyDto {
     return new ResponseFamilyDto(
       familyId,
       memberNumber,
       familyName,
       createdDate,
-      familyMembers,
-      familySchedules,
-      photos,
+      familyKeyCode,
+    );
+  }
+
+  static from(family: Family): ResponseFamilyDto {
+    return new ResponseFamilyDto(
+      family.id,
+      family.memberNumber,
+      family.familyName,
+      family.createdDate,
+      family.keyCode,
     );
   }
 }
