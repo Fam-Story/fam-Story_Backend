@@ -114,5 +114,22 @@ describe('UserService', () => {
         new UserException(ResponseCode.USER_NOT_FOUND),
       );
     });
+
+    it('should throw error when user already exist', async () => {
+      const createUserDto: CreateUserDto = {
+        email: 'test@test.com',
+        username: 'test',
+        password: 'test',
+        nickname: 'test',
+        age: 20,
+        gender: 1,
+      };
+      jest.spyOn(userRepository, 'findOne').mockResolvedValue(createUserDto);
+      await expect(
+        userService.findUserByEmail('test@test.com'),
+      ).rejects.toThrowError(
+        new UserException(ResponseCode.USER_ALREADY_EXIST),
+      );
+    });
   });
 });
