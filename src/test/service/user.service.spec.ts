@@ -4,8 +4,8 @@ import { CreateUserDto } from '../../domain/user';
 import { User } from '../../infra/entities';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { UpdateUserDto } from '../../domain/user';
-import {UserException} from "../../common/exception/user.exception";
-import {ResponseCode} from "../../common";
+import { UserException } from '../../common/exception/user.exception';
+import { ResponseCode } from '../../common';
 
 describe('UserService', () => {
   const mockRepository = () => ({
