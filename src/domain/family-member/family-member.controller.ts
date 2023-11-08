@@ -14,31 +14,11 @@ import { CreateFamilyMemberDto, UpdateFamilyMemberDto } from './dto';
 export class FamilyMemberController {
   constructor(private readonly familyMemberService: FamilyMemberService) {}
 
-  @Post()
-  create(@Body() createFamilyMemberDto: CreateFamilyMemberDto) {
-    return this.familyMemberService.create(createFamilyMemberDto);
-  }
+  //User를 가족에 추가
 
-  @Get()
-  findAll() {
-    return this.familyMemberService.findAll();
-  }
+  //가족 멤버 정보 수정
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.familyMemberService.findOne(+id);
-  }
+  //가족 탈퇴 (즉, 가족 멤버 삭제)
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateFamilyMemberDto: UpdateFamilyMemberDto,
-  ) {
-    return this.familyMemberService.update(+id, updateFamilyMemberDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.familyMemberService.remove(+id);
-  }
+  //가족 정보 반환
 }

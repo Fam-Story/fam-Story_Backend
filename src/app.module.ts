@@ -26,7 +26,7 @@ import { ConfigModule } from '@nestjs/config';
     InteractionModule,
     AuthModule,
     ConfigModule.forRoot({
-      envFilePath: '.env',
+      envFilePath: '.env.dev',
       isGlobal: true,
     }),
   ],

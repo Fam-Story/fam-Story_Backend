@@ -14,28 +14,11 @@ import { CreatePhotoDto, UpdatePhotoDto } from './dto';
 export class PhotoController {
   constructor(private readonly photoService: PhotoService) {}
 
-  @Post()
-  create(@Body() createPhotoDto: CreatePhotoDto) {
-    return this.photoService.create(createPhotoDto);
-  }
+  //사진 업로드
 
-  @Get()
-  findAll() {
-    return this.photoService.findAll();
-  }
+  //사진 삭제
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.photoService.findOne(+id);
-  }
+  //사진 수정
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePhotoDto: UpdatePhotoDto) {
-    return this.photoService.update(+id, updatePhotoDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.photoService.remove(+id);
-  }
+  //사진 리스트 반환 (pagination 적용)
 }

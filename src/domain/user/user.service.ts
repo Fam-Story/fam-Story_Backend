@@ -24,7 +24,15 @@ export class UserService {
 
   //유저 정보 저장
   async saveUser(createUserDto: CreateUserDto): Promise<number> {
-    const savedUser: User = await this.userRepository.save(createUserDto);
+    const user = User.createUser(
+      createUserDto.email,
+      createUserDto.password,
+      createUserDto.username,
+      createUserDto.nickname,
+      createUserDto.age,
+      createUserDto.gender,
+    );
+    const savedUser: User = await this.userRepository.save(user);
     return savedUser.id;
   }
 
@@ -35,7 +43,7 @@ export class UserService {
     });
 
     if (!user) {
-      throw new NotFoundException('해당 유저가 존재하지 않습니다.');
+      throw new UserException(ResponseCode.USER_NOT_FOUND);
     }
     await this.userRepository.save(updateUserDto);
   }
@@ -47,7 +55,7 @@ export class UserService {
     });
 
     if (user) {
-      throw new BadRequestException('이미 존재하는 유저입니다.');
+      throw new UserException(ResponseCode.USER_ALREADY_EXIST);
     }
     return user;
   }
@@ -62,5 +70,17 @@ export class UserService {
       throw new UserException(ResponseCode.USER_NOT_FOUND);
     }
     return ResponseUserDto.from(user);
+  }
+
+  //유저 삭제
+  async deleteUser(userId: number): Promise<void> {
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new UserException(ResponseCode.USER_NOT_FOUND);
+    }
+    await this.userRepository.delete(userId);
   }
 }

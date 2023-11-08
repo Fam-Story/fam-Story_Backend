@@ -1,19 +1,9 @@
-import { IsDate, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
+import {ApiProperty} from "@nestjs/swagger";
 
 export class CreateFamilyDto {
-  @IsNotEmpty()
-  @IsString()
-  name: string;
-
-  @IsNumber()
-  @IsString()
-  memberNumber: number;
-
+  @ApiProperty({ example: '푸앙이네 가족' })
   @IsNotEmpty()
   @IsString()
   familyName: string;
-
-  @IsNotEmpty()
-  @IsDate()
-  createdDate: Date;
 }

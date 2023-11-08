@@ -6,23 +6,7 @@ import { CreateInteractionDto } from './dto/create-interaction.dto';
 export class InteractionController {
   constructor(private readonly interactionService: InteractionService) {}
 
-  @Post()
-  create(@Body() createInteractionDto: CreateInteractionDto) {
-    return this.interactionService.create(createInteractionDto);
-  }
+  //상호작용 전송 (생성 및 FCM으로 전송)
 
-  @Get()
-  findAll() {
-    return this.interactionService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.interactionService.findOne(+id);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.interactionService.remove(+id);
-  }
+  //상호작용 확인 -> 클라이언트에게 상호작용 보낸 후, isChecked를 true로 변경
 }

@@ -14,28 +14,11 @@ import { CreatePostDto, UpdatePostDto } from '../post';
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
-  @Post()
-  create(@Body() createPostDto: CreatePostDto) {
-    return this.postService.create(createPostDto);
-  }
+  //포스트 등록
 
-  @Get()
-  findAll() {
-    return this.postService.findAll();
-  }
+  //포스트 수정
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.postService.findOne(+id);
-  }
+  //포스트 삭제
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
-    return this.postService.update(+id, updatePostDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.postService.remove(+id);
-  }
+  //포스트 리스트 반환
 }

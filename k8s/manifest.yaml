@@ -26,8 +26,14 @@ spec:
               cpu: "0.3"
           envFrom:
           - secretRef:
-
               name: famstory-secret
+          readinessProbe:
+            httpGet:
+              path: /swagger-ui/index.html
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            failureThreshold: 5
 ---
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
