@@ -16,9 +16,9 @@ export class FamilyScheduleController {
 
   //가족 일정 생성
 
-    //가족 일정 수정
+  //가족 일정 수정
 
-    //가족 일정 삭제
+  //가족 일정 삭제
 
-    //가족 일정 리스트 반환 (pagination 적용)
+  //가족 일정 리스트 반환 (pagination 적용)
 }

@@ -72,7 +72,4 @@ export class UserService {
     }
     return ResponseUserDto.from(user);
   }
-
-
-
 }

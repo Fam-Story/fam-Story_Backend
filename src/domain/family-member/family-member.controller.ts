@@ -21,5 +21,4 @@ export class FamilyMemberController {
   //가족 탈퇴 (즉, 가족 멤버 삭제)
 
   //가족 정보 반환
-
 }

@@ -21,5 +21,4 @@ export class PostController {
   //포스트 삭제
 
   //포스트 리스트 반환
-
 }

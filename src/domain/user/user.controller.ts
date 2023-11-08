@@ -108,6 +108,4 @@ export class UserController {
         .json(ApiResponse.success(ResponseCode.USER_READ_SUCCESS, result));
     });
   }
-
-
 }
