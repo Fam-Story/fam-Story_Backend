@@ -29,7 +29,7 @@ spec:
               name: famstory-secret
           readinessProbe:
             httpGet:
-              path: /swagger-ui/index.html
+              path: /api-docs
               port: 3000
             initialDelaySeconds: 5
             periodSeconds: 5
