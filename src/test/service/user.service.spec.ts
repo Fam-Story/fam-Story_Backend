@@ -10,6 +10,7 @@ describe('UserService', () => {
     find: jest.fn(),
     findOne: jest.fn(),
     save: jest.fn(),
+    delete: jest.fn(),
   });
 
   let userService: UserService;
@@ -54,6 +55,14 @@ describe('UserService', () => {
 
   describe('updateUser', () => {
     it('should update user', async () => {
+      const user: User = User.createUser(
+        'test@test.com',
+        'test',
+        'test',
+        'test',
+        20,
+        1,
+      );
       const updateUserDto: UpdateUserDto = {
         userId: 1,
         email: 'test@test.com',
@@ -63,6 +72,31 @@ describe('UserService', () => {
         age: 20,
         gender: 1,
       };
+      jest.spyOn(userRepository, 'findOne').mockResolvedValue(user);
+      jest.spyOn(userRepository, 'save').mockResolvedValue(1);
+
+      await userService.updateUser(updateUserDto);
+      expect(userRepository.findOne).toHaveBeenCalled();
+      expect(userRepository.save).toHaveBeenCalled();
+    });
+
+    it('should delete user', async () => {
+      const user: User = User.createUser(
+        'test@test.com',
+        'test',
+        'test',
+        'test',
+        20,
+        1,
+      );
+
+      jest.spyOn(userRepository, 'findOne').mockResolvedValue(user);
+      jest.spyOn(userRepository, 'delete').mockResolvedValue(1);
+
+      await userService.deleteUser(user.id);
+
+      expect(userRepository.findOne).toHaveBeenCalled();
+      expect(userRepository.delete).toHaveBeenCalled();
     });
   });
 });
