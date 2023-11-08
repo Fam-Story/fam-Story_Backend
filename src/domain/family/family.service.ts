@@ -3,23 +3,16 @@ import { CreateFamilyDto, UpdateFamilyDto } from './dto';
 
 @Injectable()
 export class FamilyService {
-  create(createFamilyDto: CreateFamilyDto) {
-    return 'This action adds a new family';
-  }
 
-  findAll() {
-    return `This action returns all family`;
-  }
+  //가족 고유 해쉬키 생성
 
-  findOne(id: number) {
-    return `This action returns a #${id} family`;
-  }
+  //가족 엔티티 추가
 
-  update(id: number, updateFamilyDto: UpdateFamilyDto) {
-    return `This action updates a #${id} family`;
-  }
+  //가족 엔티티 반환
 
-  remove(id: number) {
-    return `This action removes a #${id} family`;
-  }
+  //가족 삭제
+
+  //가족 정보 업데이트
+  
+
 }
