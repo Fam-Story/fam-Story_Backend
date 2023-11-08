@@ -10,7 +10,7 @@ import { ResponseCode } from '../../common';
 @Injectable()
 export class FamilyService {
   constructor(
-    @InjectRepository(User) private familyRepository: Repository<Family>,
+    @InjectRepository(Family) private familyRepository: Repository<Family>,
   ) {}
 
   //가족 고유 해쉬키 생성

@@ -1,18 +1,33 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { FamilyService } from '../../domain/family';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { Family } from '../../infra/entities';
 
 describe('FamilyService', () => {
-  let service: FamilyService;
+  const mockRepository = () => ({
+    find: jest.fn(),
+    findOne: jest.fn(),
+    save: jest.fn(),
+  });
+
+  let familyService: FamilyService;
+  let familyRepository;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [FamilyService],
+    const moduleRef: TestingModule = await Test.createTestingModule({
+      providers: [
+        FamilyService,
+        {
+          provide: getRepositoryToken(Family),
+          useFactory: mockRepository,
+        },
+      ],
     }).compile();
-
-    service = module.get<FamilyService>(FamilyService);
+    familyService = moduleRef.get<FamilyService>(FamilyService);
+    familyRepository = moduleRef.get(getRepositoryToken(Family));
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(familyService).toBeDefined();
   });
 });
