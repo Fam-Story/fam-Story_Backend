@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as crypto from 'crypto';
-import { CreateFamilyDto, ResponseFamilyDto } from './dto';
+import {CreateFamilyDto, ResponseFamilyDto, UpdateFamilyDto} from './dto';
 import { Family, User } from '../../infra/entities';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -53,6 +53,24 @@ export class FamilyService {
   }
 
   //가족 삭제
+  async deleteFamily(familyId: number): Promise<void> {
+    const family = await this.familyRepository.findOne({
+      where: { id: familyId },
+    });
+    if (!family) {
+      throw new FamilyException(ResponseCode.FAMILY_NOT_FOUND);
+    }
+    await this.familyRepository.delete(familyId);
+  }
 
   //가족 정보 업데이트
+  async updateFamily(updateFamilyDto: UpdateFamilyDto): Promise<void> {
+    const family = await this.familyRepository.findOne({
+      where: { id: updateFamilyDto.familyName },
+    });
+    if (!family) {
+      throw new FamilyException(ResponseCode.FAMILY_NOT_FOUND);
+    }
+    await this.familyRepository.save(updateFamilyDto);
+  }
 }
