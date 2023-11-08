@@ -72,4 +72,16 @@ export class UserService {
     }
     return ResponseUserDto.from(user);
   }
+
+  //유저 삭제
+  async deleteUser(userId: number): Promise<void> {
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new UserException(ResponseCode.USER_NOT_FOUND);
+    }
+    await this.userRepository.delete(userId);
+  }
 }
