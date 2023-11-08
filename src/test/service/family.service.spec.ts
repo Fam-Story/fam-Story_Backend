@@ -52,4 +52,23 @@ describe('FamilyService', () => {
     expect(familyKeyCode).toBeDefined();
     expect(familyKeyCode.length).toBe(10);
   });
+
+  it('should find family by keyCode', async () => {
+    //given
+    const familyKeyCode = familyService.createFamilyKeyCode();
+    const createFamilyDto: CreateFamilyDto = {
+      familyName: 'test',
+    };
+    const family = Family.createFamily(
+      createFamilyDto.familyName,
+      familyKeyCode,
+    );
+    jest.spyOn(familyRepository, 'save').mockResolvedValue(1);
+    jest.spyOn(familyRepository, 'findOne').mockResolvedValue(family);
+
+    //when
+    const result = await familyService.findFamilyByKeyCode(familyKeyCode);
+
+    expect(result.familyKeyCode).toEqual(familyKeyCode);
+  });
 });
