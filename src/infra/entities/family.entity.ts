@@ -28,4 +28,13 @@ export class Family {
 
   @OneToMany(() => Photo, (photo) => photo.family)
   photos: Photo[];
+
+  static createFamily(familyName: string, keyCode: string): Family {
+    const family = new Family();
+    family.familyName = familyName;
+    family.keyCode = keyCode;
+    family.createdDate = new Date();
+    family.memberNumber = 0;
+    return family;
+  }
 }
