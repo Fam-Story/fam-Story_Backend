@@ -21,6 +21,71 @@ export class ResponseCode {
     code: HttpStatus.OK,
     message: '유저 삭제 성공',
   };
+  static readonly FAMILY_READ_SUCCESS = {
+    code: HttpStatus.OK,
+    message: '가족 조회 성공',
+  };
+  static readonly FAMILY_UPDATE_SUCCESS = {
+    code: HttpStatus.OK,
+    message: '가족 정보 수정 성공',
+  };
+  static readonly FAMILY_DELETE_SUCCESS = {
+    code: HttpStatus.OK,
+    message: '가족 삭제 성공',
+  };
+  static readonly FAMILY_MEMBER_READ_SUCCESS = {
+    code: HttpStatus.OK,
+    message: '가족 구성원 조회 성공',
+  };
+  static readonly FAMILY_MEMBER_UPDATE_SUCCESS = {
+    code: HttpStatus.OK,
+    message: '가족 구성원 정보 수정 성공',
+  };
+  static readonly FAMILY_MEMBER_DELETE_SUCCESS = {
+    code: HttpStatus.OK,
+    message: '가족 구성원 삭제 성공',
+  };
+  static readonly INTERACTION_READ_SUCCESS = {
+    code: HttpStatus.OK,
+    message: '상호작용 조회 성공',
+  };
+
+  static readonly FAMILY_SCHEDULE_READ_SUCCESS = {
+    code: HttpStatus.OK,
+    message: '가족 일정 조회 성공',
+  };
+  static readonly FAMILY_SCHEDULE_UPDATE_SUCCESS = {
+    code: HttpStatus.OK,
+    message: '가족 일정 정보 수정 성공',
+  };
+  static readonly FAMILY_SCHEDULE_DELETE_SUCCESS = {
+    code: HttpStatus.OK,
+    message: '가족 일정 삭제 성공',
+  };
+  static readonly PHOTO_READ_SUCCESS = {
+    code: HttpStatus.OK,
+    message: '사진 조회 성공',
+  };
+  static readonly PHOTO_UPDATE_SUCCESS = {
+    code: HttpStatus.OK,
+    message: '사진 정보 수정 성공',
+  };
+  static readonly PHOTO_DELETE_SUCCESS = {
+    code: HttpStatus.OK,
+    message: '사진 삭제 성공',
+  };
+  static readonly POST_READ_SUCCESS = {
+    code: HttpStatus.OK,
+    message: '게시글 조회 성공',
+  };
+  static readonly POST_UPDATE_SUCCESS = {
+    code: HttpStatus.OK,
+    message: '게시글 정보 수정 성공',
+  };
+  static readonly POST_DELETE_SUCCESS = {
+    code: HttpStatus.OK,
+    message: '게시글 삭제 성공',
+  };
 
   //201
   static readonly USER_CREATED_SUCCESS = {
@@ -35,6 +100,22 @@ export class ResponseCode {
     code: HttpStatus.CREATED,
     message: '가족 멤버 생성 성공',
   };
+  static readonly INTERACTION_CREATED_SUCCESS = {
+    code: HttpStatus.CREATED,
+    message: '상호작용 생성 성공',
+  };
+  static readonly FAMILY_SCHEDULE_CREATED_SUCCESS = {
+    code: HttpStatus.CREATED,
+    message: '가족 일정 생성 성공',
+  };
+  static readonly PHOTO_CREATED_SUCCESS = {
+    code: HttpStatus.CREATED,
+    message: '사진 생성 성공',
+  };
+  static readonly POST_CREATED_SUCCESS = {
+    code: HttpStatus.CREATED,
+    message: '게시글 생성 성공',
+  };
 
   //403
   static readonly USER_LOGIN_FAIL = {
@@ -48,9 +129,43 @@ export class ResponseCode {
     message: '유저 조회 실패',
   };
 
+  static readonly FAMILY_NOT_FOUND = {
+    code: HttpStatus.NOT_FOUND,
+    message: '가족 조회 실패',
+  };
+
+  static readonly FAMILY_MEMBER_NOT_FOUND = {
+    code: HttpStatus.NOT_FOUND,
+    message: '가족 구성원 조회 실패',
+  };
+
+  static readonly INTERACTION_NOT_FOUND = {
+    code: HttpStatus.NOT_FOUND,
+    message: '상호작용 조회 실패',
+  };
+
+  static readonly FAMILY_SCHEDULE_NOT_FOUND = {
+    code: HttpStatus.NOT_FOUND,
+    message: '가족 일정 조회 실패',
+  };
+
+  static readonly PHOTO_NOT_FOUND = {
+    code: HttpStatus.NOT_FOUND,
+    message: '사진 조회 실패',
+  };
+
+  static readonly POST_NOT_FOUND = {
+    code: HttpStatus.NOT_FOUND,
+    message: '게시글 조회 실패',
+  };
+
   //409
   static readonly USER_ALREADY_EXIST = {
     code: HttpStatus.CONFLICT,
     message: '유저 중복 생성',
+  };
+  static readonly FAMILY_CODE_ALREADY_EXIST = {
+    code: HttpStatus.CONFLICT,
+    message: '가족 코드 중복 생성',
   };
 }
