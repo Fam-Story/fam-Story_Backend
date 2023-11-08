@@ -14,28 +14,13 @@ import { CreateFamilyDto, UpdateFamilyDto } from './dto';
 export class FamilyController {
   constructor(private readonly familyService: FamilyService) {}
 
-  @Post()
-  create(@Body() createFamilyDto: CreateFamilyDto) {
-    return this.familyService.create(createFamilyDto);
-  }
+  //회원이 속한 가족 정보 전송
 
-  @Get()
-  findAll() {
-    return this.familyService.findAll();
-  }
+  //가족 생성페이지에서 가족 생성
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.familyService.findOne(+id);
-  }
+  //가족 정보 수정
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFamilyDto: UpdateFamilyDto) {
-    return this.familyService.update(+id, updateFamilyDto);
-  }
+  //가족 삭제
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.familyService.remove(+id);
-  }
+  //초대 키로 가족 정보 검색 (가족 초대) -> 가족 정보 반환
 }

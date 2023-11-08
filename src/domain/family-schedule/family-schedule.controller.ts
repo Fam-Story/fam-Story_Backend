@@ -14,31 +14,11 @@ import { CreateFamilyScheduleDto, UpdateFamilyScheduleDto } from './dto';
 export class FamilyScheduleController {
   constructor(private readonly familyScheduleService: FamilyScheduleService) {}
 
-  @Post()
-  create(@Body() createFamilyScheduleDto: CreateFamilyScheduleDto) {
-    return this.familyScheduleService.create(createFamilyScheduleDto);
-  }
+  //가족 일정 생성
 
-  @Get()
-  findAll() {
-    return this.familyScheduleService.findAll();
-  }
+    //가족 일정 수정
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.familyScheduleService.findOne(+id);
-  }
+    //가족 일정 삭제
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateFamilyScheduleDto: UpdateFamilyScheduleDto,
-  ) {
-    return this.familyScheduleService.update(+id, updateFamilyScheduleDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.familyScheduleService.remove(+id);
-  }
+    //가족 일정 리스트 반환 (pagination 적용)
 }
