@@ -32,7 +32,6 @@ export class UserService {
       createUserDto.age,
       createUserDto.gender,
     );
-    console.log(user);
     const savedUser: User = await this.userRepository.save(user);
     return savedUser.id;
   }

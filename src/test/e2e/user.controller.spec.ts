@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserController, UserService } from '../../domain/user';
-import { Auth } from 'typeorm';
 import { AuthService } from '../../auth';
 
 describe('UserController', () => {
