@@ -17,6 +17,9 @@ export class Family {
   @Column('date', { name: 'Created_Date' })
   createdDate: Date;
 
+  @Column('varchar', { name: 'Family_Code', length: 45 })
+  keyCode: string;
+
   @OneToMany(() => FamilyMember, (familyMember) => familyMember.family)
   familyMembers: FamilyMember[];
 
