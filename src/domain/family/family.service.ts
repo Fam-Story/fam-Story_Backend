@@ -15,7 +15,7 @@ export class FamilyService {
 
   //가족 고유 해쉬키 생성
   createFamilyKeyCode(): string {
-    return crypto.randomBytes(10).toString('hex');
+    return crypto.randomBytes(5).toString('hex');
   }
 
   //가족 엔티티 추가
