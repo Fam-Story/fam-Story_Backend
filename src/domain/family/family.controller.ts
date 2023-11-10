@@ -8,19 +8,85 @@ import {
   Delete,
 } from '@nestjs/common';
 import { FamilyService } from './family.service';
-import { CreateFamilyDto, UpdateFamilyDto } from './dto';
+import { CreateFamilyDto, ResponseFamilyDto, UpdateFamilyDto } from './dto';
+import {
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
+import { ApiResponse, ResponseCode } from '../../common';
+import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
 
+@ApiTags('가족 API')
 @Controller('family')
 export class FamilyController {
   constructor(private readonly familyService: FamilyService) {}
 
   //회원이 속한 가족 정보 전송
+  @Get(':id')
+  @ApiOperation({
+    summary: '가족 정보 조회',
+    description: '회원이 속한 가족 정보를 반환한다.',
+  })
+  @CustomApiOKResponse(ResponseFamilyDto, '가족 정보를 반환한다.')
+  async findFamilyByUserId(@Param('id') userId: number) {
+    const responseFamilyDto: ResponseFamilyDto =
+      await this.familyService.findFamilyById(userId);
+    return ApiResponse.success(
+      ResponseCode.FAMILY_READ_SUCCESS,
+      responseFamilyDto,
+    );
+  }
 
   //가족 생성페이지에서 가족 생성
+  @Post('/create')
+  @ApiOperation({ summary: '가족 생성', description: '가족을 생성한다.' })
+  @ApiCreatedResponse({
+    type: Number,
+    description: '가족을 생성하면 가족의 고유 ID를 integer로 반환한다.',
+  })
+  async createFamily(@Body() createFamilyDto: CreateFamilyDto) {
+    const familyId = await this.familyService.createFamily(createFamilyDto);
+    return ApiResponse.success(ResponseCode.FAMILY_CREATED_SUCCESS, familyId);
+  }
 
   //가족 정보 수정
+  @Patch('/update')
+  @ApiOperation({
+    summary: '가족 정보 수정',
+    description: '가족 정보를 수정한다.',
+  })
+  @ApiOkResponse({
+    description: '가족 정보를 수정하면 Status code 200을 반환한다..',
+  })
+  async updateFamily(@Body() updateFamilyDto: UpdateFamilyDto) {
+    await this.familyService.updateFamily(updateFamilyDto);
+    return ApiResponse.success(ResponseCode.FAMILY_UPDATE_SUCCESS, null);
+  }
 
   //가족 삭제
+  @Delete('/delete/:id')
+  @ApiOperation({ description: '가족을 삭제한다.' })
+  @ApiOkResponse({ description: '가족을 삭제한다.' })
+  async deleteFamily(@Param('id') familyId: number) {
+    await this.familyService.deleteFamily(familyId);
+    return ApiResponse.success(ResponseCode.FAMILY_DELETE_SUCCESS, null);
+  }
 
   //초대 키로 가족 정보 검색 (가족 초대) -> 가족 정보 반환
+  @Get('/invite/:keyCode')
+  @ApiOperation({
+    description:
+      '가족의 초대코드로 가족 정보를 검색한 후, 가족 정보를 반환한다.',
+  })
+  @CustomApiOKResponse(ResponseFamilyDto, '가족 정보를 반환한다.')
+  async findFamilyByKeyCode(@Param('keyCode') keyCode: string) {
+    const responseFamilyDto: ResponseFamilyDto =
+      await this.familyService.findFamilyByKeyCode(keyCode);
+    return ApiResponse.success(
+      ResponseCode.FAMILY_READ_SUCCESS,
+      responseFamilyDto,
+    );
+  }
 }
