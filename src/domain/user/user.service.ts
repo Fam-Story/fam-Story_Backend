@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateUserDto, ResponseUserDto, UpdateUserDto } from './dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -38,13 +34,7 @@ export class UserService {
 
   //유저 정보 업데이트
   async updateUser(updateUserDto: UpdateUserDto): Promise<void> {
-    const user = await this.userRepository.findOne({
-      where: { id: updateUserDto.userId },
-    });
-
-    if (!user) {
-      throw new UserException(ResponseCode.USER_NOT_FOUND);
-    }
+    await this.validateUser(updateUserDto.userId);
     await this.userRepository.save(updateUserDto);
   }
 
@@ -62,25 +52,23 @@ export class UserService {
 
   //고유 ID로 유저 정보 조회
   async findUserById(userId: number): Promise<ResponseUserDto> {
-    const user = await this.userRepository.findOne({
-      where: { id: userId },
-    });
-
-    if (!user) {
-      throw new UserException(ResponseCode.USER_NOT_FOUND);
-    }
+    const user = await this.validateUser(userId);
     return ResponseUserDto.from(user);
   }
 
   //유저 삭제
   async deleteUser(userId: number): Promise<void> {
+    await this.validateUser(userId);
+    await this.userRepository.delete(userId);
+  }
+
+  private async validateUser(userId: number) {
     const user = await this.userRepository.findOne({
       where: { id: userId },
     });
-
     if (!user) {
       throw new UserException(ResponseCode.USER_NOT_FOUND);
     }
-    await this.userRepository.delete(userId);
+    return user;
   }
 }
