@@ -59,7 +59,7 @@ export class FamilyService {
     await this.familyRepository.save(updateFamilyDto);
   }
 
-  private async validateFamily(familyId: number) {
+  async validateFamily(familyId: number) {
     const family = await this.familyRepository.findOne({
       where: { id: familyId },
     });
