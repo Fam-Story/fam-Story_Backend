@@ -1,29 +1,97 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { FamilyController, FamilyService } from '../../domain/family';
+import {
+  FamilyService,
+  ResponseFamilyDto,
+} from '../../domain/family';
+import { INestApplication } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { Family } from '../../infra/entities';
+import { FamilyModule } from '../../module';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import * as request from 'supertest';
 
-describe('FamilyController', () => {
-  let controller: FamilyController;
-  let service: FamilyService;
+describe('FamilyController (e2e)', () => {
+  let app: INestApplication;
+  let mockFamilyService: Partial<FamilyService>;
+  let mockFamilyRepository: Partial<Repository<Family>>;
+  const mockFamily: Family = Family.createFamily('test', 'testKeyCode');
 
   beforeEach(async () => {
-    const mockFamilyService = {
-      findAll: jest.fn().mockResolvedValue(['family1', 'family2']),
+    mockFamilyService = {
+      findFamilyById: jest
+        .fn()
+        .mockResolvedValue(ResponseFamilyDto.from(mockFamily)),
+      findFamilyByKeyCode: jest
+        .fn()
+        .mockResolvedValue(ResponseFamilyDto.from(mockFamily)),
+      validateFamily: jest.fn().mockResolvedValue(mockFamily),
+      createFamily: jest.fn().mockResolvedValue(1),
+      deleteFamily: jest.fn(),
+      updateFamily: jest.fn(),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [FamilyController],
-      providers: [
-        {
-          provide: FamilyService,
-          useValue: mockFamilyService,
-        },
-      ],
-    }).compile();
-    controller = module.get<FamilyController>(FamilyController);
-    service = module.get<FamilyService>(FamilyService);
+    mockFamilyRepository = {
+      findOne: jest.fn().mockResolvedValue(mockFamily),
+      find: jest.fn(),
+    };
+
+    const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [FamilyModule],
+    })
+      .overrideProvider(FamilyService)
+      .useValue(mockFamilyService)
+      .overrideProvider(getRepositoryToken(Family))
+      .useValue(mockFamilyRepository)
+      .compile();
+
+    app = moduleFixture.createNestApplication();
+    await app.init();
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
+  it('should return family info with path: /family (GET)', async () => {
+    const response = await request(app.getHttpServer())
+      .get('/family/1')
+      .expect(200);
+
+    expect(response.body.message).toEqual('가족 조회 성공');
+    expect(response.body.data.familyName).toEqual('test');
+    expect(response.body.data.familyKeyCode).toEqual('testKeyCode');
+  });
+
+  it('should return family info with path: /family/keycode (GET)', async () => {
+    const response = await request(app.getHttpServer())
+      .get('/family/invite/testKeyCode')
+      .expect(200);
+
+    expect(response.body.message).toEqual('가족 조회 성공');
+    expect(response.body.data.familyName).toEqual('test');
+    expect(response.body.data.familyKeyCode).toEqual('testKeyCode');
+  });
+
+  it('should return id of created family with path: /family/create (POST)', async () => {
+    const response = await request(app.getHttpServer())
+      .post('/family/create')
+      .send({ familyName: 'test' })
+      .expect(201);
+
+    expect(response.body.message).toEqual('가족 생성 성공');
+    expect(response.body.data).toEqual(1);
+  });
+
+  it('should return status code 200 when update family', async () => {
+    const response = await request(app.getHttpServer())
+      .patch('/family/update')
+      .send({ familyId: 1, familyName: 'test' })
+      .expect(200);
+
+    expect(response.body.message).toEqual('가족 정보 수정 성공');
+  });
+
+  it('should return status code 200 when delete family', async () => {
+    const response = await request(app.getHttpServer())
+      .delete('/family/delete/1')
+      .expect(200);
+
+    expect(response.body.message).toEqual('가족 삭제 성공');
   });
 });
