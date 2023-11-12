@@ -5,7 +5,6 @@ metadata:
   labels:
     app: famstory
 spec:
-  replicas: 2
   revisionHistoryLimit: 3
   selector:
     matchLabels:
@@ -22,8 +21,8 @@ spec:
             - containerPort: 3000
           resources:
             limits:
-              memory: "512Mi"
-              cpu: "0.3"
+              memory: "4G"
+              cpu: "1"
           envFrom:
           - secretRef:
               name: famstory-secret
@@ -45,8 +44,8 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: famstory-deploy
-  minReplicas: 2
-  maxReplicas: 6
+  minReplicas: 1
+  maxReplicas: 3
   metrics:
     - type: Resource
       resource:
