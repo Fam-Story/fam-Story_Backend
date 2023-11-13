@@ -6,25 +6,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FamilyException } from '../../common/exception/family.exception';
 import { ResponseCode } from '../../common';
 import { PhotoException } from '../../common/exception/photo.exception';
-import * as AWS from 'aws-sdk';
-import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class PhotoService {
-  s3: AWS.S3 = new AWS.S3();
   constructor(
     @InjectRepository(Photo) private photoRepository: Repository<Photo>,
     @InjectRepository(Family) private familyRepository: Repository<Family>,
-    private configService: ConfigService,
-  ) {
-    AWS.config.update({
-      region: this.configService.get('AWS_REGION'),
-      credentials: {
-        accessKeyId: this.configService.get('AWS_ACCESS_KEY_ID'),
-        secretAccessKey: this.configService.get('AWS_SECRET_ACCESS_KEY'),
-      },
-    });
-  }
+  ) {}
 
   //사진 생성 (S3 Image URL 저장)
   async createPhoto(createPhotoDto: CreatePhotoDto) {
@@ -37,14 +25,9 @@ export class PhotoService {
     await this.photoRepository.save(photo);
   }
 
-  //사진 삭제 (S3 Image URL 받은 후, S3 이미지 및 DB에서 삭제)
+  //사진 삭제 (PhotoController에서 s3이미지 삭제한 후, DB에서 데이터 삭제))
   async deletePhoto(photoId: number) {
-    const photo = await this.validatePhoto(photoId);
-    const deleteParams = {
-      Bucket: this.configService.get('BUCKET_NAME'),
-      Key: `${photo.name}`,
-    };
-    await this.s3.deleteObject(deleteParams).promise();
+    await this.validatePhoto(photoId);
     await this.photoRepository.delete(photoId);
   }
 
