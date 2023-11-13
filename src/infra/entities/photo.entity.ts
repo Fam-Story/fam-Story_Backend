@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Family } from './family.entity';
+import { CreatePhotoDto } from '../../domain/photo';
 
 @Entity('photo', { schema: 'family_app_db' })
 export class Photo {
@@ -27,4 +28,13 @@ export class Photo {
   })
   @JoinColumn([{ name: 'family_ID', referencedColumnName: 'id' }])
   family: Family;
+
+  static createPhoto(s3ImageUrl: string, name: string, family: Family): Photo {
+    const photo = new Photo();
+    photo.s3ImageUrl = s3ImageUrl;
+    photo.name = name;
+    photo.createdDate = new Date();
+    photo.family = family;
+    return photo;
+  }
 }

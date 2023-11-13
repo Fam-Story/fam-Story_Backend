@@ -1,8 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import {
-  FamilyService,
-  ResponseFamilyDto,
-} from '../../domain/family';
+import { FamilyService, ResponseFamilyDto } from '../../domain/family';
 import { INestApplication } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Family } from '../../infra/entities';

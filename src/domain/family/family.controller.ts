@@ -17,7 +17,7 @@ import {
 } from '@nestjs/swagger';
 import { ApiResponse, ResponseCode } from '../../common';
 import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
-import {CustomApiCreatedResponse} from "../../common/api/response-created.decorator";
+import { CustomApiCreatedResponse } from '../../common/api/response-created.decorator';
 
 @ApiTags('가족 API')
 @Controller('family')
@@ -70,7 +70,7 @@ export class FamilyController {
   //가족 삭제
   @Delete('/delete/:id')
   @ApiOperation({ description: '가족을 삭제한다.' })
-  @ApiOkResponse({ description: '가족을 삭제한다.' , type: ApiResponse<null>})
+  @ApiOkResponse({ description: '가족을 삭제한다.', type: ApiResponse<null> })
   async deleteFamily(@Param('id') familyId: number) {
     await this.familyService.deleteFamily(familyId);
     return ApiResponse.success(ResponseCode.FAMILY_DELETE_SUCCESS, null);
