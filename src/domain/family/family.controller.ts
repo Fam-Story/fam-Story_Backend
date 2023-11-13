@@ -17,6 +17,7 @@ import {
 } from '@nestjs/swagger';
 import { ApiResponse, ResponseCode } from '../../common';
 import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
+import {CustomApiCreatedResponse} from "../../common/api/response-created.decorator";
 
 @ApiTags('가족 API')
 @Controller('family')
@@ -42,10 +43,10 @@ export class FamilyController {
   //가족 생성페이지에서 가족 생성
   @Post('/create')
   @ApiOperation({ summary: '가족 생성', description: '가족을 생성한다.' })
-  @ApiCreatedResponse({
-    type: Number,
-    description: '가족을 생성하면 가족의 고유 ID를 integer로 반환한다.',
-  })
+  @CustomApiCreatedResponse(
+    Number,
+    '가족 생성을 성공하면 Status Code 201과 familyId를 반환한다.',
+  )
   async createFamily(@Body() createFamilyDto: CreateFamilyDto) {
     const familyId = await this.familyService.createFamily(createFamilyDto);
     return ApiResponse.success(ResponseCode.FAMILY_CREATED_SUCCESS, familyId);
@@ -58,7 +59,8 @@ export class FamilyController {
     description: '가족 정보를 수정한다.',
   })
   @ApiOkResponse({
-    description: '가족 정보를 수정하면 Status code 200을 반환한다..',
+    description: '가족 정보를 수정한다.',
+    type: ApiResponse<null>,
   })
   async updateFamily(@Body() updateFamilyDto: UpdateFamilyDto) {
     await this.familyService.updateFamily(updateFamilyDto);
@@ -68,7 +70,7 @@ export class FamilyController {
   //가족 삭제
   @Delete('/delete/:id')
   @ApiOperation({ description: '가족을 삭제한다.' })
-  @ApiOkResponse({ description: '가족을 삭제한다.' })
+  @ApiOkResponse({ description: '가족을 삭제한다.' , type: ApiResponse<null>})
   async deleteFamily(@Param('id') familyId: number) {
     await this.familyService.deleteFamily(familyId);
     return ApiResponse.success(ResponseCode.FAMILY_DELETE_SUCCESS, null);
