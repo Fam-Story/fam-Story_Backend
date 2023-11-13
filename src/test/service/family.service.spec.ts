@@ -46,7 +46,8 @@ describe('FamilyService', () => {
       createFamilyDto.familyName,
       familyKeyCode,
     );
-    jest.spyOn(familyRepository, 'save').mockResolvedValue(1);
+    family.setId(1);
+    jest.spyOn(familyRepository, 'save').mockResolvedValue(family);
     jest.spyOn(familyRepository, 'findOne').mockResolvedValue(family);
 
     //when
