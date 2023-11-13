@@ -37,4 +37,8 @@ export class Family {
     family.memberNumber = 0;
     return family;
   }
+
+  setId(id: number): void {
+    this.id = id;
+  }
 }

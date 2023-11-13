@@ -37,4 +37,8 @@ export class Photo {
     photo.family = family;
     return photo;
   }
+
+  setId(id: number): void {
+    this.id = id;
+  }
 }

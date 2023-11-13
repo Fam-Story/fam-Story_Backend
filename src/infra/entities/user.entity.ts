@@ -48,4 +48,8 @@ export class User {
     user.belongsToFamily = false;
     return user;
   }
+
+  setId(id: number): void {
+    this.id = id;
+  }
 }
