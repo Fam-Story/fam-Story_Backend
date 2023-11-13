@@ -22,7 +22,8 @@ export class PhotoService {
       createPhotoDto.name,
       family,
     );
-    await this.photoRepository.save(photo);
+    const savedPhoto: Photo = await this.photoRepository.save(photo);
+    return savedPhoto.id;
   }
 
   //사진 삭제 (PhotoController에서 s3이미지 삭제한 후, DB에서 데이터 삭제))
@@ -35,7 +36,7 @@ export class PhotoService {
   async getPhotos(familyId: number, page: number, limit: number) {
     const family: Family = await this.validateFamily(familyId);
     const photos = await this.photoRepository.find({
-      where: { family: family },
+      where: { id: familyId },
     });
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
@@ -47,8 +48,8 @@ export class PhotoService {
     const photo: Photo = await this.validatePhoto(photoId);
     return ResponsePhotoDto.of(
       photo.id,
-      photo.s3ImageUrl,
       photo.name,
+      photo.s3ImageUrl,
       photo.createdDate,
     );
   }
