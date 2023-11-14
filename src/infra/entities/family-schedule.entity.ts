@@ -24,4 +24,16 @@ export class FamilySchedule {
   })
   @JoinColumn([{ name: 'Family_ID', referencedColumnName: 'id' }])
   family: Family;
+
+  static createFamilySchedule(
+    scheduleName: string,
+    scheduleDate: Date,
+    family: Family,
+  ): FamilySchedule {
+    const familySchedule = new FamilySchedule();
+    familySchedule.scheduleName = scheduleName;
+    familySchedule.scheduleDate = scheduleDate;
+    familySchedule.family = family;
+    return familySchedule;
+  }
 }
