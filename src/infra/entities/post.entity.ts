@@ -27,4 +27,18 @@ export class Post {
   })
   @JoinColumn([{ name: 'Src_Member_ID', referencedColumnName: 'id' }])
   srcMember: FamilyMember;
+
+  static createPost(
+    title: string,
+    context: string,
+    createdDate: Date,
+    srcMember: FamilyMember,
+  ): Post {
+    const post = new Post();
+    post.title = title;
+    post.context = context;
+    post.createdDate = createdDate;
+    post.srcMember = srcMember;
+    return post;
+  }
 }

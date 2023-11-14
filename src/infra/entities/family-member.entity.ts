@@ -44,7 +44,11 @@ export class FamilyMember {
 
   @OneToMany(() => Post, (post) => post.srcMember)
   posts: Post[];
-  static createFamilyMember(role: number, family: Family, user: User): FamilyMember {
+  static createFamilyMember(
+    role: number,
+    family: Family,
+    user: User,
+  ): FamilyMember {
     const familyMember = new FamilyMember();
     familyMember.role = role;
     familyMember.pokeCount = 0;
