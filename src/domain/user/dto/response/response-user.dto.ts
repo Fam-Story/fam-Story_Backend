@@ -1,11 +1,10 @@
 import { User } from '../../../../infra/entities';
 import { ApiProperty, ApiTags } from '@nestjs/swagger';
-import {Long} from "typeorm";
 
 @ApiTags('유저 응답 dto')
 export class ResponseUserDto {
   @ApiProperty({ example: 1 })
-  readonly userId: Long;
+  readonly userId: number;
 
   @ApiProperty({ example: 'example@example.com' })
   readonly email: string;
@@ -23,7 +22,7 @@ export class ResponseUserDto {
   readonly gender: number;
 
   private constructor(
-    userId: Long,
+    userId: number,
     email: string,
     username: string,
     nickname: string,
@@ -39,7 +38,7 @@ export class ResponseUserDto {
   }
 
   static of(
-    userId: Long,
+    userId: number,
     email: string,
     username: string,
     nickname: string,
