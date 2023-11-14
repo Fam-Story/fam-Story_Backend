@@ -26,9 +26,23 @@ export class Interaction {
   @JoinColumn([{ name: 'dst_member_id', referencedColumnName: 'id' }])
   dstMember: FamilyMember;
 
-  @Column('tinyint', { name: 'icChecked', width: 1 })
-  icChecked: boolean;
+  @Column('tinyint', { name: 'isChecked', width: 1 })
+  isChecked: boolean;
 
   @Column('int', { name: 'interactionType' })
   interactionType: number;
+
+  static createInteraction(
+    srcMemberId: number,
+    dstMember: FamilyMember,
+    interactionType: number,
+  ) {
+    const interaction: Interaction = new Interaction();
+    interaction.srcMemberId = srcMemberId;
+    interaction.dstMember = dstMember;
+    interaction.isChecked = false;
+    interaction.interactionType = interactionType;
+
+    return interaction;
+  }
 }
