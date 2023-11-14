@@ -4,11 +4,11 @@ import { Long } from 'typeorm';
 export class CreateFamilyMemberDto {
   @IsNotEmpty()
   @IsNumber()
-  readonly userId: Long;
+  readonly userId: number;
 
   @IsNotEmpty()
   @IsNumber()
-  readonly familyId: Long;
+  readonly familyId: number;
 
   @IsNotEmpty()
   @IsNumber()

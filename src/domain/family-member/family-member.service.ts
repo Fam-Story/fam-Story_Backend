@@ -1,25 +1,76 @@
 import { Injectable } from '@nestjs/common';
 import { CreateFamilyMemberDto, UpdateFamilyMemberDto } from './dto';
+import { Family, FamilyMember, User } from '../../infra/entities';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { ResponseCode } from '../../common';
+import { UserException } from '../../common/exception/user.exception';
 
 @Injectable()
 export class FamilyMemberService {
-  create(createFamilyMemberDto: CreateFamilyMemberDto) {
-    return 'This action adds a new familyMember';
+  constructor(
+    @InjectRepository(FamilyMember)
+    private familyMemberRepository: Repository<FamilyMember>,
+    @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(Family) private familyRepository: Repository<Family>,
+  ) {}
+  async createFamilyMember(
+    createFamilyMemberDto: CreateFamilyMemberDto,
+  ): Promise<number> {
+    const user = await this.validateUser(createFamilyMemberDto.userId);
+    const family = await this.validateFamily(createFamilyMemberDto.familyId);
+
+    const familyMember: FamilyMember = FamilyMember.createFamilyMember(
+      createFamilyMemberDto.role,
+      family,
+      user,
+    );
+    const savedMember = await this.familyMemberRepository.save(familyMember);
+    return savedMember.id;
   }
 
-  findAll() {
-    return `This action returns all familyMember`;
+  async updateFamilyMember(
+    updateFamilyMemberDto: UpdateFamilyMemberDto,
+  ): Promise<void> {
+    const familyMember = await this.validateFamilyMember(
+      updateFamilyMemberDto.familyMemberId,
+    );
+    familyMember.role = updateFamilyMemberDto.role;
+    await this.familyMemberRepository.save(familyMember);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} familyMember`;
+  async deleteFamilyMember(familyMemberId: number) {
+    await this.validateFamilyMember(familyMemberId);
+    await this.familyMemberRepository.delete(familyMemberId);
   }
 
-  update(id: number, updateFamilyMemberDto: UpdateFamilyMemberDto) {
-    return `This action updates a #${id} familyMember`;
+  async validateUser(userId: number): Promise<User> {
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+    });
+    if (!user) {
+      throw new UserException(ResponseCode.USER_NOT_FOUND);
+    }
+    return user;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} familyMember`;
+  async validateFamily(familyId: number): Promise<Family> {
+    const family = await this.familyRepository.findOne({
+      where: { id: familyId },
+    });
+    if (!family) {
+      throw new UserException(ResponseCode.FAMILY_NOT_FOUND);
+    }
+    return family;
+  }
+
+  async validateFamilyMember(familyMemberId: number): Promise<FamilyMember> {
+    const familyMember = await this.familyMemberRepository.findOne({
+      where: { id: familyMemberId },
+    });
+    if (!familyMember) {
+      throw new UserException(ResponseCode.FAMILY_MEMBER_NOT_FOUND);
+    }
+    return familyMember;
   }
 }
