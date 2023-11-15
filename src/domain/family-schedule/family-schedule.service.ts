@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import { CreateFamilyScheduleDto, UpdateFamilyScheduleDto } from './dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Family, FamilySchedule } from '../../infra/entities';
-import { Repository } from 'typeorm';
-import { FamilyException } from '../../common/exception/family.exception';
-import { ResponseCode } from '../../common';
+import {Injectable} from '@nestjs/common';
+import {CreateFamilyScheduleDto, UpdateFamilyScheduleDto} from './dto';
+import {InjectRepository} from '@nestjs/typeorm';
+import {Family, FamilySchedule} from '../../infra/entities';
+import {Between, Repository} from 'typeorm';
+import {FamilyException} from '../../common/exception/family.exception';
+import {ResponseCode} from '../../common';
 
 @Injectable()
 export class FamilyScheduleService {
@@ -38,6 +38,22 @@ export class FamilyScheduleService {
   async deleteFamilySchedule(familyScheduleId: number) {
     await this.validateFamilySchedule(familyScheduleId);
     await this.familyScheduleRepository.delete(familyScheduleId);
+  }
+
+  async findFamilyScheduleList(
+    familyId: number,
+    startOfMonth: Date,
+    endOfMonth: Date,
+  ): Promise<FamilySchedule[]> {
+    const family = await this.validateFamily(familyId);
+
+    return await this.familyScheduleRepository.find({
+      where: {
+        family: { id: family.id },
+        scheduleDate: Between(startOfMonth, endOfMonth),
+      },
+      order: { scheduleDate: 'ASC' },
+    });
   }
 
   async validateFamilySchedule(familyScheduleId: number) {
