@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
-import { InteractionService } from '../domain/interaction/interaction.service';
-import { InteractionController } from '../domain/interaction/interaction.controller';
+import {
+  InteractionController,
+  InteractionService,
+} from '../domain/interaction';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import {FamilyMember, Interaction} from '../infra/entities';
+import { FamilyMember, Interaction } from '../infra/entities';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Interaction, FamilyMember])],

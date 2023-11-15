@@ -16,12 +16,12 @@ export class InteractionService {
   ) {}
   async createInteraction(createInteractionDto: CreateInteractionDto) {
     const dstFamilyMember = await this.familyMemberRepository.findOne({
-      where: {id: createInteractionDto.dstMemberId},
+      where: { id: createInteractionDto.dstMemberId },
     });
     const interaction: Interaction = Interaction.createInteraction(
-        createInteractionDto.srcMemberId,
-        dstFamilyMember,
-        createInteractionDto.interactionType,
+      createInteractionDto.srcMemberId,
+      dstFamilyMember,
+      createInteractionDto.interactionType,
     );
     const savedInteraction = await this.interactionRepository.save(interaction);
     return savedInteraction.id;

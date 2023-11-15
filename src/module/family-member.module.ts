@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
-import { FamilyMemberController } from '../domain/family-member/family-member.controller';
-import { FamilyMemberService } from '../domain/family-member/family-member.service';
+import {
+  FamilyMemberController,
+  FamilyMemberService,
+} from '../domain/family-member';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Family, FamilyMember, User } from '../infra/entities';
 

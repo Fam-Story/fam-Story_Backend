@@ -10,7 +10,6 @@ import {
 import { FamilyService } from './family.service';
 import { CreateFamilyDto, ResponseFamilyDto, UpdateFamilyDto } from './dto';
 import {
-  ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,

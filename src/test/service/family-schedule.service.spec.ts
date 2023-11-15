@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { FamilyScheduleService } from '../../domain/family-schedule/family-schedule.service';
-import {Family, FamilyMember, FamilySchedule} from '../../infra/entities';
+import { Family, FamilyMember, FamilySchedule } from '../../infra/entities';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
 describe('FamilyScheduleService', () => {
