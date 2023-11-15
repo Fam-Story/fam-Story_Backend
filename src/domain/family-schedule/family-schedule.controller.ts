@@ -85,16 +85,28 @@ export class FamilyScheduleController {
       null,
     );
   }
+  //가족 일정 조회
+  @Get('/get/:id')
+  @ApiOkResponse({description: '가족 일정을 반환한다.', type: ApiResponse<ResponseFamilyScheduleDto>}) //CustomOkResponse로 수정 필요
+  @ApiOperation({
+    summary: '가족 일정 조회',
+    description: '가족 일정을 조회한다.',
+  })
+  async findFamilyScheduleById(@Param('id') familyScheduleId: number) {
+    const responseFamilyScheduleDto: ResponseFamilyScheduleDto =
+      await this.familyScheduleService.findFamilyScheduleById(familyScheduleId);
+    return ApiResponse.success(
+      ResponseCode.FAMILY_SCHEDULE_READ_SUCCESS,
+      responseFamilyScheduleDto,
+    );
+  }
 
   //가족 일정 리스트 반환 (pagination 적용)
   @ApiOperation({
     summary: '가족 일정 리스트 반환',
     description: '가족 일정 리스트를 반환한다.',
   })
-  @CustomApiOKResponse(
-    Array.of(ResponseFamilyScheduleDto),
-    '가족 일정 리스트를 반환한다. (형태는 ResponseFamilyScheduleDto의 리스트 형)',
-  )
+  @ApiOkResponse({ description: '가족 일정 리스트를 반환한다.' , type: ApiResponse<ResponseFamilyScheduleDto[]>})
   @Get('/list/:id')
   async findFamilyScheduleList(
     @Param('id') familyId: number,

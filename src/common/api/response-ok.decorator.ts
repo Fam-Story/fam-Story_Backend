@@ -1,6 +1,7 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiExtraModels, ApiOkResponse, getSchemaPath } from '@nestjs/swagger';
 import { ApiResponse } from './api-response';
+import {ResponseFamilyScheduleDto} from "../../domain/family-schedule";
 
 export const CustomApiOKResponse = (model: any, apiDescription: string) => {
   return applyDecorators(

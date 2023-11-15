@@ -9,6 +9,7 @@ import { Family, FamilySchedule } from '../../infra/entities';
 import { Between, Repository } from 'typeorm';
 import { FamilyException } from '../../common/exception/family.exception';
 import { ResponseCode } from '../../common';
+import {FamilyScheduleException} from "../../common/exception/family-schedule.exception";
 
 @Injectable()
 export class FamilyScheduleService {
@@ -44,6 +45,11 @@ export class FamilyScheduleService {
     await this.familyScheduleRepository.delete(familyScheduleId);
   }
 
+  async findFamilyScheduleById(familyScheduleId: number) {
+    const familySchedule = await this.validateFamilySchedule(familyScheduleId);
+    return ResponseFamilyScheduleDto.from(familySchedule);
+  }
+
   async findFamilyScheduleList(
     familyId: number,
     startOfMonth: Date,
@@ -70,7 +76,7 @@ export class FamilyScheduleService {
       where: { id: familyScheduleId },
     });
     if (!familySchedule) {
-      throw new FamilyException(ResponseCode.FAMILY_SCHEDULE_NOT_FOUND);
+      throw new FamilyScheduleException(ResponseCode.FAMILY_SCHEDULE_NOT_FOUND);
     }
     return familySchedule;
   }
