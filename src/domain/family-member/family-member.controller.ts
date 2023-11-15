@@ -72,7 +72,7 @@ export class FamilyMemberController {
   }
 
   //가족 정보 반환
-  @Get(':id')
+  @Get('/getFamily/:id')
   @ApiOperation({
     summary: '가족 정보 조회',
     description: '회원이 속한 가족 정보를 반환한다.',

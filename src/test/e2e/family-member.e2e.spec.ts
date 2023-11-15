@@ -6,6 +6,7 @@ import { Family, FamilyMember, User } from '../../infra/entities';
 import { FamilyMemberModule } from '../../module';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import * as request from 'supertest';
+import { ResponseFamilyDto } from '../../domain/family';
 
 describe('FamilyMemberController (e2e)', () => {
   let app: INestApplication;
@@ -30,7 +31,9 @@ describe('FamilyMemberController (e2e)', () => {
       validateFamily: jest.fn().mockResolvedValue(mockFamily),
       validateFamilyMember: jest.fn().mockResolvedValue(mockFamilyMember),
       validateUser: jest.fn().mockResolvedValue(mockUser),
-      findFamilyByMemberId: jest.fn().mockResolvedValue(mockFamily),
+      findFamilyByMemberId: jest
+        .fn()
+        .mockResolvedValue(ResponseFamilyDto.from(mockFamily)),
     };
 
     mockFamilyRepository = {
@@ -65,12 +68,46 @@ describe('FamilyMemberController (e2e)', () => {
     await app.init();
   });
 
-  it('should get Family info with member id', async () => {
+  it('should create familyMember with path: /familymember/create (POST)', async () => {
     const response = await request(app.getHttpServer())
-      .get('/familymember/1')
+      .post('/familymember/create')
+      .send({
+        familyId: 1,
+        userId: 1,
+        role: 1,
+      })
+      .expect(201);
+
+    expect(response.body.message).toEqual('가족 멤버 생성 성공');
+    expect(response.body.data).toEqual(1);
+  });
+
+  it('should update familyMember with path: /familymember/update (Patch)', async () => {
+    const response = await request(app.getHttpServer())
+      .patch('/familymember/update')
+      .send({
+        familyMemberId: 1,
+        role: 2,
+      })
       .expect(200);
 
+    expect(response.body.message).toEqual('가족 구성원 정보 수정 성공');
+  });
+
+  it('should delete familyMember with path: /familymember/delete (Delete)', async () => {
+    const response = await request(app.getHttpServer())
+      .delete('/familymember/delete/1')
+      .expect(200);
+
+    expect(response.body.message).toEqual('가족 구성원 삭제 성공');
+  });
+
+  it('should get Family info with member id', async () => {
+    const response = await request(app.getHttpServer())
+      .get('/familymember/getFamily/1')
+      .expect(200);
     expect(response.body.message).toEqual('가족 조회 성공');
     expect(response.body.data.familyName).toEqual('test');
+    expect(response.body.data.familyKeyCode).toEqual('testKeyCode');
   });
 });
