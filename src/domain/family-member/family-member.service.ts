@@ -6,6 +6,8 @@ import { Repository } from 'typeorm';
 import { ResponseCode } from '../../common';
 import { UserException } from '../../common/exception/user.exception';
 import {ResponseFamilyDto} from "../family";
+import {FamilyMemberException} from "../../common/exception/family-member.exception";
+import {FamilyException} from "../../common/exception/family.exception";
 
 @Injectable()
 export class FamilyMemberService {
@@ -67,7 +69,7 @@ export class FamilyMemberService {
       where: { id: familyId },
     });
     if (!family) {
-      throw new UserException(ResponseCode.FAMILY_NOT_FOUND);
+      throw new FamilyException(ResponseCode.FAMILY_NOT_FOUND);
     }
     return family;
   }
@@ -77,7 +79,7 @@ export class FamilyMemberService {
       where: { id: familyMemberId },
     });
     if (!familyMember) {
-      throw new UserException(ResponseCode.FAMILY_MEMBER_NOT_FOUND);
+      throw new FamilyMemberException(ResponseCode.FAMILY_MEMBER_NOT_FOUND);
     }
     return familyMember;
   }
