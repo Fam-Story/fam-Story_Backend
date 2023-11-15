@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ResponseCode } from '../../common';
 import { UserException } from '../../common/exception/user.exception';
+import {ResponseFamilyDto} from "../family";
 
 @Injectable()
 export class FamilyMemberService {
@@ -42,6 +43,13 @@ export class FamilyMemberService {
   async deleteFamilyMember(familyMemberId: number) {
     await this.validateFamilyMember(familyMemberId);
     await this.familyMemberRepository.delete(familyMemberId);
+  }
+
+  async findFamilyByMemberId(
+    familyMemberId: number,
+  ): Promise<ResponseFamilyDto> {
+    const familyMember = await this.validateFamilyMember(familyMemberId);
+    return ResponseFamilyDto.from(familyMember.family);
   }
 
   async validateUser(userId: number): Promise<User> {
