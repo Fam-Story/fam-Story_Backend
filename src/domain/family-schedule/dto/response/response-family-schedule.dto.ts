@@ -1,3 +1,5 @@
+import { FamilySchedule } from '../../../../infra/entities';
+
 export class ResponseFamilyScheduleDto {
   familyId: number;
   scheduleId: number;
@@ -14,5 +16,14 @@ export class ResponseFamilyScheduleDto {
     this.scheduleId = scheduleId;
     this.scheduleName = scheduleName;
     this.scheduleDate = scheduleDate;
+  }
+
+  static from(familySchedule: FamilySchedule): ResponseFamilyScheduleDto {
+    return new ResponseFamilyScheduleDto(
+      familySchedule.family.id,
+      familySchedule.id,
+      familySchedule.scheduleName,
+      familySchedule.scheduleDate,
+    );
   }
 }
