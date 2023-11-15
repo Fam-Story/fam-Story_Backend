@@ -57,4 +57,8 @@ export class FamilyMember {
     familyMember.user = user;
     return familyMember;
   }
+
+  setId(id: number) {
+    this.id = id;
+  }
 }
