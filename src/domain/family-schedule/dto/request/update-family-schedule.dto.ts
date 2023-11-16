@@ -18,6 +18,14 @@ export class UpdateFamilyScheduleDto extends PartialType(
   readonly familyId: number;
 
   @IsNotEmpty()
-  @IsDate()
-  readonly scheduleDate: Date;
+  @IsNumber()
+  readonly scheduleYear: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  readonly scheduleMonth: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  readonly scheduleDay: number;
 }

@@ -9,9 +9,17 @@ export class CreateFamilyScheduleDto {
   @IsNotEmpty()
   scheduleName: string;
 
-  @IsDate()
+  @IsNumber()
   @IsNotEmpty()
-  scheduleDate: Date;
+  scheduleYear: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  scheduleMonth: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  scheduleDay: number;
 
   @IsNumber()
   @IsNotEmpty()
