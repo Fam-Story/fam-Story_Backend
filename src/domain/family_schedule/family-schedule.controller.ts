@@ -8,15 +8,13 @@ import {
   Delete,
   Query,
 } from '@nestjs/common';
-import {
-  FamilyScheduleService,
-  ResponseFamilyScheduleDto,
-} from './index';
+import { ResponseFamilyScheduleDto } from './dto';
 import { CreateFamilyScheduleDto, UpdateFamilyScheduleDto } from './dto';
 import { ApiResponse, ResponseCode } from '../../common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CustomApiCreatedResponse } from '../../common/api/response-created.decorator';
 import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
+import { FamilyScheduleService } from './family-schedule.service';
 
 @ApiTags('가족 일정 API')
 @Controller('family-schedule')
@@ -87,10 +85,7 @@ export class FamilyScheduleController {
   }
   //가족 일정 조회
   @Get('/get/:id')
-  @ApiOkResponse({
-    description: '가족 일정을 반환한다.',
-    type: ApiResponse<ResponseFamilyScheduleDto>,
-  }) //CustomOkResponse로 수정 필요
+  @CustomApiOKResponse(ResponseFamilyScheduleDto, '가족 일정 조회 반환') //CustomOkResponse로 수정 필요
   @ApiOperation({
     summary: '가족 일정 조회',
     description: '가족 일정을 조회한다.',
@@ -109,17 +104,16 @@ export class FamilyScheduleController {
     summary: '가족 일정 리스트 반환',
     description: '가족 일정 리스트를 반환한다.',
   })
-  @ApiOkResponse({
-    description: '가족 일정 리스트를 반환한다.',
-    type: ApiResponse<ResponseFamilyScheduleDto[]>,
-  })
+  @CustomApiOKResponse(
+    ResponseFamilyScheduleDto,
+    '가족 일정 리스트를 반환한다. (ResponseFamilyScheduleDto를 배열로 반환)',
+  )
   @Get('/list/:id')
   async findFamilyScheduleList(
     @Param('id') familyId: number,
     @Query('year') year: number,
     @Query('targetMonth') targetMonth: number,
   ) {
-
     const familyScheduleList =
       await this.familyScheduleService.findFamilyScheduleList(
         familyId,
