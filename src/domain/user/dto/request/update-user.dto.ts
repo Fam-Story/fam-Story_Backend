@@ -6,6 +6,6 @@ import { ApiProperty } from '@nestjs/swagger';
 export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsNotEmpty()
   @IsNumber()
-  @ApiProperty({ description: '유저 아이디' })
+  @ApiProperty({ description: '유저 아이디', example: 1, nullable: false })
   userId: number;
 }

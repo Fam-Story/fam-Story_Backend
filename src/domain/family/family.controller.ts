@@ -64,7 +64,7 @@ export class FamilyController {
 
   //가족 삭제
   @Delete('/delete/:id')
-  @ApiOperation({ description: '가족을 삭제한다.' })
+  @ApiOperation({ summary: '가족 삭제',description: '가족을 삭제한다.' })
   @ApiOkResponse({ description: '가족을 삭제한다.', type: ApiResponse<null> })
   async deleteFamily(@Param('id') familyId: number) {
     await this.familyService.deleteFamily(familyId);
@@ -74,6 +74,7 @@ export class FamilyController {
   //초대 키로 가족 정보 검색 (가족 초대) -> 가족 정보 반환
   @Get('/invite/:keyCode')
   @ApiOperation({
+    summary: '가족 초대',
     description:
       '가족의 초대코드로 가족 정보를 검색한 후, 가족 정보를 반환한다.',
   })

@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { InteractionModule } from '../../module';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import * as request from 'supertest';
+import { ResponseInteractionDto } from '../../domain/interaction/dto/response-interaction.dto';
 
 describe('InteractionController', () => {
   let app: INestApplication;
@@ -13,12 +14,19 @@ describe('InteractionController', () => {
   let mockInteractionRepository: Partial<Repository<Interaction>>;
   let mockFamilyMemberRepository: Partial<Repository<FamilyMember>>;
 
-  const interaction = Interaction.createInteraction(1, null, 3);
+  const interaction = Interaction.createInteraction(
+    1,
+    FamilyMember.createFamilyMember(1, null, null),
+    3,
+  );
+  interaction.id = 1;
 
   beforeEach(async () => {
     mockInteractionService = {
       createInteraction: jest.fn().mockResolvedValue(1),
-      findAllInteractions: jest.fn().mockResolvedValue([interaction]),
+      findAllInteractions: jest
+        .fn()
+        .mockResolvedValue([ResponseInteractionDto.from(interaction)]),
       checkAllInteractions: jest.fn(),
       deleteAllInteractions: jest.fn(),
     };
@@ -74,7 +82,9 @@ describe('InteractionController', () => {
       .expect(200);
 
     expect(response.body.message).toEqual('상호작용 조회 성공');
-    expect(response.body.data).toEqual([interaction]);
+    expect(response.body.data).toEqual([
+      ResponseInteractionDto.from(interaction),
+    ]);
   });
 
   it('should delete interaction', async () => {
