@@ -104,6 +104,10 @@ export class ResponseCode {
     code: HttpStatus.CREATED,
     message: '상호작용 생성 성공',
   };
+  static readonly INTERACTION_DELETED_SUCCESS = {
+    code: HttpStatus.OK,
+    message: '상호작용 삭제 성공',
+  };
   static readonly FAMILY_SCHEDULE_CREATED_SUCCESS = {
     code: HttpStatus.CREATED,
     message: '가족 일정 생성 성공',

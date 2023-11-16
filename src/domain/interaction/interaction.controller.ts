@@ -10,9 +10,12 @@ export class InteractionController {
   //상호작용 전송 (생성 및 FCM으로 전송)
   @Post('/create')
   async createInteraction(@Body() createInteractionDto: CreateInteractionDto) {
-    await this.interactionService.createInteraction(createInteractionDto);
+    const savedInteractionId = await this.interactionService.createInteraction(createInteractionDto);
     //TODO: FCM으로 메시지 전송하기
-    return ApiResponse.success(ResponseCode.INTERACTION_CREATED_SUCCESS, null);
+    return ApiResponse.success(
+      ResponseCode.INTERACTION_CREATED_SUCCESS,
+      savedInteractionId,
+    );
   }
 
   //상호작용 확인 -> 클라이언트에게 상호작용 보낸 후, isChecked를 true로 변경
@@ -31,6 +34,6 @@ export class InteractionController {
   @Delete('/delete/:memberId')
   async deleteInteraction(@Param('memberId') dstMemberId: number) {
     await this.interactionService.deleteAllInteractions(dstMemberId);
-    return ApiResponse.success(ResponseCode.INTERACTION_READ_SUCCESS, null);
+    return ApiResponse.success(ResponseCode.INTERACTION_DELETED_SUCCESS, null);
   }
 }
