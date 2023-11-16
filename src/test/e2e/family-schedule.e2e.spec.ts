@@ -68,7 +68,7 @@ describe('FamilyScheduleController', () => {
     expect(app).toBeDefined();
   });
 
-  it('should return familyschedule id with apth: /create (POST)', async () => {
+  it('should return familySchedule id with path: /create (POST)', async () => {
     const response = await request(app.getHttpServer())
       .post('/family-schedule/create')
       .send({
@@ -106,7 +106,7 @@ describe('FamilyScheduleController', () => {
     expect(response.body.message).toEqual('가족 일정 삭제 성공');
   });
 
-  it('should return familyschedule info with path: /:id (GET)', async () => {
+  it('should return familySchedule info with path: /:id (GET)', async () => {
     const response = await request(app.getHttpServer())
       .get('/family-schedule/get/1')
       .expect(200);
@@ -119,9 +119,10 @@ describe('FamilyScheduleController', () => {
     expect(response.body.data.scheduleName).toEqual('testSchedule');
   });
 
-  it('should return familyschedule list with path: /list/:familyId (GET)', async () => {
+  it('should return familySchedule list with path: /list/:familyId (GET)', async () => {
     const response = await request(app.getHttpServer())
       .get('/family-schedule/list/1')
+      .query({ year: 2021, month: 10 })
       .expect(200);
 
     console.log(response.body);
@@ -130,5 +131,8 @@ describe('FamilyScheduleController', () => {
     expect(response.body.data[0].familyId).toEqual(1);
     expect(response.body.data[0].scheduleId).toEqual(2);
     expect(response.body.data[0].scheduleName).toEqual('testSchedule');
+    expect(response.body.data[0].scheduleYear).toEqual(2021);
+    expect(response.body.data[0].scheduleMonth).toEqual(10);
+    expect(response.body.data[0].scheduleDay).toEqual(10);
   });
 });

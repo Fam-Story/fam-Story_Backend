@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { FamilyScheduleService } from '../../domain/family-schedule/family-schedule.service';
+import { FamilyScheduleService } from '../../domain/family-schedule';
 import { Family, FamilySchedule } from '../../infra/entities';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
@@ -10,6 +10,9 @@ describe('FamilyScheduleService', () => {
     save: jest.fn(),
     delete: jest.fn(),
   });
+
+  const family = Family.createFamily('testFamily', 'testKeyCode');
+  family.setId(1);
 
   let familyScheduleService: FamilyScheduleService;
   let familyScheduleRepository;
@@ -43,8 +46,6 @@ describe('FamilyScheduleService', () => {
 
   it('should create family schedule', async () => {
     //given
-    const family = Family.createFamily('testFamily', 'testKeyCode');
-    family.setId(1);
     const createFamilyScheduleDto = {
       scheduleName: 'testSchedule',
       scheduleYear: 2021,
@@ -76,7 +77,6 @@ describe('FamilyScheduleService', () => {
 
   it('should update family schedule', async () => {
     //given
-    const family = Family.createFamily('testFamily', 'testKeyCode');
     family.setId(1);
     const familySchedule = FamilySchedule.createFamilySchedule(
       'testSchedule',
@@ -108,8 +108,6 @@ describe('FamilyScheduleService', () => {
 
   it('should delete family schedule', async () => {
     //given
-    const family = Family.createFamily('testFamily', 'testKeyCode');
-    family.setId(1);
     const familySchedule = FamilySchedule.createFamilySchedule(
       'testSchedule',
       new Date(2021, 9, 10),
@@ -131,8 +129,6 @@ describe('FamilyScheduleService', () => {
 
   it('should find family schedule by id', async () => {
     //given
-    const family = Family.createFamily('testFamily', 'testKeyCode');
-    family.setId(1);
     const familySchedule = FamilySchedule.createFamilySchedule(
       'testSchedule',
       new Date(2021, 9, 10),
@@ -150,9 +146,9 @@ describe('FamilyScheduleService', () => {
       await familyScheduleService.findFamilyScheduleById(familyScheduleId);
 
     expect(result.scheduleName).toEqual('testSchedule');
-    expect(result.scheduleDate.toLocaleDateString('en-CA')).toEqual(
-      '2021-10-10',
-    );
+    expect(result.scheduleYear).toEqual(2021);
+    expect(result.scheduleMonth).toEqual(10);
+    expect(result.scheduleDay).toEqual(10);
   });
 
   it('should find family schedule list', async () => {
@@ -179,8 +175,8 @@ describe('FamilyScheduleService', () => {
     );
 
     expect(result[0].scheduleName).toEqual('testSchedule');
-    expect(result[0].scheduleDate.toLocaleDateString('en-CA')).toEqual(
-      '2021-10-10',
-    );
+    expect(result[0].scheduleYear).toEqual(2021);
+    expect(result[0].scheduleMonth).toEqual(10);
+    expect(result[0].scheduleDay).toEqual(10);
   });
 });
