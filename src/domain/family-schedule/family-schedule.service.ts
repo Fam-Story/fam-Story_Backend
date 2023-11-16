@@ -20,9 +20,14 @@ export class FamilyScheduleService {
   ) {}
   async createFamilySchedule(createFamilyScheduleDto: CreateFamilyScheduleDto) {
     const family = await this.validateFamily(createFamilyScheduleDto.familyId);
+    const date: Date = new Date(
+      createFamilyScheduleDto.scheduleYear,
+      createFamilyScheduleDto.scheduleMonth - 1,
+      createFamilyScheduleDto.scheduleDay,
+    );
     const familySchedule = FamilySchedule.createFamilySchedule(
       createFamilyScheduleDto.scheduleName,
-      createFamilyScheduleDto.scheduleDate,
+      date,
       family,
     );
     const savedFamilySchedule =
@@ -35,7 +40,11 @@ export class FamilyScheduleService {
       updateFamilyScheduleDto.familyScheduleId,
     );
     await this.validateFamily(updateFamilyScheduleDto.familyId);
-    familySchedule.scheduleDate = updateFamilyScheduleDto.scheduleDate;
+    familySchedule.scheduleDate = new Date(
+      updateFamilyScheduleDto.scheduleYear,
+      updateFamilyScheduleDto.scheduleMonth - 1,
+      updateFamilyScheduleDto.scheduleDay,
+    );
     familySchedule.scheduleName = updateFamilyScheduleDto.scheduleName;
     await this.familyScheduleRepository.save(familySchedule);
   }
@@ -80,9 +89,9 @@ export class FamilyScheduleService {
     }
     return familySchedule;
   }
-  async validateFamily(famliyId: number) {
+  async validateFamily(familyId: number) {
     const family = this.familyRepository.findOne({
-      where: { id: famliyId },
+      where: { id: familyId },
     });
     if (!family) {
       throw new FamilyException(ResponseCode.FAMILY_NOT_FOUND);
