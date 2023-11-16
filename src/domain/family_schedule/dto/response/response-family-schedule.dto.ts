@@ -3,17 +3,17 @@ import { ApiProperty, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('가족 일정 응답 dto')
 export class ResponseFamilyScheduleDto {
-  @ApiProperty({ example: 1 })
+  @ApiProperty({ example: 1, description: '가족 ID' })
   readonly familyId: number;
-  @ApiProperty({ example: 1 })
+  @ApiProperty({ example: 1, description: '가족 일정 ID' })
   readonly scheduleId: number;
-  @ApiProperty({ example: '푸앙이네 생일' })
+  @ApiProperty({ example: '푸앙이네 생일', description: '가족 일정 이름' })
   readonly scheduleName: string;
-  @ApiProperty({ example: '2021' })
+  @ApiProperty({ example: '2021', description: '가족 일정 년도' })
   readonly scheduleYear: number;
-  @ApiProperty({ example: '8' })
+  @ApiProperty({ example: '8', description: '가족 일정 월' })
   readonly scheduleMonth: number;
-  @ApiProperty({ example: '1' })
+  @ApiProperty({ example: '1', description: '가족 일정 일' })
   readonly scheduleDay: number;
 
   private constructor(
