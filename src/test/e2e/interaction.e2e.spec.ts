@@ -6,7 +6,7 @@ import { Repository } from 'typeorm';
 import { InteractionModule } from '../../module';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import * as request from 'supertest';
-import {ResponseInteractionDto} from "../../domain/interaction/dto/response-interaction.dto";
+import { ResponseInteractionDto } from '../../domain/interaction/dto/response-interaction.dto';
 
 describe('InteractionController', () => {
   let app: INestApplication;

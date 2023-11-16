@@ -3,7 +3,7 @@ import { InteractionService } from '../../domain/interaction/interaction.service
 import { FamilyMember, Interaction } from '../../infra/entities';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CreateInteractionDto } from '../../domain/interaction';
-import {ResponseInteractionDto} from "../../domain/interaction/dto/response-interaction.dto";
+import { ResponseInteractionDto } from '../../domain/interaction/dto/response-interaction.dto';
 
 describe('InteractionService', () => {
   const mockRepository = () => ({

@@ -38,5 +38,4 @@ export class ResponseFamilyScheduleDto {
       familySchedule.scheduleDate,
     );
   }
-
 }

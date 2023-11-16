@@ -5,7 +5,7 @@ import { FamilyMemberException } from '../../common/exception/family-member.exce
 import { InjectRepository } from '@nestjs/typeorm';
 import { FamilyMember, Interaction } from '../../infra/entities';
 import { Repository } from 'typeorm';
-import {ResponseInteractionDto} from "./dto/response-interaction.dto";
+import { ResponseInteractionDto } from './dto/response-interaction.dto';
 
 @Injectable()
 export class InteractionService {
