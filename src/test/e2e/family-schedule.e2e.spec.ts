@@ -24,7 +24,6 @@ describe('FamilyScheduleController', () => {
     mockFamily,
   );
 
-  console.log(mockFamilySchedule.scheduleDate);
   mockFamilySchedule.id = 2;
   beforeEach(async () => {
     mockFamilyScheduleService = {
@@ -111,8 +110,6 @@ describe('FamilyScheduleController', () => {
       .get('/family-schedule/get/1')
       .expect(200);
 
-    console.log(response.body);
-
     expect(response.body.message).toEqual('가족 일정 조회 성공');
     expect(response.body.data.familyId).toEqual(1);
     expect(response.body.data.scheduleId).toEqual(2);
@@ -124,8 +121,6 @@ describe('FamilyScheduleController', () => {
       .get('/family-schedule/list/1')
       .query({ year: 2021, month: 10 })
       .expect(200);
-
-    console.log(response.body);
 
     expect(response.body.message).toEqual('가족 일정 조회 성공');
     expect(response.body.data[0].familyId).toEqual(1);
