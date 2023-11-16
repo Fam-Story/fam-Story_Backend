@@ -36,4 +36,8 @@ export class FamilySchedule {
     familySchedule.family = family;
     return familySchedule;
   }
+
+  setId(id: number) {
+    this.id = id;
+  }
 }
