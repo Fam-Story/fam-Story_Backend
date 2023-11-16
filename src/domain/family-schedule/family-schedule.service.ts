@@ -9,7 +9,7 @@ import { Family, FamilySchedule } from '../../infra/entities';
 import { Between, Repository } from 'typeorm';
 import { FamilyException } from '../../common/exception/family.exception';
 import { ResponseCode } from '../../common';
-import {FamilyScheduleException} from "../../common/exception/family-schedule.exception";
+import { FamilyScheduleException } from '../../common/exception/family-schedule.exception';
 
 @Injectable()
 export class FamilyScheduleService {
