@@ -9,8 +9,12 @@ export class ResponseFamilyScheduleDto {
   readonly scheduleId: number;
   @ApiProperty({ example: '푸앙이네 생일' })
   readonly scheduleName: string;
-  @ApiProperty({ example: '2021-08-01T00:00:00.000Z' })
-  readonly scheduleDate: Date;
+  @ApiProperty({ example: '2021' })
+  readonly scheduleYear: number;
+  @ApiProperty({ example: '8' })
+  readonly scheduleMonth: number;
+  @ApiProperty({ example: '1' })
+  readonly scheduleDay: number;
 
   private constructor(
     familyId: number,
@@ -21,7 +25,9 @@ export class ResponseFamilyScheduleDto {
     this.familyId = familyId;
     this.scheduleId = scheduleId;
     this.scheduleName = scheduleName;
-    this.scheduleDate = scheduleDate;
+    this.scheduleYear = scheduleDate.getFullYear();
+    this.scheduleMonth = scheduleDate.getMonth() + 1;
+    this.scheduleDay = scheduleDate.getDate();
   }
 
   static from(familySchedule: FamilySchedule): ResponseFamilyScheduleDto {
