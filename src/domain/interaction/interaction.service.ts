@@ -38,6 +38,22 @@ export class InteractionService {
     });
   }
 
+  async checkAllInteractions(familyMemberId: number) {
+    const interactions = await this.interactionRepository.find({
+      where: { dstMember: { id: familyMemberId } },
+    });
+    interactions.forEach((interaction) => {
+      interaction.isChecked = true;
+    });
+    await this.interactionRepository.save(interactions);
+  }
+
+  async deleteAllInteractions(familyMemberId: number) {
+    await this.validateFamilyMember(familyMemberId);
+    await this.interactionRepository.delete({
+      dstMember: { id: familyMemberId },
+    });
+  }
   async validateFamilyMember(familyMemberId: number) {
     const familyMember = await this.familyMemberRepository.findOne({
       where: { id: familyMemberId },
