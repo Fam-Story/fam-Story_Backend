@@ -61,7 +61,7 @@ export class FamilyMemberController {
 
   //가족 탈퇴 (즉, 가족 멤버 삭제)
   @Delete('/delete/:id')
-  @ApiOperation({ description: '가족 멤버를 삭제한다.' })
+  @ApiOperation({ summary: '가족 삭제', description: '가족 멤버를 삭제한다.' })
   @ApiOkResponse({
     description: '가족 멤버를 삭제한다.',
     type: ApiResponse<null>,
