@@ -5,6 +5,7 @@ import { FamilyMemberException } from '../../common/exception/family-member.exce
 import { InjectRepository } from '@nestjs/typeorm';
 import { FamilyMember, Interaction } from '../../infra/entities';
 import { Repository } from 'typeorm';
+import {ResponseInteractionDto} from "./dto/response-interaction.dto";
 
 @Injectable()
 export class InteractionService {
@@ -33,9 +34,12 @@ export class InteractionService {
 
   async findAllInteractions(familyMemberId: number) {
     await this.validateFamilyMember(familyMemberId);
-    return await this.interactionRepository.find({
+    const interactions = await this.interactionRepository.find({
       where: { dstMember: { id: familyMemberId } },
     });
+    return interactions.map((interaction) =>
+      ResponseInteractionDto.from(interaction),
+    );
   }
 
   async checkAllInteractions(familyMemberId: number) {

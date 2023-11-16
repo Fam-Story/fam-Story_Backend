@@ -2,7 +2,9 @@ import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { InteractionService } from './interaction.service';
 import { CreateInteractionDto } from './dto/create-interaction.dto';
 import { ApiResponse, ResponseCode } from '../../common';
+import {ApiTags} from "@nestjs/swagger";
 
+@ApiTags('상호작용 API')
 @Controller('interaction')
 export class InteractionController {
   constructor(private readonly interactionService: InteractionService) {}

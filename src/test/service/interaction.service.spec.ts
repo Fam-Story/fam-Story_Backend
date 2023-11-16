@@ -3,6 +3,7 @@ import { InteractionService } from '../../domain/interaction/interaction.service
 import { FamilyMember, Interaction } from '../../infra/entities';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CreateInteractionDto } from '../../domain/interaction';
+import {ResponseInteractionDto} from "../../domain/interaction/dto/response-interaction.dto";
 
 describe('InteractionService', () => {
   const mockRepository = () => ({
@@ -70,7 +71,9 @@ describe('InteractionService', () => {
     //given
     const familyMemberId = 1;
     const dstFamilyMember = FamilyMember.createFamilyMember(1, null, null);
+    dstFamilyMember.setId(2);
     const interaction = Interaction.createInteraction(1, dstFamilyMember, 2);
+    interaction.id = 3;
     const interactions = [interaction];
     jest.spyOn(interactionRepository, 'find').mockResolvedValue(interactions);
     jest
@@ -80,7 +83,10 @@ describe('InteractionService', () => {
     const foundInteractions =
       await interactionService.findAllInteractions(familyMemberId);
 
-    expect(foundInteractions).toEqual(interactions);
+    expect(foundInteractions[0].interactionId).toEqual(3);
+    expect(foundInteractions[0].interactionType).toEqual(2);
+    expect(foundInteractions[0].srcMemberId).toEqual(1);
+    expect(foundInteractions[0].dstMemberId).toEqual(2);
   });
 
   it('should check all interactions', async () => {
