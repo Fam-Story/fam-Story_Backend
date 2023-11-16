@@ -13,7 +13,7 @@ export class S3Handler {
     });
   }
 
-  deleteObject(key: string) {
+  deleteObject(key: string): Promise<AWS.S3.DeleteObjectOutput> {
     const deleteParams = {
       Bucket: this.configService.get('BUCKET_NAME'),
       Key: `${key}`,

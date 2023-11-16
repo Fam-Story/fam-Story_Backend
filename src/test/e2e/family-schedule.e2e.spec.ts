@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import {
   FamilyScheduleService,
   ResponseFamilyScheduleDto,
-} from '../../domain/family-schedule';
+} from '../../domain/family_schedule';
 import { INestApplication } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Family, FamilySchedule } from '../../infra/entities';

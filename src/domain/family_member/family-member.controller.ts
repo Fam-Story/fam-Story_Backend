@@ -7,7 +7,7 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { FamilyMemberService } from '../family-member';
+import { FamilyMemberService } from './index';
 import { CreateFamilyMemberDto, UpdateFamilyMemberDto } from './dto';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ApiResponse, ResponseCode } from '../../common';

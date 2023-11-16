@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { FamilyMemberService } from '../../domain/family-member';
+import { FamilyMemberService } from '../../domain/family_member';
 import { INestApplication } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Family, FamilyMember, User } from '../../infra/entities';

@@ -11,7 +11,7 @@ import {
 import {
   FamilyScheduleService,
   ResponseFamilyScheduleDto,
-} from '../family-schedule';
+} from './index';
 import { CreateFamilyScheduleDto, UpdateFamilyScheduleDto } from './dto';
 import { ApiResponse, ResponseCode } from '../../common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';

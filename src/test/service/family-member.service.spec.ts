@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import {
   CreateFamilyMemberDto,
   FamilyMemberService,
-} from '../../domain/family-member';
+} from '../../domain/family_member';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Family, FamilyMember, User } from '../../infra/entities';
 

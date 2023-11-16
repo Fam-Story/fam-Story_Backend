@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import {
   FamilyScheduleController,
   FamilyScheduleService,
-} from '../domain/family-schedule';
+} from '../domain/family_schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Family, FamilySchedule } from '../infra/entities';
 

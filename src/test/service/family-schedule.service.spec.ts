@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { FamilyScheduleService } from '../../domain/family-schedule';
+import { FamilyScheduleService } from '../../domain/family_schedule';
 import { Family, FamilySchedule } from '../../infra/entities';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
