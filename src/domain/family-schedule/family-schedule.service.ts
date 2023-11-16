@@ -61,16 +61,18 @@ export class FamilyScheduleService {
 
   async findFamilyScheduleList(
     familyId: number,
-    startOfMonth: Date,
-    endOfMonth: Date,
+    year: number,
+    targetMonth: number,
   ): Promise<ResponseFamilyScheduleDto[]> {
     const family = await this.validateFamily(familyId);
+    const startOfMonthDate = new Date(year, targetMonth - 1, 1);
+    const endOfMonthDate = new Date(year, targetMonth, 0);
 
     const familySchedules: FamilySchedule[] =
       await this.familyScheduleRepository.find({
         where: {
           family: { id: family.id },
-          scheduleDate: Between(startOfMonth, endOfMonth),
+          scheduleDate: Between(startOfMonthDate, endOfMonthDate),
         },
         order: { scheduleDate: 'ASC' },
       });

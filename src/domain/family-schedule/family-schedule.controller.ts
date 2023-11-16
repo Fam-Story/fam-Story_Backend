@@ -116,17 +116,15 @@ export class FamilyScheduleController {
   @Get('/list/:id')
   async findFamilyScheduleList(
     @Param('id') familyId: number,
-    @Query('startOfMonth') startDate: string,
-    @Query('endOfMonth') endDate: string,
+    @Query('year') year: number,
+    @Query('targetMonth') targetMonth: number,
   ) {
-    const startOfMonth = new Date(startDate);
-    const endOfMonth = new Date(endDate);
 
     const familyScheduleList =
       await this.familyScheduleService.findFamilyScheduleList(
         familyId,
-        startOfMonth,
-        endOfMonth,
+        year,
+        targetMonth,
       );
     return ApiResponse.success(
       ResponseCode.FAMILY_SCHEDULE_READ_SUCCESS,

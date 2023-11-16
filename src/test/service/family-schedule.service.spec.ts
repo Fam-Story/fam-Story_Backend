@@ -166,8 +166,6 @@ describe('FamilyScheduleService', () => {
     );
     familySchedule.setId(1);
     const familyId = 1;
-    const startOfMonth = new Date(2021, 9, 1);
-    const endOfMonth = new Date(2021, 9, 31);
 
     jest.spyOn(familyRepository, 'findOne').mockResolvedValue(family);
     jest
@@ -176,8 +174,8 @@ describe('FamilyScheduleService', () => {
 
     const result = await familyScheduleService.findFamilyScheduleList(
       familyId,
-      startOfMonth,
-      endOfMonth,
+      2021,
+      10,
     );
 
     expect(result[0].scheduleName).toEqual('testSchedule');
