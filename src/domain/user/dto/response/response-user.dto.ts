@@ -3,22 +3,22 @@ import { ApiProperty, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('유저 응답 dto')
 export class ResponseUserDto {
-  @ApiProperty({ example: 1 })
+  @ApiProperty({ example: 1, description: '유저 아이디' })
   readonly userId: number;
 
-  @ApiProperty({ example: 'example@example.com' })
+  @ApiProperty({ example: 'example@example.com', description: '이메일' })
   readonly email: string;
 
-  @ApiProperty({ example: 'example' })
+  @ApiProperty({ example: 'example', description: '유저 이름' })
   readonly username: string;
 
-  @ApiProperty({ example: 'nickname' })
+  @ApiProperty({ example: 'nickname', description: '닉네임' })
   readonly nickname: string;
 
-  @ApiProperty({ example: 20 })
+  @ApiProperty({ example: 20, description: '나이' })
   readonly age: number;
 
-  @ApiProperty({ example: 0 })
+  @ApiProperty({ example: 0, description: '성별 (0: 남자, 1: 여자)' })
   readonly gender: number;
 
   private constructor(

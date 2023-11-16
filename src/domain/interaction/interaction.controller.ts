@@ -56,7 +56,8 @@ export class InteractionController {
   //상호작용 삭제
   @ApiOperation({
     summary: '상호작용 삭제',
-    description: '사용자가 상호작용 보관함 삭제를 클릭할 시 상호작용을 삭제한다.',
+    description:
+      '사용자가 상호작용 보관함 삭제를 클릭할 시 상호작용을 삭제한다.',
   })
   @CustomApiOKResponse(
     Number,
