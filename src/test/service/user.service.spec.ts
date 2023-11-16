@@ -46,7 +46,17 @@ describe('UserService', () => {
         age: 20,
         gender: 1,
       };
-      jest.spyOn(userRepository, 'save').mockResolvedValue(1);
+      const user = User.createUser(
+        createUserDto.email,
+        createUserDto.password,
+        createUserDto.username,
+        createUserDto.nickname,
+        createUserDto.age,
+        createUserDto.gender,
+      );
+      user.setId(1);
+
+      jest.spyOn(userRepository, 'save').mockResolvedValue(user);
       jest.spyOn(userRepository, 'findOne').mockResolvedValue(createUserDto);
 
       const testId = await userService.saveUser(createUserDto);

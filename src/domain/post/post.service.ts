@@ -1,25 +1,65 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePostDto, UpdatePostDto } from './dto';
+import { FamilyMember, Post } from '../../infra/entities';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { ResponseCode } from '../../common';
+import { PostException } from '../../common/exception/post.exception';
+import { FamilyMemberException } from '../../common/exception/family-member.exception';
 
 @Injectable()
 export class PostService {
-  create(createPostDto: CreatePostDto) {
-    return 'This action adds a new post';
+  constructor(
+    @InjectRepository(FamilyMember)
+    private familyMemberRepository: Repository<FamilyMember>,
+    @InjectRepository(Post) private postRepository: Repository<Post>,
+  ) {}
+  async createPost(createPostDto: CreatePostDto) {
+    const familyMember: FamilyMember =
+      await this.familyMemberRepository.findOne({
+        where: { id: createPostDto.srcMemberId },
+      });
+    const post: Post = Post.createPost(
+      createPostDto.title,
+      createPostDto.context,
+      createPostDto.createdDate,
+      familyMember,
+    );
+    const savedPost = await this.postRepository.save(post);
+    return savedPost.id;
   }
 
-  findAll() {
-    return `This action returns all post`;
+  async updatePost(updatePostDto: UpdatePostDto) {
+    const post = await this.validatePost(updatePostDto.postId);
+    await this.validateFamilyMember(updatePostDto.srcMemberId);
+    post.title = updatePostDto.title;
+    post.context = updatePostDto.context;
+
+    await this.postRepository.save(post);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} post`;
+  async deletePost(postId: number) {
+    await this.validatePost(postId);
+    await this.postRepository.delete(postId);
   }
 
-  update(id: number, updatePostDto: UpdatePostDto) {
-    return `This action updates a #${id} post`;
+  async validatePost(postId: number) {
+    const post = this.postRepository.findOne({
+      where: { id: postId },
+    });
+    if (!post) {
+      throw new PostException(ResponseCode.POST_NOT_FOUND);
+    }
+    return post;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} post`;
+  async validateFamilyMember(familyMemberId: number) {
+    const familyMember = this.familyMemberRepository.findOne({
+      where: { id: familyMemberId },
+    });
+    if (!familyMember) {
+      throw new FamilyMemberException(ResponseCode.FAMILY_MEMBER_NOT_FOUND);
+    }
+    return familyMember;
   }
 }

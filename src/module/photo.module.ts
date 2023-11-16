@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common';
-import { PhotoController } from '../domain/photo/photo.controller';
-import { PhotoService } from '../domain/photo/photo.service';
+import { PhotoController, PhotoService } from '../domain/photo';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Photo } from '../infra/entities';
+import { Family, Photo } from '../infra/entities';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Photo])],
+  imports: [TypeOrmModule.forFeature([Family, Photo])],
 
   controllers: [PhotoController],
   providers: [PhotoService],

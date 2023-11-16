@@ -1,18 +1,120 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { InteractionService } from '../../domain/interaction/interaction.service';
+import { FamilyMember, Interaction } from '../../infra/entities';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { CreateInteractionDto } from '../../domain/interaction';
 
 describe('InteractionService', () => {
-  let service: InteractionService;
+  const mockRepository = () => ({
+    find: jest.fn(),
+    findOne: jest.fn(),
+    save: jest.fn(),
+    delete: jest.fn(),
+  });
+
+  let interactionService: InteractionService;
+  let interactionRepository;
+  let familyMemberRepository;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [InteractionService],
+      providers: [
+        InteractionService,
+        {
+          provide: getRepositoryToken(Interaction),
+          useFactory: mockRepository,
+        },
+        {
+          provide: getRepositoryToken(FamilyMember),
+          useFactory: mockRepository,
+        },
+      ],
     }).compile();
 
-    service = module.get<InteractionService>(InteractionService);
+    interactionService = module.get<InteractionService>(InteractionService);
+    interactionRepository = module.get(getRepositoryToken(Interaction));
+    familyMemberRepository = module.get(getRepositoryToken(FamilyMember));
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(interactionService).toBeDefined();
+  });
+
+  it('should create interaction', async () => {
+    //given
+    const dstFamilyMember = FamilyMember.createFamilyMember(1, null, null);
+    dstFamilyMember.setId(2);
+    const createInteractionDto: CreateInteractionDto = {
+      srcMemberId: 1,
+      dstMemberId: 2,
+      interactionType: 3,
+    };
+    const interaction = Interaction.createInteraction(
+      createInteractionDto.srcMemberId,
+      dstFamilyMember,
+      createInteractionDto.interactionType,
+    );
+
+    jest
+      .spyOn(familyMemberRepository, 'findOne')
+      .mockResolvedValue(dstFamilyMember);
+    jest.spyOn(interactionRepository, 'save').mockResolvedValue(interaction);
+
+    const savedInteraction =
+      await interactionService.createInteraction(createInteractionDto);
+
+    expect(savedInteraction).toEqual(interaction.id);
+  });
+
+  it('should find all interactions', async () => {
+    //given
+    const familyMemberId = 1;
+    const dstFamilyMember = FamilyMember.createFamilyMember(1, null, null);
+    const interaction = Interaction.createInteraction(1, dstFamilyMember, 2);
+    const interactions = [interaction];
+    jest.spyOn(interactionRepository, 'find').mockResolvedValue(interactions);
+    jest
+      .spyOn(familyMemberRepository, 'findOne')
+      .mockResolvedValue(dstFamilyMember);
+
+    const foundInteractions =
+      await interactionService.findAllInteractions(familyMemberId);
+
+    expect(foundInteractions).toEqual(interactions);
+  });
+
+  it('should check all interactions', async () => {
+    //given
+    const familyMemberId = 1;
+    const dstFamilyMember = FamilyMember.createFamilyMember(1, null, null);
+    const interaction = Interaction.createInteraction(1, dstFamilyMember, 2);
+    const interactions = [interaction];
+
+    jest.spyOn(interactionRepository, 'find').mockResolvedValue(interactions);
+    jest
+      .spyOn(familyMemberRepository, 'findOne')
+      .mockResolvedValue(dstFamilyMember);
+    jest.spyOn(interactionRepository, 'save').mockResolvedValue(interactions);
+
+    await interactionService.checkAllInteractions(familyMemberId);
+
+    expect(interaction.isChecked).toEqual(true);
+  });
+
+  it('should delete interaction', async () => {
+    //given
+    const interactionId = 1;
+    const interaction = Interaction.createInteraction(1, null, 2);
+    const familyMember = FamilyMember.createFamilyMember(1, null, null);
+
+    jest.spyOn(interactionRepository, 'findOne').mockResolvedValue(interaction);
+    jest.spyOn(interactionRepository, 'delete').mockResolvedValue(null);
+    jest
+      .spyOn(familyMemberRepository, 'findOne')
+      .mockResolvedValue(familyMember);
+
+    await interactionService.deleteAllInteractions(interactionId);
+
+    expect(interactionRepository.delete).toBeCalledTimes(1);
   });
 });

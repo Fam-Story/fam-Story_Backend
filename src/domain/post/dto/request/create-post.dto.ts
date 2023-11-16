@@ -3,15 +3,15 @@ import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 export class CreatePostDto {
   @IsNotEmpty()
   @IsNumber()
-  readonly familyId: number;
+  readonly srcMemberId: number;
 
   @IsNotEmpty()
   @IsString()
-  readonly s3ImageUrl: string;
+  readonly title: string;
 
   @IsNotEmpty()
   @IsString()
-  readonly name: string;
+  readonly context: string;
 
   @IsNotEmpty()
   @IsString()

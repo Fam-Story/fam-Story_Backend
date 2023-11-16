@@ -44,4 +44,21 @@ export class FamilyMember {
 
   @OneToMany(() => Post, (post) => post.srcMember)
   posts: Post[];
+  static createFamilyMember(
+    role: number,
+    family: Family,
+    user: User,
+  ): FamilyMember {
+    const familyMember = new FamilyMember();
+    familyMember.role = role;
+    familyMember.pokeCount = 0;
+    familyMember.talkCount = 0;
+    familyMember.family = family;
+    familyMember.user = user;
+    return familyMember;
+  }
+
+  setId(id: number) {
+    this.id = id;
+  }
 }
