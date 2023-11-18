@@ -71,7 +71,7 @@ export class FamilyScheduleService {
     const familySchedules: FamilySchedule[] =
       await this.familyScheduleRepository.find({
         where: {
-          family: { id: family.id },
+          family: { id: familyId },
           scheduleDate: Between(startOfMonthDate, endOfMonthDate),
         },
         order: { scheduleDate: 'ASC' },
