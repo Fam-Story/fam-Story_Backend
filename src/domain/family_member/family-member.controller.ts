@@ -24,7 +24,7 @@ export class FamilyMemberController {
   @Post('')
   @ApiOperation({
     summary: '가족 멤버 생성',
-    description: '가족 멤버를 생성한다.',
+    description: '가족에 참가하면 회원과 매핑된 가족 멤버를 생성한다.',
   })
   @CustomApiCreatedResponse(
     Number,
@@ -46,7 +46,7 @@ export class FamilyMemberController {
   @Put('')
   @ApiOperation({
     summary: '가족 멤버 정보 수정',
-    description: '가족 멤버 정보를 수정한다.',
+    description: '가족 멤버 정보 중 역할을 수정한다.',
   })
   @ApiOkResponse({
     description: '가족 멤버 정보 수정 성공시 200을 반환',
@@ -63,7 +63,7 @@ export class FamilyMemberController {
   @Delete('')
   @ApiOperation({ summary: '가족 삭제', description: '가족 멤버를 삭제한다.' })
   @ApiOkResponse({
-    description: '가족 멤버를 삭제한다.',
+    description: '가족 멤버를 삭제한다. 유저 탈퇴나, 가족 삭제 시 사용한다.',
     type: ApiResponse<null>,
   })
   async deleteFamilyMember(@Query('id') familyMemberId: number) {
