@@ -63,7 +63,7 @@ describe('InteractionController', () => {
   it('should create interaction', async () => {
     //given
     const response = await request(app.getHttpServer())
-      .post('/interaction/create')
+      .post('/interaction')
       .send({
         srcMemberId: 1,
         dstMemberId: 2,
@@ -78,7 +78,8 @@ describe('InteractionController', () => {
   it('should check interaction', async () => {
     //given
     const response = await request(app.getHttpServer())
-      .get('/interaction/check/1')
+      .get('/interaction')
+        .query({ memberId: 2 })
       .expect(200);
 
     expect(response.body.message).toEqual('상호작용 조회 성공');
@@ -90,7 +91,8 @@ describe('InteractionController', () => {
   it('should delete interaction', async () => {
     //given
     const response = await request(app.getHttpServer())
-      .delete('/interaction/delete/1')
+      .delete('/interaction')
+        .query({ memberId: 2 })
       .expect(200);
 
     expect(response.body.message).toEqual('상호작용 삭제 성공');

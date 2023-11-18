@@ -47,7 +47,8 @@ describe('FamilyController (e2e)', () => {
 
   it('should return family info with path: /family (GET)', async () => {
     const response = await request(app.getHttpServer())
-      .get('/family/1')
+      .get('/family')
+        .query({ id: 1 })
       .expect(200);
 
     expect(response.body.message).toEqual('가족 조회 성공');
@@ -57,7 +58,8 @@ describe('FamilyController (e2e)', () => {
 
   it('should return family info with path: /family/keycode (GET)', async () => {
     const response = await request(app.getHttpServer())
-      .get('/family/invite/testKeyCode')
+      .get('/family/join')
+        .query({ keyCode: 'testKeyCode' })
       .expect(200);
 
     expect(response.body.message).toEqual('가족 조회 성공');
@@ -67,7 +69,7 @@ describe('FamilyController (e2e)', () => {
 
   it('should return id of created family with path: /family/create (POST)', async () => {
     const response = await request(app.getHttpServer())
-      .post('/family/create')
+      .post('/family')
       .send({ familyName: 'test' })
       .expect(201);
 
@@ -77,7 +79,7 @@ describe('FamilyController (e2e)', () => {
 
   it('should return status code 200 when update family', async () => {
     const response = await request(app.getHttpServer())
-      .patch('/family/update')
+      .put('/family')
       .send({ familyId: 1, familyName: 'test' })
       .expect(200);
 
@@ -86,7 +88,8 @@ describe('FamilyController (e2e)', () => {
 
   it('should return status code 200 when delete family', async () => {
     const response = await request(app.getHttpServer())
-      .delete('/family/delete/1')
+      .delete('/family')
+        .query({ id: 1 })
       .expect(200);
 
     expect(response.body.message).toEqual('가족 삭제 성공');

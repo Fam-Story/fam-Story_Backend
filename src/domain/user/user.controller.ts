@@ -1,11 +1,12 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpStatus,
-  Param,
   Post,
   Put,
+  Query,
   Req,
   Res,
   UseGuards,
@@ -21,10 +22,9 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { User } from '../../infra/entities';
 import { LoginUserDto } from './dto/request/login-user.dto';
 import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
-import { ApiResponse, HttpExceptionFilter, ResponseCode } from '../../common';
+import { ApiResponse, ResponseCode } from '../../common';
 import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
 import { CustomApiCreatedResponse } from '../../common/api/response-created.decorator';
 import { ResponseLoginDto } from '../../auth/dto/response-login.dto';
@@ -58,7 +58,7 @@ export class UserController {
 
   //유저 로그인
   @Post('/login')
-  @ApiOperation({ summary: '유저 로그인', description: '유저를 로그인한다.' })
+  @ApiOperation({ summary: '유저 로그인', description: '이메일과 비밀번호를 통해 로그인한다.' })
   @ApiBody({ type: LoginUserDto })
   @UseGuards(LocalServiceAuthGuard)
   @CustomApiOKResponse(
@@ -73,7 +73,7 @@ export class UserController {
     );
   }
 
-  @Put('/update')
+  @Put('')
   @ApiOperation({
     summary: '유저 정보 수정',
     description: '유저 정보를 수정한다.',
@@ -90,7 +90,26 @@ export class UserController {
         .json(ApiResponse.success(ResponseCode.USER_UPDATE_SUCCESS, result));
     });
   }
-  @Get(':id')
+
+  @Delete('')
+  @ApiOperation({
+    summary: '유저 삭제',
+    description: '유저를 삭제한다.',
+  })
+  //@UseGuards(JwtServiceAuthGuard)
+  @ApiOkResponse({
+    description: '유저를 삭제하면 statusCode 200을 반환한다.',
+    type: ApiResponse<null>,
+  })
+  async delete(@Res() res, @Query('id') id: number) {
+    return await this.userService.deleteUser(id).then((result) => {
+      res
+        .status(HttpStatus.OK)
+        .json(ApiResponse.success(ResponseCode.USER_DELETE_SUCCESS, result));
+    });
+  }
+
+  @Get('')
   @ApiOperation({
     summary: '유저 정보 조회',
     description: '유저 정보를 조회한다.',
@@ -101,7 +120,7 @@ export class UserController {
   )
   //@ApiBearerAuth('access-token')
   //@UseGuards(JwtServiceAuthGuard)
-  async findOne(@Res() res, @Param('id') id: number) {
+  async findOne(@Res() res, @Query('id') id: number) {
     return await this.userService.findUserById(id).then((result) => {
       res
         .status(HttpStatus.OK)

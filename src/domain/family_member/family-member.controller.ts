@@ -3,9 +3,9 @@ import {
   Get,
   Post,
   Body,
-  Patch,
-  Param,
   Delete,
+  Put,
+  Query,
 } from '@nestjs/common';
 import { FamilyMemberService } from './index';
 import { CreateFamilyMemberDto, UpdateFamilyMemberDto } from './dto';
@@ -16,15 +16,15 @@ import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
 import { ResponseFamilyDto } from '../family';
 
 @ApiTags('가족 멤버 API')
-@Controller('familymember')
+@Controller('family-member')
 export class FamilyMemberController {
   constructor(private readonly familyMemberService: FamilyMemberService) {}
 
   //User를 가족에 추가
-  @Post('/create')
+  @Post('')
   @ApiOperation({
     summary: '가족 멤버 생성',
-    description: '가족 멤버를 생성한다.',
+    description: '가족에 참가하면 회원과 매핑된 가족 멤버를 생성한다.',
   })
   @CustomApiCreatedResponse(
     Number,
@@ -43,10 +43,10 @@ export class FamilyMemberController {
   }
 
   //가족 멤버 정보 수정
-  @Patch('/update')
+  @Put('')
   @ApiOperation({
     summary: '가족 멤버 정보 수정',
-    description: '가족 멤버 정보를 수정한다.',
+    description: '가족 멤버 정보 중 역할을 수정한다.',
   })
   @ApiOkResponse({
     description: '가족 멤버 정보 수정 성공시 200을 반환',
@@ -60,25 +60,25 @@ export class FamilyMemberController {
   }
 
   //가족 탈퇴 (즉, 가족 멤버 삭제)
-  @Delete('/delete/:id')
+  @Delete('')
   @ApiOperation({ summary: '가족 삭제', description: '가족 멤버를 삭제한다.' })
   @ApiOkResponse({
-    description: '가족 멤버를 삭제한다.',
+    description: '가족 멤버를 삭제한다. 유저 탈퇴나, 가족 삭제 시 사용한다.',
     type: ApiResponse<null>,
   })
-  async deleteFamilyMember(@Param('id') familyMemberId: number) {
+  async deleteFamilyMember(@Query('id') familyMemberId: number) {
     await this.familyMemberService.deleteFamilyMember(familyMemberId);
     return ApiResponse.success(ResponseCode.FAMILY_MEMBER_DELETE_SUCCESS, null);
   }
 
   //가족 정보 반환
-  @Get('/getFamily/:id')
+  @Get('')
   @ApiOperation({
     summary: '가족 정보 조회',
     description: '회원이 속한 가족 정보를 반환한다.',
   })
   @CustomApiOKResponse(ResponseFamilyDto, '가족 정보를 반환한다.')
-  async findFamilyByMemberId(@Param('id') userId: number) {
+  async findFamilyByMemberId(@Query('id') userId: number) {
     const responseFamilyDto: ResponseFamilyDto =
       await this.familyMemberService.findFamilyByMemberId(userId);
     return ApiResponse.success(

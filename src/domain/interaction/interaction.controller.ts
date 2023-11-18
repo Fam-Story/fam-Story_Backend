@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Delete, Query } from '@nestjs/common';
 import { InteractionService } from './interaction.service';
 import { CreateInteractionDto } from './dto/create-interaction.dto';
 import { ApiResponse, ResponseCode } from '../../common';
@@ -21,7 +21,7 @@ export class InteractionController {
     Number,
     '상호작용 전송을 성공하면 Status Code 200과 interactionId를 반환한다.',
   )
-  @Post('/create')
+  @Post('')
   async createInteraction(@Body() createInteractionDto: CreateInteractionDto) {
     const savedInteractionId =
       await this.interactionService.createInteraction(createInteractionDto);
@@ -42,8 +42,8 @@ export class InteractionController {
     ResponseInteractionDto,
     '상호작용 확인을 성공하면 Status Code 200과 ResponseInteractionDto 배열을 반환한다.',
   )
-  @Get('/check/:memberId')
-  async checkInteraction(@Param('memberId') dstMemberId: number) {
+  @Get('')
+  async checkInteraction(@Query('memberId') dstMemberId: number) {
     const interactions =
       await this.interactionService.findAllInteractions(dstMemberId);
     await this.interactionService.checkAllInteractions(dstMemberId);
@@ -63,8 +63,8 @@ export class InteractionController {
     Number,
     '상호작용 삭제를 성공하면 Status Code 200을 반환한다.',
   )
-  @Delete('/delete/:memberId')
-  async deleteInteraction(@Param('memberId') dstMemberId: number) {
+  @Delete('')
+  async deleteInteraction(@Query('memberId') dstMemberId: number) {
     await this.interactionService.deleteAllInteractions(dstMemberId);
     return ApiResponse.success(ResponseCode.INTERACTION_DELETED_SUCCESS, null);
   }

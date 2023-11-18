@@ -3,10 +3,9 @@ import {
   Get,
   Post,
   Body,
-  Patch,
-  Param,
   Delete,
   Query,
+  Put,
 } from '@nestjs/common';
 import { ResponseFamilyScheduleDto } from './dto';
 import { CreateFamilyScheduleDto, UpdateFamilyScheduleDto } from './dto';
@@ -30,7 +29,7 @@ export class FamilyScheduleController {
     Number,
     '가족 일정 생성을 성공하면 Status Code 201과 familyScheduleId를 반환한다.',
   )
-  @Post('/create')
+  @Post('')
   async createFamilySchedule(
     @Body() createFamilyScheduleDto: CreateFamilyScheduleDto,
   ) {
@@ -53,7 +52,7 @@ export class FamilyScheduleController {
     description: '가족 일정을 수정한다.',
     type: ApiResponse<null>,
   })
-  @Patch('/update')
+  @Put('')
   async updateFamilySchedule(
     @Body() updateFamilyScheduleDto: UpdateFamilyScheduleDto,
   ) {
@@ -75,8 +74,8 @@ export class FamilyScheduleController {
     description: '가족 일정을 삭제한다.',
     type: ApiResponse<null>,
   })
-  @Delete('/delete/:id')
-  async deleteFamilySchedule(@Param('id') familyScheduleId: number) {
+  @Delete('')
+  async deleteFamilySchedule(@Query('id') familyScheduleId: number) {
     await this.familyScheduleService.deleteFamilySchedule(familyScheduleId);
     return ApiResponse.success(
       ResponseCode.FAMILY_SCHEDULE_DELETE_SUCCESS,
@@ -84,13 +83,13 @@ export class FamilyScheduleController {
     );
   }
   //가족 일정 조회
-  @Get('/get/:id')
+  @Get('')
   @CustomApiOKResponse(ResponseFamilyScheduleDto, '가족 일정 조회 반환') //CustomOkResponse로 수정 필요
   @ApiOperation({
     summary: '가족 일정 조회',
     description: '가족 일정을 조회한다.',
   })
-  async findFamilyScheduleById(@Param('id') familyScheduleId: number) {
+  async findFamilyScheduleById(@Query('id') familyScheduleId: number) {
     const responseFamilyScheduleDto: ResponseFamilyScheduleDto =
       await this.familyScheduleService.findFamilyScheduleById(familyScheduleId);
     return ApiResponse.success(
@@ -108,9 +107,9 @@ export class FamilyScheduleController {
     ResponseFamilyScheduleDto,
     '가족 일정 리스트를 반환한다. (ResponseFamilyScheduleDto를 배열로 반환)',
   )
-  @Get('/list/:id')
+  @Get('/list')
   async findFamilyScheduleList(
-    @Param('id') familyId: number,
+    @Query('familyId') familyId: number,
     @Query('year') year: number,
     @Query('targetMonth') targetMonth: number,
   ) {
