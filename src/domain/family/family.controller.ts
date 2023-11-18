@@ -72,14 +72,14 @@ export class FamilyController {
   }
 
   //초대 키로 가족 정보 검색 (가족 초대) -> 가족 정보 반환
-  @Get(':keyCode')
+  @Get('/join')
   @ApiOperation({
-    summary: '가족 초대',
+    summary: '가족 참가',
     description:
-      '가족의 초대코드로 가족 정보를 검색한 후, 가족 정보를 반환한다.',
+      '가족의 초대코드로 가족 정보를 검색한 후, 해당 가족에 참가한다..',
   })
-  @CustomApiOKResponse(ResponseFamilyDto, '가족 정보를 반환한다.')
-  async findFamilyByKeyCode(@Param('keyCode') keyCode: string) {
+  @CustomApiOKResponse(ResponseFamilyDto, 'keyCode에 해당하는 가족 정보를 반환한다.')
+  async findFamilyByKeyCode(@Query('keyCode') keyCode: string) {
     const responseFamilyDto: ResponseFamilyDto =
       await this.familyService.findFamilyByKeyCode(keyCode);
     return ApiResponse.success(
