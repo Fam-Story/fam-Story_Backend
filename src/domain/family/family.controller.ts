@@ -76,7 +76,7 @@ export class FamilyController {
   @ApiOperation({
     summary: '가족 참가',
     description:
-      '가족의 초대코드로 가족 정보를 검색한 후, 해당 가족에 참가한다..',
+      '가족의 초대코드로 가족 정보를 검색한 후, 해당 가족에 참가한다.',
   })
   @CustomApiOKResponse(
     ResponseFamilyDto,

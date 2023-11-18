@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   HttpStatus,
-  Param,
   Post,
   Put,
   Query,
@@ -23,10 +22,9 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { User } from '../../infra/entities';
 import { LoginUserDto } from './dto/request/login-user.dto';
 import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
-import { ApiResponse, HttpExceptionFilter, ResponseCode } from '../../common';
+import { ApiResponse, ResponseCode } from '../../common';
 import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
 import { CustomApiCreatedResponse } from '../../common/api/response-created.decorator';
 import { ResponseLoginDto } from '../../auth/dto/response-login.dto';

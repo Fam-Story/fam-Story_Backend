@@ -6,7 +6,6 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Family } from './family.entity';
-import { CreatePhotoDto } from '../../domain/photo';
 
 @Entity('photo', { schema: 'family_app_db' })
 export class Photo {

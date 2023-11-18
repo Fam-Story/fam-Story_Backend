@@ -1,14 +1,5 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { PhotoService } from '../photo';
-import { CreatePhotoDto, UpdatePhotoDto } from './dto';
 
 @Controller('photo')
 export class PhotoController {

@@ -28,9 +28,9 @@ export class InteractionService {
     return savedInteraction.id;
   }
 
-  sendInteraction(interactionId: number, dstFamilyMember: FamilyMember) {
-    //using fcm
-  }
+  //sendInteraction(interactionId: number, dstFamilyMember: FamilyMember) {
+  //using fcm
+  //}
 
   async findAllInteractions(familyMemberId: number) {
     await this.validateFamilyMember(familyMemberId);

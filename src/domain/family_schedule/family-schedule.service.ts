@@ -64,7 +64,7 @@ export class FamilyScheduleService {
     year: number,
     targetMonth: number,
   ): Promise<ResponseFamilyScheduleDto[]> {
-    const family = await this.validateFamily(familyId);
+    await this.validateFamily(familyId);
     const startOfMonthDate = new Date(year, targetMonth - 1, 1);
     const endOfMonthDate = new Date(year, targetMonth, 0);
 

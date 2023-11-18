@@ -34,7 +34,7 @@ export class PhotoService {
 
   //사진 페이지 조회 (Pagination)
   async getPhotos(familyId: number, page: number, limit: number) {
-    const family: Family = await this.validateFamily(familyId);
+    await this.validateFamily(familyId);
     const photos = await this.photoRepository.find({
       where: { id: familyId },
     });
