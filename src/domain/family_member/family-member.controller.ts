@@ -5,7 +5,9 @@ import {
   Body,
   Patch,
   Param,
-  Delete, Put, Query,
+  Delete,
+  Put,
+  Query,
 } from '@nestjs/common';
 import { FamilyMemberService } from './index';
 import { CreateFamilyMemberDto, UpdateFamilyMemberDto } from './dto';

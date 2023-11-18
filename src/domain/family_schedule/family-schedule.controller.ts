@@ -6,7 +6,8 @@ import {
   Patch,
   Param,
   Delete,
-  Query, Put,
+  Query,
+  Put,
 } from '@nestjs/common';
 import { ResponseFamilyScheduleDto } from './dto';
 import { CreateFamilyScheduleDto, UpdateFamilyScheduleDto } from './dto';

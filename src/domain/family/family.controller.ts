@@ -3,9 +3,9 @@ import {
   Get,
   Post,
   Body,
-  Patch,
-  Param,
-  Delete, Put, Query,
+  Delete,
+  Put,
+  Query,
 } from '@nestjs/common';
 import { FamilyService } from './family.service';
 import { CreateFamilyDto, ResponseFamilyDto, UpdateFamilyDto } from './dto';
@@ -78,7 +78,10 @@ export class FamilyController {
     description:
       '가족의 초대코드로 가족 정보를 검색한 후, 해당 가족에 참가한다..',
   })
-  @CustomApiOKResponse(ResponseFamilyDto, 'keyCode에 해당하는 가족 정보를 반환한다.')
+  @CustomApiOKResponse(
+    ResponseFamilyDto,
+    'keyCode에 해당하는 가족 정보를 반환한다.',
+  )
   async findFamilyByKeyCode(@Query('keyCode') keyCode: string) {
     const responseFamilyDto: ResponseFamilyDto =
       await this.familyService.findFamilyByKeyCode(keyCode);
