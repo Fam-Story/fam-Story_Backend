@@ -97,7 +97,7 @@ describe('FamilyMemberController (e2e)', () => {
   it('should delete familyMember with path: /familymember/delete (Delete)', async () => {
     const response = await request(app.getHttpServer())
       .delete('/family-member')
-        .query({ id: 1 })
+      .query({ id: 1 })
       .expect(200);
 
     expect(response.body.message).toEqual('가족 구성원 삭제 성공');
@@ -106,7 +106,7 @@ describe('FamilyMemberController (e2e)', () => {
   it('should get Family info with member id', async () => {
     const response = await request(app.getHttpServer())
       .get('/family-member')
-        .query({ id: 1 })
+      .query({ id: 1 })
       .expect(200);
     expect(response.body.message).toEqual('가족 조회 성공');
     expect(response.body.data.familyName).toEqual('test');

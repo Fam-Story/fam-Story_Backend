@@ -79,7 +79,7 @@ describe('InteractionController', () => {
     //given
     const response = await request(app.getHttpServer())
       .get('/interaction')
-        .query({ memberId: 2 })
+      .query({ memberId: 2 })
       .expect(200);
 
     expect(response.body.message).toEqual('상호작용 조회 성공');
@@ -92,7 +92,7 @@ describe('InteractionController', () => {
     //given
     const response = await request(app.getHttpServer())
       .delete('/interaction')
-        .query({ memberId: 2 })
+      .query({ memberId: 2 })
       .expect(200);
 
     expect(response.body.message).toEqual('상호작용 삭제 성공');

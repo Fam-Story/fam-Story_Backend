@@ -13,7 +13,7 @@ import {
   ResponsePostDto,
   UpdatePostDto,
 } from '../post';
-import {ApiOperation, ApiTags} from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CustomApiCreatedResponse } from '../../common/api/response-created.decorator';
 import { ApiResponse, ResponseCode } from '../../common';
 import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
@@ -63,7 +63,7 @@ export class PostController {
     Number,
     '포스트를 삭제하면 포스트의 고유 ID를 integer로 반환한다.',
   )
-  async deletePost(@Query() postId: number) {
+  async deletePost(@Query('postId') postId: number) {
     await this.postService.deletePost(postId);
     return ApiResponse.success(ResponseCode.POST_DELETE_SUCCESS, null);
   }

@@ -99,7 +99,7 @@ describe('FamilyScheduleController', () => {
   it('should delete FamilySchedule with path: /delete/:id (DELETE)', async () => {
     const response = await request(app.getHttpServer())
       .delete('/family-schedule')
-.query({ id: 1 })
+      .query({ id: 1 })
       .expect(200);
 
     expect(mockFamilyScheduleService.deleteFamilySchedule).toBeCalled();
@@ -109,7 +109,7 @@ describe('FamilyScheduleController', () => {
   it('should return familySchedule info with path: /:id (GET)', async () => {
     const response = await request(app.getHttpServer())
       .get('/family-schedule')
-        .query({ id: 1 })
+      .query({ id: 1 })
       .expect(200);
 
     expect(response.body.message).toEqual('가족 일정 조회 성공');
