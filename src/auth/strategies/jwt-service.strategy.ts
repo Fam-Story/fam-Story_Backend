@@ -1,7 +1,6 @@
 import { PassportStrategy } from '@nestjs/passport';
-import { Strategy } from 'passport-local';
 import { ConfigService } from '@nestjs/config';
-import { ExtractJwt } from 'passport-jwt';
+import { ExtractJwt, Strategy } from 'passport-jwt'; //자동 완성 주의!!!!!!!!!!!!!!!!!!!!!
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -11,7 +10,7 @@ export class JwtServiceStrategy extends PassportStrategy(
 ) {
   constructor(private readonly configService: ConfigService) {
     super({
-      secretOrKey: configService.get('JWT_SECRET'),
+      secretOrKey: configService.get('JWT_KEY'),  //환경 변수 주의!!!!!!!!!!!!!!!!!!!!!!!
       ignoreExpiration: false,
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     });
