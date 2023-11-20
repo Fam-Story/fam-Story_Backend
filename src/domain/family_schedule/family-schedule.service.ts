@@ -83,7 +83,7 @@ export class FamilyScheduleService {
   }
 
   async validateFamilySchedule(familyScheduleId: number) {
-    const familySchedule = this.familyScheduleRepository.findOne({
+    const familySchedule = await this.familyScheduleRepository.findOne({
       where: { id: familyScheduleId },
     });
     if (!familySchedule) {
@@ -92,12 +92,13 @@ export class FamilyScheduleService {
     return familySchedule;
   }
   async validateFamily(familyId: number) {
-    const family = this.familyRepository.findOne({
+    const family = await this.familyRepository.findOne({
       where: { id: familyId },
     });
     if (!family) {
       throw new FamilyException(ResponseCode.FAMILY_NOT_FOUND);
     }
+    console.log(family);
     return family;
   }
 }
