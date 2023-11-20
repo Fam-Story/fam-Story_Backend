@@ -108,7 +108,7 @@ export class FamilyMemberController {
     description: '가족 구성원이 속한 가족 정보를 반환한다.',
   })
   @CustomApiOKResponse(ResponseFamilyDto, '가족 정보를 반환한다.')
-  async findFamilyByMemberId(@Query('id') familyMemberId: number) {
+  async findFamilyByMemberId(@Query('familyMemberId') familyMemberId: number) {
     const responseFamilyDto: ResponseFamilyDto =
       await this.familyMemberService.findFamilyByMemberId(familyMemberId);
     return ApiResponse.success(
