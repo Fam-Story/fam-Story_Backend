@@ -47,7 +47,7 @@ export class ResponsePostDto {
   static from(post: Post) {
     return ResponsePostDto.of(
       post.id,
-      post.srcMember.family.id,
+      post.srcMember.id,
       post.title,
       post.context,
       post.createdDate,
