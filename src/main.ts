@@ -16,6 +16,11 @@ async function bootstrap() {
       },
     }),
   );
+  app.enableCors({
+    origin: 'https://famstory.thisiswandol.com',
+    methods: 'GET,PUT,POST,DELETE',
+    optionsSuccessStatus: 200,
+  });
   app.useGlobalFilters(new HttpExceptionFilter());
   setupSwagger(app);
 
