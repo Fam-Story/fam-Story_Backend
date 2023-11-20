@@ -8,7 +8,7 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { FamilyMemberService } from './index';
+import { FamilyMemberService, ResponseFamilyMemberDto } from './index';
 import { CreateFamilyMemberDto, UpdateFamilyMemberDto } from './dto';
 import {
   ApiBearerAuth,
@@ -85,7 +85,21 @@ export class FamilyMemberController {
     return ApiResponse.success(ResponseCode.FAMILY_MEMBER_DELETE_SUCCESS, null);
   }
 
-
+  //가족 구성원 정보 반환
+  @Get('')
+  @ApiOperation({
+    summary: '[가족 구성원] 가족 구성원 정보 반환',
+    description: '가족 구성원 정보를 반환한다.',
+  })
+  @CustomApiOKResponse(ResponseFamilyMemberDto, '가족 구성원 정보를 반환한다.')
+  async findFamilyMemberById(@Query('familyMemberId') familyMemberId: number) {
+    const responseFamilyMemberDto: ResponseFamilyMemberDto =
+      await this.familyMemberService.findFamilyMemberById(familyMemberId);
+    return ApiResponse.success(
+      ResponseCode.FAMILY_MEMBER_READ_SUCCESS,
+      responseFamilyMemberDto,
+    );
+  }
 
   //가족 정보 반환
   @Get('/family')

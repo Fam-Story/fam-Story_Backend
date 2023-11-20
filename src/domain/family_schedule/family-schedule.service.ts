@@ -98,7 +98,6 @@ export class FamilyScheduleService {
     if (!family) {
       throw new FamilyException(ResponseCode.FAMILY_NOT_FOUND);
     }
-    console.log(family);
     return family;
   }
 }
