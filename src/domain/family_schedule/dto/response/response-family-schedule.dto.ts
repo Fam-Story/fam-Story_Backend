@@ -31,6 +31,7 @@ export class ResponseFamilyScheduleDto {
   }
 
   static from(familySchedule: FamilySchedule): ResponseFamilyScheduleDto {
+    console.log(familySchedule);
     return new ResponseFamilyScheduleDto(
       familySchedule.family.id,
       familySchedule.id,

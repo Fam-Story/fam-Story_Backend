@@ -54,7 +54,7 @@ export class PostService {
   }
 
   async validatePost(postId: number) {
-    const post = this.postRepository.findOne({
+    const post = await this.postRepository.findOne({
       where: { id: postId },
     });
     if (!post) {
@@ -64,7 +64,7 @@ export class PostService {
   }
 
   async validateFamilyMember(familyMemberId: number) {
-    const familyMember = this.familyMemberRepository.findOne({
+    const familyMember = await this.familyMemberRepository.findOne({
       where: { id: familyMemberId },
     });
     if (!familyMember) {
