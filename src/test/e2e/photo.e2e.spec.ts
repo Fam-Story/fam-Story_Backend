@@ -6,12 +6,19 @@ import { PhotoModule } from '../../module';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import * as request from 'supertest';
 import { PhotoService, ResponsePhotoDto } from '../../domain/photo';
+import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
+import { MockJwtAuthGuard } from './mockAuthGuard';
+import { PassportModule } from '@nestjs/passport';
 
 describe('PhotoController (e2e)', () => {
   let app: INestApplication;
   let mockPhotoService: Partial<PhotoService>;
   let mockPhotoRepository: Partial<Repository<Photo>>;
   let mockFamilyRepository: Partial<Repository<Family>>;
+
+  const mockJwtServiceStrategy = {
+    validate: jest.fn().mockResolvedValue({ id: 1, username: 'testuser' }),
+  };
 
   const photo: Photo = Photo.createPhoto(
     'test.com',
@@ -38,7 +45,10 @@ describe('PhotoController (e2e)', () => {
     };
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [PhotoModule],
+      imports: [
+        PhotoModule,
+        PassportModule.register({ defaultStrategy: 'jwt-service' }),
+      ],
     })
       .overrideProvider(PhotoService)
       .useValue(mockPhotoService)
@@ -46,6 +56,8 @@ describe('PhotoController (e2e)', () => {
       .useValue(mockPhotoRepository)
       .overrideProvider(getRepositoryToken(Family))
       .useValue(mockFamilyRepository)
+      .overrideGuard(JwtServiceAuthGuard)
+      .useClass(MockJwtAuthGuard)
       .compile();
 
     app = moduleFixture.createNestApplication();

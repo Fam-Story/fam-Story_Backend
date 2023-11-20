@@ -1,9 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import {
-  CreatePostDto,
-  PostService,
-  UpdatePostDto,
-} from '../../domain/post';
+import { CreatePostDto, PostService, UpdatePostDto } from '../../domain/post';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { FamilyMember, Post } from '../../infra/entities';
 

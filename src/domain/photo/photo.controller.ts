@@ -1,10 +1,22 @@
-import {Body, Controller, Delete, Get, Post, Put, Query} from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Post,
+  Put,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { CreatePhotoDto, PhotoService, UpdatePhotoDto } from '../photo';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ApiResponse, ResponseCode } from '../../common';
+import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
 
 @ApiTags('사진 API')
 @Controller('photo')
+@UseGuards(JwtServiceAuthGuard)
+@ApiBearerAuth('access-token')
 export class PhotoController {
   constructor(private readonly photoService: PhotoService) {}
 

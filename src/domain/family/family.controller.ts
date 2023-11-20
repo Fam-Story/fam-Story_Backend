@@ -6,16 +6,25 @@ import {
   Delete,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { FamilyService } from './family.service';
 import { CreateFamilyDto, ResponseFamilyDto, UpdateFamilyDto } from './dto';
-import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { ApiResponse, ResponseCode } from '../../common';
 import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
 import { CustomApiCreatedResponse } from '../../common/api/response-created.decorator';
+import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
 
 @ApiTags('가족 API')
 @Controller('family')
+@UseGuards(JwtServiceAuthGuard)
+@ApiBearerAuth('access-token')
 export class FamilyController {
   constructor(private readonly familyService: FamilyService) {}
 

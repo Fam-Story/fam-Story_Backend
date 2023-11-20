@@ -81,7 +81,8 @@ export class UserController {
     summary: '유저 정보 수정',
     description: '유저 정보를 수정한다.',
   })
-  //@UseGuards(JwtServiceAuthGuard)
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtServiceAuthGuard)
   @ApiCreatedResponse({
     description: '유저 정보를 수정하면 statusCode 200을 반환한다.',
     type: ApiResponse<null>,
@@ -99,7 +100,8 @@ export class UserController {
     summary: '유저 삭제',
     description: '유저를 삭제한다.',
   })
-  //@UseGuards(JwtServiceAuthGuard)
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtServiceAuthGuard)
   @ApiOkResponse({
     description: '유저를 삭제하면 statusCode 200을 반환한다.',
     type: ApiResponse<null>,
@@ -115,15 +117,22 @@ export class UserController {
   @Get('')
   @ApiOperation({
     summary: '유저 정보 조회',
-    description: '유저 정보를 조회한다.',
+    description:
+      '유저 정보를 조회한다. 자신 이외에 타인의 정보는 조회할 수 없다.',
   })
   @CustomApiOKResponse(
     ResponseUserDto,
     '유저 정보를 조회하면 유저 정보를 반환한다.',
   )
-  //@ApiBearerAuth('access-token')
-  //@UseGuards(JwtServiceAuthGuard)
-  async findOne(@Res() res, @Query('id') id: number) {
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtServiceAuthGuard)
+  async findOne(@Req() req, @Res() res, @Query('id') id: number) {
+    if (req.user.id != id) {
+      //passport는 기본적으로 req.user에 저장함
+      return res
+        .status(HttpStatus.UNAUTHORIZED)
+        .json(ApiResponse.fail(ResponseCode.USER_FORBIDDEN, null));
+    }
     return await this.userService.findUserById(id).then((result) => {
       res
         .status(HttpStatus.OK)

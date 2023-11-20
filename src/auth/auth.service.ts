@@ -23,7 +23,7 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new UserException(ResponseCode.USER_NOT_FOUND);
+      throw new UserException(ResponseCode.USER_LOGIN_FAIL);
     }
 
     if (!(await bcrypt.compare(password, user.password))) {

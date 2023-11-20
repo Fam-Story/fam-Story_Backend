@@ -1,13 +1,24 @@
-import { Controller, Get, Post, Body, Delete, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Delete,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { InteractionService } from './interaction.service';
 import { CreateInteractionDto } from './dto/create-interaction.dto';
 import { ApiResponse, ResponseCode } from '../../common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
 import { ResponseInteractionDto } from './dto/response-interaction.dto';
+import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
 
 @ApiTags('상호작용 API')
 @Controller('interaction')
+@UseGuards(JwtServiceAuthGuard)
+@ApiBearerAuth('access-token')
 export class InteractionController {
   constructor(private readonly interactionService: InteractionService) {}
 

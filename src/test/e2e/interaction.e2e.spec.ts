@@ -7,12 +7,19 @@ import { InteractionModule } from '../../module';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import * as request from 'supertest';
 import { ResponseInteractionDto } from '../../domain/interaction/dto/response-interaction.dto';
+import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
+import { MockJwtAuthGuard } from './mockAuthGuard';
+import { PassportModule } from '@nestjs/passport';
 
 describe('InteractionController', () => {
   let app: INestApplication;
   let mockInteractionService: Partial<InteractionService>;
   let mockInteractionRepository: Partial<Repository<Interaction>>;
   let mockFamilyMemberRepository: Partial<Repository<FamilyMember>>;
+
+  const mockJwtServiceStrategy = {
+    validate: jest.fn().mockResolvedValue({ id: 1, username: 'testuser' }),
+  };
 
   const interaction = Interaction.createInteraction(
     1,
@@ -42,7 +49,10 @@ describe('InteractionController', () => {
     };
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [InteractionModule],
+      imports: [
+        InteractionModule,
+        PassportModule.register({ defaultStrategy: 'jwt-service' }),
+      ],
     })
       .overrideProvider(InteractionService)
       .useValue(mockInteractionService)
@@ -50,6 +60,8 @@ describe('InteractionController', () => {
       .useValue(mockInteractionRepository)
       .overrideProvider(getRepositoryToken(FamilyMember))
       .useValue(mockFamilyMemberRepository)
+      .overrideGuard(JwtServiceAuthGuard)
+      .useClass(MockJwtAuthGuard)
       .compile();
 
     app = moduleFixture.createNestApplication();

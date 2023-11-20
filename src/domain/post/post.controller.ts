@@ -6,6 +6,7 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import {
   CreatePostDto,
@@ -13,13 +14,16 @@ import {
   ResponsePostDto,
   UpdatePostDto,
 } from '../post';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CustomApiCreatedResponse } from '../../common/api/response-created.decorator';
 import { ApiResponse, ResponseCode } from '../../common';
 import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
+import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
 
 @ApiTags('게시글 API')
 @Controller('post')
+@UseGuards(JwtServiceAuthGuard)
+@ApiBearerAuth('access-token')
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
