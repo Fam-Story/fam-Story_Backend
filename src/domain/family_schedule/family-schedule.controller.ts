@@ -6,17 +6,26 @@ import {
   Delete,
   Query,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { ResponseFamilyScheduleDto } from './dto';
 import { CreateFamilyScheduleDto, UpdateFamilyScheduleDto } from './dto';
 import { ApiResponse, ResponseCode } from '../../common';
-import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { CustomApiCreatedResponse } from '../../common/api/response-created.decorator';
 import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
 import { FamilyScheduleService } from './family-schedule.service';
+import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
 
 @ApiTags('가족 일정 API')
 @Controller('family-schedule')
+@UseGuards(JwtServiceAuthGuard)
+@ApiBearerAuth('access-token')
 export class FamilyScheduleController {
   constructor(private readonly familyScheduleService: FamilyScheduleService) {}
 

@@ -10,7 +10,7 @@ export class JwtServiceStrategy extends PassportStrategy(
 ) {
   constructor(private readonly configService: ConfigService) {
     super({
-      secretOrKey: configService.get('JWT_KEY'),  //환경 변수 주의!!!!!!!!!!!!!!!!!!!!!!!
+      secretOrKey: configService.get('JWT_KEY'), //환경 변수 주의!!!!!!!!!!!!!!!!!!!!!!!
       ignoreExpiration: false,
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     });
