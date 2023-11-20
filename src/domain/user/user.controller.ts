@@ -29,7 +29,7 @@ import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
 import { CustomApiCreatedResponse } from '../../common/api/response-created.decorator';
 import { ResponseLoginDto } from '../../auth/dto/response-login.dto';
 
-@ApiTags('유저 API')
+@ApiTags('회원 API')
 @Controller('user')
 export class UserController {
   constructor(
@@ -38,10 +38,13 @@ export class UserController {
   ) {}
 
   @Post()
-  @ApiOperation({ summary: '유저 생성', description: '유저를 생성한다.' })
+  @ApiOperation({
+    summary: '[회원가입] 회원 가입',
+    description: '회원 가입을 처리하고 회원 정보를 저장한다.',
+  })
   @CustomApiCreatedResponse(
     Number,
-    '유저를 생성하면 유저의 고유 ID를 integer로 반환한다.',
+    '이메일로 중복검사를 실시한 후, 회원가입이 완료되면 회원의 고유 ID를 Integer로 반환한다.',
   )
   async createUser(@Res() res, @Body() createUserDto: CreateUserDto) {
     await this.userService.findUserByEmail(createUserDto.email); //이메일로 중복 여부 검사
@@ -59,8 +62,9 @@ export class UserController {
   //유저 로그인
   @Post('/login')
   @ApiOperation({
-    summary: '유저 로그인',
-    description: '이메일과 비밀번호를 통해 로그인한다.',
+    summary: '[로그인] 로그인 후 JWT 토큰 발급',
+    description:
+      '이메일과 비밀번호를 확인한 후, 로그인이 성공하면 JWT 토큰을 문자열 형태로 반환한다.',
   })
   @ApiBody({ type: LoginUserDto })
   @UseGuards(LocalServiceAuthGuard)
@@ -78,13 +82,13 @@ export class UserController {
 
   @Put('')
   @ApiOperation({
-    summary: '유저 정보 수정',
-    description: '유저 정보를 수정한다.',
+    summary: '[프로필] 회원 정보 수정',
+    description: '회원 정보를 직접 수정한다.',
   })
   @ApiBearerAuth('access-token')
   @UseGuards(JwtServiceAuthGuard)
   @ApiCreatedResponse({
-    description: '유저 정보를 수정하면 statusCode 200을 반환한다.',
+    description: '회원 정보를 수정하면 statusCode 200을 반환한다.',
     type: ApiResponse<null>,
   })
   async update(@Res() res, @Body() updateUserDto: UpdateUserDto) {
@@ -97,16 +101,16 @@ export class UserController {
 
   @Delete('')
   @ApiOperation({
-    summary: '유저 삭제',
-    description: '유저를 삭제한다.',
+    summary: '[프로필] 회원 탈퇴',
+    description: '회원 탈퇴 후, 회원 객체를 삭제한다.',
   })
   @ApiBearerAuth('access-token')
   @UseGuards(JwtServiceAuthGuard)
   @ApiOkResponse({
-    description: '유저를 삭제하면 statusCode 200을 반환한다.',
+    description: '회원 삭제에 성공하면 statuscode 200을 반환한다.',
     type: ApiResponse<null>,
   })
-  async delete(@Res() res, @Query('id') id: number) {
+  async delete(@Res() res, @Query('userId') id: number) {
     return await this.userService.deleteUser(id).then((result) => {
       res
         .status(HttpStatus.OK)
@@ -116,17 +120,17 @@ export class UserController {
 
   @Get('')
   @ApiOperation({
-    summary: '유저 정보 조회',
+    summary: '[프로필] 회원 정보 조회',
     description:
-      '유저 정보를 조회한다. 자신 이외에 타인의 정보는 조회할 수 없다.',
+      '회원 정보를 조회하며, 자신 외에 다른 회원의 정보를 조회할 수 없다.',
   })
   @CustomApiOKResponse(
     ResponseUserDto,
-    '유저 정보를 조회하면 유저 정보를 반환한다.',
+    '회원 정보를 조회하면 유저 정보를 반환한다.',
   )
   @ApiBearerAuth('access-token')
   @UseGuards(JwtServiceAuthGuard)
-  async findOne(@Req() req, @Res() res, @Query('id') id: number) {
+  async findOne(@Req() req, @Res() res, @Query('userId') id: number) {
     if (req.user.id != id) {
       //passport는 기본적으로 req.user에 저장함
       return res

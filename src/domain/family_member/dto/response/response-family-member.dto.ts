@@ -1,5 +1,6 @@
 import { ResponsePostDto } from '../../../post';
 import { ApiProperty } from '@nestjs/swagger';
+import { FamilyMember } from '../../../../infra/entities';
 
 export class ResponseFamilyMemberDto {
   @ApiProperty({ example: 1, description: '가족 멤버 고유 ID' })
@@ -23,9 +24,6 @@ export class ResponseFamilyMemberDto {
   @ApiProperty({ example: 1, description: '가족 멤버의 총 대화 횟수' })
   readonly talkCount: number;
 
-  @ApiProperty({ example: 1, description: '가족 멤버에게 등록된 포스트' })
-  readonly posts: ResponsePostDto[];
-
   private constructor(
     familyMemberId: number,
     familyId: number,
@@ -33,7 +31,6 @@ export class ResponseFamilyMemberDto {
     role: number,
     pokeCount: number,
     talkCount: number,
-    posts: ResponsePostDto[],
   ) {
     this.familyMemberId = familyMemberId;
     this.familyId = familyId;
@@ -41,7 +38,6 @@ export class ResponseFamilyMemberDto {
     this.role = role;
     this.pokeCount = pokeCount;
     this.talkCount = talkCount;
-    this.posts = posts;
   }
 
   static of(
@@ -51,7 +47,6 @@ export class ResponseFamilyMemberDto {
     role: number,
     pokeCount: number,
     talkCount: number,
-    posts: ResponsePostDto[],
   ): ResponseFamilyMemberDto {
     return new ResponseFamilyMemberDto(
       familyMemberId,
@@ -60,7 +55,17 @@ export class ResponseFamilyMemberDto {
       role,
       pokeCount,
       talkCount,
-      posts,
+    );
+  }
+
+  static from(familyMember: FamilyMember): ResponseFamilyMemberDto {
+    return new ResponseFamilyMemberDto(
+      familyMember.id,
+      familyMember.family.id,
+      familyMember.user.id,
+      familyMember.role,
+      familyMember.pokeCount,
+      familyMember.talkCount,
     );
   }
 }

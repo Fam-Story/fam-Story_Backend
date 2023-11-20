@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateFamilyMemberDto, UpdateFamilyMemberDto } from './dto';
+import {CreateFamilyMemberDto, ResponseFamilyMemberDto, UpdateFamilyMemberDto} from './dto';
 import { Family, FamilyMember, User } from '../../infra/entities';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -45,6 +45,13 @@ export class FamilyMemberService {
   async deleteFamilyMember(familyMemberId: number) {
     await this.validateFamilyMember(familyMemberId);
     await this.familyMemberRepository.delete(familyMemberId);
+  }
+
+  async findFamilyMemberById(
+    familyMemberId: number,
+  ): Promise<ResponseFamilyMemberDto> {
+    const familyMember = await this.validateFamilyMember(familyMemberId);
+    return ResponseFamilyMemberDto.from(familyMember);
   }
 
   async findFamilyByMemberId(

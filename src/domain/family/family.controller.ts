@@ -31,11 +31,11 @@ export class FamilyController {
   //회원이 속한 가족 정보 전송
   @Get('')
   @ApiOperation({
-    summary: '가족 정보 조회',
+    summary: '[가족] 가족 정보 반환',
     description: '회원이 속한 가족 정보를 반환한다.',
   })
-  @CustomApiOKResponse(ResponseFamilyDto, '가족 정보를 반환한다.')
-  async findFamilyByUserId(@Query('id') userId: number) {
+  @CustomApiOKResponse(ResponseFamilyDto, '회원이 속한 가족 정보를 반환한다.')
+  async findFamilyByUserId(@Query('userId') userId: number) {
     const responseFamilyDto: ResponseFamilyDto =
       await this.familyService.findFamilyById(userId);
     return ApiResponse.success(
@@ -46,7 +46,7 @@ export class FamilyController {
 
   //가족 생성페이지에서 가족 생성
   @Post('')
-  @ApiOperation({ summary: '가족 생성', description: '가족을 생성한다.' })
+  @ApiOperation({ summary: '[가족] 가족 생성', description: '가족을 생성한다.' })
   @CustomApiCreatedResponse(
     Number,
     '가족 생성을 성공하면 Status Code 201과 familyId를 반환한다.',
@@ -59,11 +59,11 @@ export class FamilyController {
   //가족 정보 수정
   @Put('')
   @ApiOperation({
-    summary: '가족 정보 수정',
+    summary: '[가족] 가족 정보 수정',
     description: '가족 정보를 수정한다.',
   })
   @ApiOkResponse({
-    description: '가족 정보를 수정한다.',
+    description: '가족의 이름을 수정한다.',
     type: ApiResponse<null>,
   })
   async updateFamily(@Body() updateFamilyDto: UpdateFamilyDto) {
@@ -73,9 +73,9 @@ export class FamilyController {
 
   //가족 삭제
   @Delete('')
-  @ApiOperation({ summary: '가족 삭제', description: '가족을 삭제한다.' })
-  @ApiOkResponse({ description: '가족을 삭제한다.', type: ApiResponse<null> })
-  async deleteFamily(@Query('id') familyId: number) {
+  @ApiOperation({ summary: '[가족] 가족 삭제', description: '가족을 삭제한다.' })
+  @ApiOkResponse({ description: '가족을 삭제한다. 이 때 자동으로 가족 구성원 객체는 모두 삭제된다.', type: ApiResponse<null> })
+  async deleteFamily(@Query('familyId') familyId: number) {
     await this.familyService.deleteFamily(familyId);
     return ApiResponse.success(ResponseCode.FAMILY_DELETE_SUCCESS, null);
   }
@@ -83,9 +83,9 @@ export class FamilyController {
   //초대 키로 가족 정보 검색 (가족 초대) -> 가족 정보 반환
   @Get('/join')
   @ApiOperation({
-    summary: '가족 참가',
+    summary: '[가족] 초대코드를 통한 가족 참가',
     description:
-      '가족의 초대코드로 가족 정보를 검색한 후, 해당 가족에 참가한다.',
+      '가족의 초대코드로 가족 정보를 불러온 후, 해당 가족에 참가한다.',
   })
   @CustomApiOKResponse(
     ResponseFamilyDto,

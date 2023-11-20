@@ -31,7 +31,7 @@ export class FamilyScheduleController {
 
   //가족 일정 생성
   @ApiOperation({
-    summary: '가족 일정 생성',
+    summary: '[일정] 가족 일정 생성',
     description: '가족 일정을 생성한다.',
   })
   @CustomApiCreatedResponse(
@@ -54,11 +54,11 @@ export class FamilyScheduleController {
 
   //가족 일정 수정
   @ApiOperation({
-    summary: '가족 일정 수정',
+    summary: '[일정] 가족 일정 수정',
     description: '가족 일정을 수정한다.',
   })
   @ApiOkResponse({
-    description: '가족 일정을 수정한다.',
+    description: '날짜와 일정 내용 등 가족 일정을 수정한다.',
     type: ApiResponse<null>,
   })
   @Put('')
@@ -76,7 +76,7 @@ export class FamilyScheduleController {
 
   //가족 일정 삭제
   @ApiOperation({
-    summary: '가족 일정 삭제',
+    summary: '[일정] 가족 일정 삭제',
     description: '가족 일정을 삭제한다.',
   })
   @ApiOkResponse({
@@ -84,7 +84,7 @@ export class FamilyScheduleController {
     type: ApiResponse<null>,
   })
   @Delete('')
-  async deleteFamilySchedule(@Query('id') familyScheduleId: number) {
+  async deleteFamilySchedule(@Query('scheduleId') familyScheduleId: number) {
     await this.familyScheduleService.deleteFamilySchedule(familyScheduleId);
     return ApiResponse.success(
       ResponseCode.FAMILY_SCHEDULE_DELETE_SUCCESS,
@@ -93,12 +93,15 @@ export class FamilyScheduleController {
   }
   //가족 일정 조회
   @Get('')
-  @CustomApiOKResponse(ResponseFamilyScheduleDto, '가족 일정 조회 반환') //CustomOkResponse로 수정 필요
   @ApiOperation({
-    summary: '가족 일정 조회',
-    description: '가족 일정을 조회한다.',
+    summary: '[일정] 특정 가족 일정 조회',
+    description: '특정 가족 일정을 조회한다.',
   })
-  async findFamilyScheduleById(@Query('id') familyScheduleId: number) {
+  @CustomApiOKResponse(
+    ResponseFamilyScheduleDto,
+    '특정 일정에 대한 정보를 반환한다.',
+  ) //CustomOkResponse로 수정 필요
+  async findFamilyScheduleById(@Query('scheduleId') familyScheduleId: number) {
     const responseFamilyScheduleDto: ResponseFamilyScheduleDto =
       await this.familyScheduleService.findFamilyScheduleById(familyScheduleId);
     return ApiResponse.success(
@@ -109,12 +112,12 @@ export class FamilyScheduleController {
 
   //가족 일정 리스트 반환 (pagination 적용)
   @ApiOperation({
-    summary: '가족 일정 리스트 반환',
-    description: '가족 일정 리스트를 반환한다.',
+    summary: '[일정] 모든 가족 일정들 불러오기',
+    description: '가족에 등록된 모든 일정들을 반환한다.',
   })
   @CustomApiOKResponse(
     ResponseFamilyScheduleDto,
-    '가족 일정 리스트를 반환한다. (ResponseFamilyScheduleDto를 배열로 반환)',
+    '모든 가족 일정 정보가 담긴 Dto를 배열로 반환한다. (ResponseFamilyScheduleDto를 배열로 반환)',
   )
   @Get('/list')
   async findFamilyScheduleList(

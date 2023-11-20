@@ -1,5 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { FamilyMemberService } from '../../domain/family_member';
+import {
+  FamilyMemberService,
+  ResponseFamilyMemberDto,
+} from '../../domain/family_member';
 import { INestApplication } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Family, FamilyMember, User } from '../../infra/entities';
@@ -23,12 +26,15 @@ describe('FamilyMemberController (e2e)', () => {
   };
 
   const mockFamily: Family = Family.createFamily('test', 'testKeyCode');
+  mockFamily.setId(2);
   const mockUser: User = User.createUser('test', 'test', 'test', 'test', 1, 1);
+  mockUser.setId(3);
   const mockFamilyMember: FamilyMember = FamilyMember.createFamilyMember(
     1,
     mockFamily,
     mockUser,
   );
+  mockFamilyMember.setId(1);
 
   beforeEach(async () => {
     mockFamilyMemberService = {
@@ -41,6 +47,9 @@ describe('FamilyMemberController (e2e)', () => {
       findFamilyByMemberId: jest
         .fn()
         .mockResolvedValue(ResponseFamilyDto.from(mockFamily)),
+      findFamilyMemberById: jest
+        .fn()
+        .mockResolvedValue(ResponseFamilyMemberDto.from(mockFamilyMember)),
     };
 
     mockFamilyRepository = {
@@ -115,11 +124,25 @@ describe('FamilyMemberController (e2e)', () => {
     expect(response.body.message).toEqual('가족 구성원 삭제 성공');
   });
 
-  it('should get Family info with member id', async () => {
+  it('should get Family Member info with member id', async () => {
     const response = await request(app.getHttpServer())
       .get('/family-member')
       .query({ id: 1 })
       .expect(200);
+    expect(response.body.message).toEqual('가족 구성원 조회 성공');
+    expect(response.body.data.familyMemberId).toEqual(1);
+    expect(response.body.data.familyId).toEqual(2);
+    expect(response.body.data.userId).toEqual(3);
+    expect(response.body.data.pokeCount).toEqual(0);
+    expect(response.body.data.talkCount).toEqual(0);
+  });
+
+  it('should get Family info with member id', async () => {
+    const response = await request(app.getHttpServer())
+      .get('/family-member/family')
+      .query({ id: 1 })
+      .expect(200);
+
     expect(response.body.message).toEqual('가족 조회 성공');
     expect(response.body.data.familyName).toEqual('test');
     expect(response.body.data.familyKeyCode).toEqual('testKeyCode');

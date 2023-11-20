@@ -30,12 +30,12 @@ export class PostController {
   //포스트 등록
   @Post('')
   @ApiOperation({
-    summary: '포스트 등록',
-    description: '포스트를 등록한다.',
+    summary: '[게시글] 게시글 등록',
+    description: '게시글을 등록한다.',
   })
   @CustomApiCreatedResponse(
     Number,
-    '포스트를 등록하면 포스트의 고유 ID를 integer로 반환한다.',
+    '게시글을 등록하면 게시글의 고유 ID를 integer로 반환한다.',
   )
   async createPost(@Body() createPostDto: CreatePostDto) {
     const postId = await this.postService.createPost(createPostDto);
@@ -45,12 +45,12 @@ export class PostController {
   //포스트 수정
   @Put('')
   @ApiOperation({
-    summary: '포스트 수정',
-    description: '포스트를 수정한다.',
+    summary: '[게시글] 게시글 수정',
+    description: '게시글의 제목과 내용 등을 수정한다.',
   })
   @CustomApiCreatedResponse(
     Number,
-    '포스트를 수정하면 포스트의 고유 ID를 integer로 반환한다.',
+    '게시글을 수정하면 게시글 고유 ID를 integer로 반환한다.',
   )
   async updatePost(@Body() updatePostDto: UpdatePostDto) {
     await this.postService.updatePost(updatePostDto);
@@ -60,12 +60,12 @@ export class PostController {
   //포스트 삭제
   @Delete('')
   @ApiOperation({
-    summary: '포스트 삭제',
-    description: '포스트를 삭제한다.',
+    summary: '[게시글] 게시글 삭제',
+    description: '게시글을 삭제한다.',
   })
   @CustomApiCreatedResponse(
     Number,
-    '포스트를 삭제하면 포스트의 고유 ID를 integer로 반환한다.',
+    '게시글을 삭제하면 포스트의 고유 ID를 integer로 반환한다.',
   )
   async deletePost(@Query('postId') postId: number) {
     await this.postService.deletePost(postId);
@@ -75,10 +75,10 @@ export class PostController {
   //포스트 리스트 반환
   @Get('')
   @ApiOperation({
-    summary: '포스트 리스트 반환',
-    description: '포스트 리스트를 반환한다.',
+    summary: '[게시글] 특정 구성원의 모든 게시글 반환',
+    description: '특정 구성원에게 등록된 모든 게시글들을 반환한다.',
   })
-  @CustomApiOKResponse(ResponsePostDto, '포스트 리스트를 반환한다.')
+  @CustomApiOKResponse(ResponsePostDto, '모든 게시글에 대한 정보를 배열 형태로 반환한다.')
   async findPostList(@Query('id') familyId: number) {
     const responsePostDtoList: ResponsePostDto[] =
       await this.postService.findPostListByMemberId(familyId);
