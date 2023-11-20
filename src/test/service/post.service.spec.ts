@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import {
   CreatePostDto,
   PostService,
-  ResponsePostDto,
   UpdatePostDto,
 } from '../../domain/post';
 import { getRepositoryToken } from '@nestjs/typeorm';
