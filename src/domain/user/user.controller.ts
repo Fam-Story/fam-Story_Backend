@@ -58,7 +58,10 @@ export class UserController {
 
   //유저 로그인
   @Post('/login')
-  @ApiOperation({ summary: '유저 로그인', description: '이메일과 비밀번호를 통해 로그인한다.' })
+  @ApiOperation({
+    summary: '유저 로그인',
+    description: '이메일과 비밀번호를 통해 로그인한다.',
+  })
   @ApiBody({ type: LoginUserDto })
   @UseGuards(LocalServiceAuthGuard)
   @CustomApiOKResponse(

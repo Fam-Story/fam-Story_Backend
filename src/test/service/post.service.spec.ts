@@ -1,5 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { PostService } from '../../domain/post';
+import {
+  CreatePostDto,
+  PostService,
+  UpdatePostDto,
+} from '../../domain/post';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { FamilyMember, Post } from '../../infra/entities';
 
@@ -37,5 +41,82 @@ describe('PostService', () => {
 
   it('should be defined', () => {
     expect(postService).toBeDefined();
+  });
+
+  it('should create post', async () => {
+    const familyMember = FamilyMember.createFamilyMember(1, null, null);
+    const post = Post.createPost('test', 'test', new Date(), familyMember);
+    post.id = 1;
+
+    const createPostDto: CreatePostDto = {
+      srcMemberId: 1,
+      title: 'test',
+      context: 'test',
+      createdDate: new Date(),
+    };
+
+    jest
+      .spyOn(familyMemberRepository, 'findOne')
+      .mockResolvedValue(familyMember);
+    jest.spyOn(postRepository, 'save').mockResolvedValue(post);
+
+    const result = await postService.createPost(createPostDto);
+
+    expect(result).toEqual(1);
+  });
+
+  it('should update post', async () => {
+    const familyMember = FamilyMember.createFamilyMember(1, null, null);
+    const post = Post.createPost('test', 'test', new Date(), familyMember);
+    post.id = 1;
+
+    const updatePostDto: UpdatePostDto = {
+      postId: 1,
+      title: 'test',
+      context: 'test',
+      createdDate: new Date(),
+    };
+
+    jest.spyOn(postRepository, 'findOne').mockResolvedValue(post);
+    jest.spyOn(postRepository, 'save').mockResolvedValue(post);
+    jest
+      .spyOn(familyMemberRepository, 'findOne')
+      .mockResolvedValue(familyMember);
+
+    await postService.updatePost(updatePostDto);
+
+    expect(postRepository.save).toHaveBeenCalled();
+  });
+
+  it('should delete post', async () => {
+    const familyMember = FamilyMember.createFamilyMember(1, null, null);
+    const post = Post.createPost('test', 'test', new Date(), familyMember);
+    post.id = 1;
+
+    jest.spyOn(postRepository, 'findOne').mockResolvedValue(post);
+    jest.spyOn(postRepository, 'delete').mockResolvedValue(post);
+
+    await postService.deletePost(1);
+
+    expect(postRepository.delete).toHaveBeenCalled();
+  });
+
+  it('should get post list', async () => {
+    const familyMember = FamilyMember.createFamilyMember(1, null, null);
+    familyMember.id = 1;
+    const post = Post.createPost('test', 'test', new Date(), familyMember);
+    post.id = 1;
+
+    const postList = [post];
+
+    jest.spyOn(postRepository, 'find').mockResolvedValue(postList);
+    jest
+      .spyOn(familyMemberRepository, 'findOne')
+      .mockResolvedValue(familyMember);
+
+    const result = await postService.findPostListByMemberId(1);
+
+    expect(result.length).toEqual(1);
+    expect(result[0].title).toEqual('test');
   });
 });

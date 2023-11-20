@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePostDto, UpdatePostDto } from './dto';
+import { CreatePostDto, ResponsePostDto, UpdatePostDto } from './dto';
 import { FamilyMember, Post } from '../../infra/entities';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -36,6 +36,16 @@ export class PostService {
     post.context = updatePostDto.context;
 
     await this.postRepository.save(post);
+  }
+
+  async findPostListByMemberId(
+    familyMemberId: number,
+  ): Promise<ResponsePostDto[]> {
+    await this.validateFamilyMember(familyMemberId);
+    const postList = await this.postRepository.find({
+      where: { srcMember: { id: familyMemberId } },
+    });
+    return postList.map((post) => ResponsePostDto.from(post));
   }
 
   async deletePost(postId: number) {
