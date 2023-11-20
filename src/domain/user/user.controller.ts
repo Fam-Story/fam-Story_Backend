@@ -117,7 +117,8 @@ export class UserController {
   @Get('')
   @ApiOperation({
     summary: '유저 정보 조회',
-    description: '유저 정보를 조회한다.',
+    description:
+      '유저 정보를 조회한다. 자신 이외에 타인의 정보는 조회할 수 없다.',
   })
   @CustomApiOKResponse(
     ResponseUserDto,
