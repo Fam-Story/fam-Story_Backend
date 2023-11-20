@@ -9,12 +9,19 @@ import { Family, FamilySchedule } from '../../infra/entities';
 import { FamilyScheduleModule } from '../../module';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import * as request from 'supertest';
+import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
+import { MockJwtAuthGuard } from './mockAuthGuard';
+import { PassportModule } from '@nestjs/passport';
 
 describe('FamilyScheduleController', () => {
   let app: INestApplication;
   let mockFamilyScheduleService: Partial<FamilyScheduleService>;
   let mockFamilyRepository: Partial<Repository<Family>>;
   let mockFamilyScheduleRepository: Partial<Repository<FamilySchedule>>;
+
+  const mockJwtServiceStrategy = {
+    validate: jest.fn().mockResolvedValue({ id: 1, username: 'testuser' }),
+  };
 
   const mockFamily = Family.createFamily('testFamily', 'testKeyCode');
   mockFamily.setId(1);
@@ -49,7 +56,10 @@ describe('FamilyScheduleController', () => {
     };
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [FamilyScheduleModule],
+      imports: [
+        FamilyScheduleModule,
+        PassportModule.register({ defaultStrategy: 'jwt-service' }),
+      ],
     })
       .overrideProvider(FamilyScheduleService)
       .useValue(mockFamilyScheduleService)
@@ -57,6 +67,8 @@ describe('FamilyScheduleController', () => {
       .useValue(mockFamilyScheduleRepository)
       .overrideProvider(getRepositoryToken(Family))
       .useValue(mockFamilyRepository)
+      .overrideGuard(JwtServiceAuthGuard)
+      .useClass(MockJwtAuthGuard)
       .compile();
 
     app = moduleFixture.createNestApplication();

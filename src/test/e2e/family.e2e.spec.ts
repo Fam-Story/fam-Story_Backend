@@ -6,12 +6,19 @@ import { Family } from '../../infra/entities';
 import { FamilyModule } from '../../module';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import * as request from 'supertest';
+import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
+import { MockJwtAuthGuard } from './mockAuthGuard';
+import { PassportModule } from '@nestjs/passport';
 
 describe('FamilyController (e2e)', () => {
   let app: INestApplication;
   let mockFamilyService: Partial<FamilyService>;
   let mockFamilyRepository: Partial<Repository<Family>>;
   const mockFamily: Family = Family.createFamily('test', 'testKeyCode');
+
+  const mockJwtServiceStrategy = {
+    validate: jest.fn().mockResolvedValue({ id: 1, username: 'testuser' }),
+  };
 
   beforeEach(async () => {
     mockFamilyService = {
@@ -33,12 +40,17 @@ describe('FamilyController (e2e)', () => {
     };
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [FamilyModule],
+      imports: [
+        FamilyModule,
+        PassportModule.register({ defaultStrategy: 'jwt-service' }),
+      ],
     })
       .overrideProvider(FamilyService)
       .useValue(mockFamilyService)
       .overrideProvider(getRepositoryToken(Family))
       .useValue(mockFamilyRepository)
+      .overrideGuard(JwtServiceAuthGuard)
+      .useClass(MockJwtAuthGuard)
       .compile();
 
     app = moduleFixture.createNestApplication();
