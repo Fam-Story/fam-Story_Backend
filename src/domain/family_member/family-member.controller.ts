@@ -80,7 +80,7 @@ export class FamilyMemberController {
     description: '가족 멤버를 삭제한다. 유저 탈퇴나, 가족 삭제 시 사용한다.',
     type: ApiResponse<null>,
   })
-  async deleteFamilyMember(@Query('id') familyMemberId: number) {
+  async deleteFamilyMember(@Query('familyMemberId') familyMemberId: number) {
     await this.familyMemberService.deleteFamilyMember(familyMemberId);
     return ApiResponse.success(ResponseCode.FAMILY_MEMBER_DELETE_SUCCESS, null);
   }
