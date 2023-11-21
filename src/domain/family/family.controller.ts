@@ -7,6 +7,7 @@ import {
   Put,
   Query,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { FamilyService } from './family.service';
 import { CreateFamilyDto, ResponseFamilyDto, UpdateFamilyDto } from './dto';
@@ -31,13 +32,13 @@ export class FamilyController {
   //회원이 속한 가족 정보 전송
   @Get('')
   @ApiOperation({
-    summary: '[가족] 가족 정보 반환',
+    summary: '[가족] 회원이 속한 가족 정보 반환',
     description: '회원이 속한 가족 정보를 반환한다.',
   })
   @CustomApiOKResponse(ResponseFamilyDto, '회원이 속한 가족 정보를 반환한다.')
-  async findFamilyByUserId(@Query('userId') userId: number) {
+  async findFamilyByUserId(@Req() req) {
     const responseFamilyDto: ResponseFamilyDto =
-      await this.familyService.findFamilyById(userId);
+      await this.familyService.findFamilyById(req.user.id);
     return ApiResponse.success(
       ResponseCode.FAMILY_READ_SUCCESS,
       responseFamilyDto,
@@ -46,7 +47,10 @@ export class FamilyController {
 
   //가족 생성페이지에서 가족 생성
   @Post('')
-  @ApiOperation({ summary: '[가족] 가족 생성', description: '가족을 생성한다.' })
+  @ApiOperation({
+    summary: '[가족] 가족 생성',
+    description: '가족을 생성한다.',
+  })
   @CustomApiCreatedResponse(
     Number,
     '가족 생성을 성공하면 Status Code 201과 familyId를 반환한다.',
@@ -73,8 +77,15 @@ export class FamilyController {
 
   //가족 삭제
   @Delete('')
-  @ApiOperation({ summary: '[가족] 가족 삭제', description: '가족을 삭제한다.' })
-  @ApiOkResponse({ description: '가족을 삭제한다. 이 때 자동으로 가족 구성원 객체는 모두 삭제된다.', type: ApiResponse<null> })
+  @ApiOperation({
+    summary: '[가족] 가족 삭제',
+    description: '가족을 삭제한다.',
+  })
+  @ApiOkResponse({
+    description:
+      '가족을 삭제한다. 이 때 자동으로 가족 구성원 객체는 모두 삭제된다.',
+    type: ApiResponse<null>,
+  })
   async deleteFamily(@Query('familyId') familyId: number) {
     await this.familyService.deleteFamily(familyId);
     return ApiResponse.success(ResponseCode.FAMILY_DELETE_SUCCESS, null);

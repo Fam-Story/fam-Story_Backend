@@ -7,6 +7,7 @@ import {
   Put,
   Query,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { FamilyMemberService, ResponseFamilyMemberDto } from './index';
 import { CreateFamilyMemberDto, UpdateFamilyMemberDto } from './dto';
@@ -41,9 +42,11 @@ export class FamilyMemberController {
     '가족 구성원 생성을 성공하면 Status Code 201과 familyMemberId를 반환한다.',
   )
   async createFamilyMember(
+    @Req() req,
     @Body() createFamilyMemberDto: CreateFamilyMemberDto,
   ) {
     const familyMemberId = await this.familyMemberService.createFamilyMember(
+      req.user.id,
       createFamilyMemberDto,
     );
     return ApiResponse.success(
