@@ -57,7 +57,10 @@ export class FamilyController {
   )
   async createFamily(@Body() createFamilyDto: CreateFamilyDto) {
     const familyId = await this.familyService.createFamily(createFamilyDto);
-    return CustomApiResponse.success(ResponseCode.FAMILY_CREATED_SUCCESS, familyId);
+    return CustomApiResponse.success(
+      ResponseCode.FAMILY_CREATED_SUCCESS,
+      familyId,
+    );
   }
 
   //가족 정보 수정

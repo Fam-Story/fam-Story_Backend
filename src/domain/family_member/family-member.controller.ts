@@ -69,7 +69,10 @@ export class FamilyMemberController {
     @Body() updateFamilyMemberDto: UpdateFamilyMemberDto,
   ) {
     await this.familyMemberService.updateFamilyMember(updateFamilyMemberDto);
-    return CustomApiResponse.success(ResponseCode.FAMILY_MEMBER_UPDATE_SUCCESS, null);
+    return CustomApiResponse.success(
+      ResponseCode.FAMILY_MEMBER_UPDATE_SUCCESS,
+      null,
+    );
   }
 
   //가족 탈퇴 (즉, 가족 멤버 삭제)
@@ -85,7 +88,10 @@ export class FamilyMemberController {
   })
   async deleteFamilyMember(@Query('familyMemberId') familyMemberId: number) {
     await this.familyMemberService.deleteFamilyMember(familyMemberId);
-    return CustomApiResponse.success(ResponseCode.FAMILY_MEMBER_DELETE_SUCCESS, null);
+    return CustomApiResponse.success(
+      ResponseCode.FAMILY_MEMBER_DELETE_SUCCESS,
+      null,
+    );
   }
 
   //가족 구성원 정보 반환
