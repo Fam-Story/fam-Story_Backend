@@ -31,7 +31,10 @@ export class HttpExceptionFilter implements ExceptionFilter {
       response
         .status(status)
         .json(
-          CustomApiResponse.fail({ code: status, message: error || message }, null),
+          CustomApiResponse.fail(
+            { code: status, message: error || message },
+            null,
+          ),
         );
     }
   }

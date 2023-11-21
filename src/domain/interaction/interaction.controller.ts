@@ -77,6 +77,9 @@ export class InteractionController {
   @Delete('')
   async deleteInteraction(@Query('familyMemberId') dstMemberId: number) {
     await this.interactionService.deleteAllInteractions(dstMemberId);
-    return CustomApiResponse.success(ResponseCode.INTERACTION_DELETED_SUCCESS, null);
+    return CustomApiResponse.success(
+      ResponseCode.INTERACTION_DELETED_SUCCESS,
+      null,
+    );
   }
 }

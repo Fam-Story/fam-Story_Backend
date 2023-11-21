@@ -16,11 +16,6 @@ describe('InteractionController', () => {
   let mockInteractionService: Partial<InteractionService>;
   let mockInteractionRepository: Partial<Repository<Interaction>>;
   let mockFamilyMemberRepository: Partial<Repository<FamilyMember>>;
-
-  const mockJwtServiceStrategy = {
-    validate: jest.fn().mockResolvedValue({ id: 1, username: 'testuser' }),
-  };
-
   const interaction = Interaction.createInteraction(
     1,
     FamilyMember.createFamilyMember(1, null, null),

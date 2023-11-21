@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import {
   CreateFamilyMemberDto,
   FamilyMemberService,
+  UpdateFamilyMemberDto,
 } from '../../domain/family_member';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Family, FamilyMember, User } from '../../infra/entities';
@@ -72,5 +73,89 @@ describe('FamilyMemberService', () => {
       createFamilyMemberDto,
     );
     expect(savedFamilyMemberId).toEqual(1);
+  });
+
+  it('should update family-member', async () => {
+    const updateFamilyMemberDto: UpdateFamilyMemberDto = {
+      role: 1,
+      familyMemberId: 1,
+    };
+    const family: Family = Family.createFamily('test', 'testKeyCode');
+    const user: User = User.createUser('test', 'test', 'test', 'test', 1, 1);
+    const familyMember = FamilyMember.createFamilyMember(1, family, user);
+    user.id = 1;
+    familyMember.setId(1);
+
+    jest.spyOn(familyMemberRepository, 'save').mockResolvedValue(familyMember);
+    jest.spyOn(userRepository, 'findOne').mockResolvedValue(user);
+    jest.spyOn(familyRepository, 'findOne').mockResolvedValue(family);
+    jest.spyOn(familyMemberRepository, 'findOne').mockResolvedValue(family);
+
+    await familyMemberService.updateFamilyMember(updateFamilyMemberDto);
+    expect(familyMemberRepository.save).toBeCalled();
+  });
+
+  it('should delete family-member', async () => {
+    const family: Family = Family.createFamily('test', 'testKeyCode');
+    const user = User.createUser('test', 'test', 'test', 'test', 1, 1);
+    const familyMember = FamilyMember.createFamilyMember(1, family, user);
+    familyMember.setId(1);
+
+    jest
+      .spyOn(familyMemberRepository, 'findOne')
+      .mockResolvedValue(familyMember);
+    jest.spyOn(familyMemberRepository, 'delete').mockResolvedValue(null);
+
+    await familyMemberService.deleteFamilyMember(1);
+    expect(familyMemberRepository.delete).toBeCalled();
+  });
+
+  it('should find family-member by user id', async () => {
+    const family: Family = Family.createFamily('test', 'testKeyCode');
+    const user = User.createUser('test', 'test', 'test', 'test', 1, 1);
+    const familyMember = FamilyMember.createFamilyMember(1, family, user);
+    familyMember.setId(1);
+
+    jest.spyOn(userRepository, 'findOne').mockResolvedValue(user);
+    jest
+      .spyOn(familyMemberRepository, 'findOne')
+      .mockResolvedValue(familyMember);
+
+    const result = await familyMemberService.findFamilyMemberByUserId(1);
+    expect(result.familyMemberId).toEqual(1);
+  });
+
+  it('should find family by family-member id', async () => {
+    const family: Family = Family.createFamily('test', 'testKeyCode');
+    const user = User.createUser('test', 'test', 'test', 'test', 1, 1);
+    const familyMember = FamilyMember.createFamilyMember(1, family, user);
+    familyMember.setId(1);
+    family.setId(1);
+
+    jest
+      .spyOn(familyMemberRepository, 'findOne')
+      .mockResolvedValue(familyMember);
+    jest.spyOn(familyRepository, 'findOne').mockResolvedValue(family);
+
+    const result = await familyMemberService.findFamilyByMemberId(1);
+    expect(result.familyId).toEqual(1);
+    expect(result.familyName).toEqual('test');
+  });
+
+  it('should find all family-member by family id', async () => {
+    const family: Family = Family.createFamily('test', 'testKeyCode');
+    const user = User.createUser('test', 'test', 'test', 'test', 1, 1);
+    const familyMember = FamilyMember.createFamilyMember(1, family, user);
+    familyMember.setId(1);
+    family.setId(1);
+
+    jest.spyOn(familyRepository, 'findOne').mockResolvedValue(family);
+    jest
+      .spyOn(familyMemberRepository, 'find')
+      .mockResolvedValue([familyMember]);
+
+    const result = await familyMemberService.findAllFamilyMemberByFamilyId(1);
+    expect(result[0].familyMemberId).toEqual(1);
+    expect(result[0].familyId).toEqual(1);
   });
 });

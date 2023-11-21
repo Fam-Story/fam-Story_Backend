@@ -69,7 +69,10 @@ export class FamilyMemberController {
     @Body() updateFamilyMemberDto: UpdateFamilyMemberDto,
   ) {
     await this.familyMemberService.updateFamilyMember(updateFamilyMemberDto);
-    return CustomApiResponse.success(ResponseCode.FAMILY_MEMBER_UPDATE_SUCCESS, null);
+    return CustomApiResponse.success(
+      ResponseCode.FAMILY_MEMBER_UPDATE_SUCCESS,
+      null,
+    );
   }
 
   //가족 탈퇴 (즉, 가족 멤버 삭제)
@@ -85,7 +88,10 @@ export class FamilyMemberController {
   })
   async deleteFamilyMember(@Query('familyMemberId') familyMemberId: number) {
     await this.familyMemberService.deleteFamilyMember(familyMemberId);
-    return CustomApiResponse.success(ResponseCode.FAMILY_MEMBER_DELETE_SUCCESS, null);
+    return CustomApiResponse.success(
+      ResponseCode.FAMILY_MEMBER_DELETE_SUCCESS,
+      null,
+    );
   }
 
   //가족 구성원 정보 반환
@@ -120,6 +126,25 @@ export class FamilyMemberController {
     return CustomApiResponse.success(
       ResponseCode.FAMILY_READ_SUCCESS,
       responseFamilyDto,
+    );
+  }
+
+  //가족 구성원 전체 정보 반환
+  @Get('/list')
+  @ApiOperation({
+    summary: '[가족 구성원] 가족에 속한 모든 가족 구성원의 정보 반환',
+    description: '모든 가족 구성원들의 정보를 반환한다.',
+  })
+  @CustomApiOKResponse(
+    ResponseFamilyMemberDto,
+    '모든 가족 구성원들의 정보를 배열로 반환한다. (ResponseFamilyMemberDto의 배열)',
+  )
+  async findAllFamilyMemberByFamilyId(@Query('familyId') familyId: number) {
+    const responseFamilyMemberDtoList: ResponseFamilyMemberDto[] =
+      await this.familyMemberService.findAllFamilyMemberByFamilyId(familyId);
+    return CustomApiResponse.success(
+      ResponseCode.FAMILY_MEMBER_READ_SUCCESS,
+      responseFamilyMemberDtoList,
     );
   }
 }

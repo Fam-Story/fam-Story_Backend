@@ -28,7 +28,10 @@ export class PhotoController {
   })
   async createPhoto(@Body() createPhotoDto: CreatePhotoDto) {
     const photoId = await this.photoService.createPhoto(createPhotoDto);
-    return CustomApiResponse.success(ResponseCode.PHOTO_CREATED_SUCCESS, photoId);
+    return CustomApiResponse.success(
+      ResponseCode.PHOTO_CREATED_SUCCESS,
+      photoId,
+    );
   }
 
   //사진 삭제

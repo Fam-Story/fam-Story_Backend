@@ -54,7 +54,9 @@ export class UserController {
     return this.userService.saveUser(createUserDto).then(() => {
       res
         .status(HttpStatus.CREATED)
-        .json(CustomApiResponse.success(ResponseCode.USER_CREATED_SUCCESS, null));
+        .json(
+          CustomApiResponse.success(ResponseCode.USER_CREATED_SUCCESS, null),
+        );
     });
   }
 
@@ -96,7 +98,9 @@ export class UserController {
       .then((result) => {
         res
           .status(HttpStatus.OK)
-          .json(CustomApiResponse.success(ResponseCode.USER_UPDATE_SUCCESS, result));
+          .json(
+            CustomApiResponse.success(ResponseCode.USER_UPDATE_SUCCESS, result),
+          );
       });
   }
 
@@ -115,7 +119,9 @@ export class UserController {
     return await this.userService.deleteUser(req.user.id).then((result) => {
       res
         .status(HttpStatus.OK)
-        .json(CustomApiResponse.success(ResponseCode.USER_DELETE_SUCCESS, result));
+        .json(
+          CustomApiResponse.success(ResponseCode.USER_DELETE_SUCCESS, result),
+        );
     });
   }
 
@@ -135,7 +141,9 @@ export class UserController {
     return await this.userService.findUserById(req.user.id).then((result) => {
       res
         .status(HttpStatus.OK)
-        .json(CustomApiResponse.success(ResponseCode.USER_READ_SUCCESS, result));
+        .json(
+          CustomApiResponse.success(ResponseCode.USER_READ_SUCCESS, result),
+        );
     });
   }
 }

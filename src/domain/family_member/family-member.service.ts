@@ -71,6 +71,18 @@ export class FamilyMemberService {
     return ResponseFamilyDto.from(familyMember.family);
   }
 
+  async findAllFamilyMemberByFamilyId(
+    familyId: number,
+  ): Promise<ResponseFamilyMemberDto[]> {
+    await this.validateFamily(familyId);
+    const familyMembers = await this.familyMemberRepository.find({
+      where: { family: { id: familyId } },
+    });
+    return familyMembers.map((familyMember) =>
+      ResponseFamilyMemberDto.from(familyMember),
+    );
+  }
+
   async validateUser(userId: number): Promise<User> {
     const user = await this.userRepository.findOne({
       where: { id: userId },
