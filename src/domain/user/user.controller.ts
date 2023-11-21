@@ -43,7 +43,7 @@ export class UserController {
   })
   @CustomApiCreatedResponse(
     Number,
-    '이메일로 중복검사를 실시한 후, 회원가입이 완료되면 회원의 고유 ID를 Integer로 반환한다.',
+    '이메일로 중복검사를 실시한 후, 회원가입이 완료되면 Status Code 201을 보낸다.',
   )
   async createUser(@Res() res, @Body() createUserDto: CreateUserDto) {
     await this.userService.findUserByEmail(createUserDto.email); //이메일로 중복 여부 검사
