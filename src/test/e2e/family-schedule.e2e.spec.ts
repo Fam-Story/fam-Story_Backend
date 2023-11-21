@@ -125,7 +125,6 @@ describe('FamilyScheduleController', () => {
       .expect(200);
 
     expect(response.body.message).toEqual('가족 일정 조회 성공');
-    expect(response.body.data.familyId).toEqual(1);
     expect(response.body.data.scheduleId).toEqual(2);
     expect(response.body.data.scheduleName).toEqual('testSchedule');
   });
@@ -137,7 +136,6 @@ describe('FamilyScheduleController', () => {
       .expect(200);
 
     expect(response.body.message).toEqual('가족 일정 조회 성공');
-    expect(response.body.data[0].familyId).toEqual(1);
     expect(response.body.data[0].scheduleId).toEqual(2);
     expect(response.body.data[0].scheduleName).toEqual('testSchedule');
     expect(response.body.data[0].scheduleYear).toEqual(2021);

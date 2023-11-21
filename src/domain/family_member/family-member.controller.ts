@@ -91,13 +91,16 @@ export class FamilyMemberController {
   //가족 구성원 정보 반환
   @Get('')
   @ApiOperation({
-    summary: '[가족 구성원] 가족 구성원 정보 반환',
-    description: '가족 구성원 정보를 반환한다.',
+    summary: '[가족 구성원] 회원이 가족 구성원 정보 반환',
+    description: '회원이 속한 가족 구성원 정보를 반환한다.',
   })
-  @CustomApiOKResponse(ResponseFamilyMemberDto, '가족 구성원 정보를 반환한다.')
-  async findFamilyMemberById(@Query('familyMemberId') familyMemberId: number) {
+  @CustomApiOKResponse(
+    ResponseFamilyMemberDto,
+    '회원이 속한 가족 구성원 정보를 반환한다.',
+  )
+  async findFamilyMemberById(@Req() req) {
     const responseFamilyMemberDto: ResponseFamilyMemberDto =
-      await this.familyMemberService.findFamilyMemberById(familyMemberId);
+      await this.familyMemberService.findFamilyMemberByUserId(req.user.id);
     return CustomApiResponse.success(
       ResponseCode.FAMILY_MEMBER_READ_SUCCESS,
       responseFamilyMemberDto,

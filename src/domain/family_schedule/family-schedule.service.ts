@@ -77,6 +77,10 @@ export class FamilyScheduleService {
         order: { scheduleDate: 'ASC' },
       });
 
+    familySchedules.forEach((schedule) => {
+      schedule.scheduleDate = new Date(schedule.scheduleDate);
+    });
+
     return familySchedules.map((familySchedule) => {
       return ResponseFamilyScheduleDto.from(familySchedule);
     });

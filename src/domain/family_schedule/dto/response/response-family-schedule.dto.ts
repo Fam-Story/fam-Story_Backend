@@ -3,8 +3,6 @@ import { ApiProperty, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('가족 일정 응답 dto')
 export class ResponseFamilyScheduleDto {
-  @ApiProperty({ example: 1, description: '가족 ID' })
-  readonly familyId: number;
   @ApiProperty({ example: 1, description: '가족 일정 ID' })
   readonly scheduleId: number;
   @ApiProperty({ example: '푸앙이네 생일', description: '가족 일정 이름' })
@@ -17,22 +15,19 @@ export class ResponseFamilyScheduleDto {
   readonly scheduleDay: number;
 
   private constructor(
-    familyId: number,
     scheduleId: number,
     scheduleName: string,
     scheduleDate: Date,
   ) {
-    this.familyId = familyId;
     this.scheduleId = scheduleId;
     this.scheduleName = scheduleName;
     this.scheduleYear = scheduleDate.getFullYear();
     this.scheduleMonth = scheduleDate.getMonth() + 1;
-    this.scheduleDay = scheduleDate.getDate();
+    this.scheduleDay = scheduleDate.getDate(); //일자
   }
 
   static from(familySchedule: FamilySchedule): ResponseFamilyScheduleDto {
     return new ResponseFamilyScheduleDto(
-      familySchedule.family.id,
       familySchedule.id,
       familySchedule.scheduleName,
       familySchedule.scheduleDate,

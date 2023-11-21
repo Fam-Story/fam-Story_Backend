@@ -131,7 +131,7 @@ describe('FamilyScheduleService', () => {
     //given
     const familySchedule = FamilySchedule.createFamilySchedule(
       'testSchedule',
-      new Date(2021, 9, 10),
+      new Date('2021-10-10'),
       family,
     );
     familySchedule.setId(1);
@@ -157,7 +157,7 @@ describe('FamilyScheduleService', () => {
     family.setId(1);
     const familySchedule = FamilySchedule.createFamilySchedule(
       'testSchedule',
-      new Date(2021, 9, 10),
+      new Date('2021-10-10'),
       family,
     );
     familySchedule.setId(1);
