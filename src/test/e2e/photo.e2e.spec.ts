@@ -15,11 +15,6 @@ describe('PhotoController (e2e)', () => {
   let mockPhotoService: Partial<PhotoService>;
   let mockPhotoRepository: Partial<Repository<Photo>>;
   let mockFamilyRepository: Partial<Repository<Family>>;
-
-  const mockJwtServiceStrategy = {
-    validate: jest.fn().mockResolvedValue({ id: 1, username: 'testuser' }),
-  };
-
   const photo: Photo = Photo.createPhoto(
     'test.com',
     'test',

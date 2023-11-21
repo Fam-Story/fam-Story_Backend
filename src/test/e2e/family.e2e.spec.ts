@@ -15,11 +15,6 @@ describe('FamilyController (e2e)', () => {
   let mockFamilyService: Partial<FamilyService>;
   let mockFamilyRepository: Partial<Repository<Family>>;
   const mockFamily: Family = Family.createFamily('test', 'testKeyCode');
-
-  const mockJwtServiceStrategy = {
-    validate: jest.fn().mockResolvedValue({ id: 1, username: 'testuser' }),
-  };
-
   beforeEach(async () => {
     mockFamilyService = {
       findFamilyById: jest

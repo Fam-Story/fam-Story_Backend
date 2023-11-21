@@ -18,11 +18,6 @@ describe('FamilyScheduleController', () => {
   let mockFamilyScheduleService: Partial<FamilyScheduleService>;
   let mockFamilyRepository: Partial<Repository<Family>>;
   let mockFamilyScheduleRepository: Partial<Repository<FamilySchedule>>;
-
-  const mockJwtServiceStrategy = {
-    validate: jest.fn().mockResolvedValue({ id: 1, username: 'testuser' }),
-  };
-
   const mockFamily = Family.createFamily('testFamily', 'testKeyCode');
   mockFamily.setId(1);
   const mockFamilySchedule = FamilySchedule.createFamilySchedule(

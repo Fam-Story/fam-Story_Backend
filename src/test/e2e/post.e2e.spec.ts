@@ -1,13 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PostService, ResponsePostDto } from '../../domain/post';
-import { ExecutionContext, INestApplication } from '@nestjs/common';
+import { INestApplication } from '@nestjs/common';
 import { FamilyMember, Post } from '../../infra/entities';
 import { Repository } from 'typeorm';
 import { PostModule } from '../../module';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import * as request from 'supertest';
-import { AuthGuard, PassportModule } from '@nestjs/passport';
-import { JwtServiceStrategy } from '../../auth/strategies/jwt-service.strategy';
+import { PassportModule } from '@nestjs/passport';
 import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
 import { MockJwtAuthGuard } from './mockAuthGuard';
 
@@ -16,11 +15,6 @@ describe('PostController (e2e)', () => {
   let mockPostService: Partial<PostService>;
   let mockPostRepository: Partial<Repository<Post>>;
   let mockFamilyMemberRepository: Partial<Repository<FamilyMember>>;
-
-  const mockJwtServiceStrategy = {
-    validate: jest.fn().mockResolvedValue({ id: 1, username: 'testuser' }),
-  };
-
   const post: Post = Post.createPost(
     'testTitle',
     'testContext',
@@ -58,8 +52,6 @@ describe('PostController (e2e)', () => {
       .useValue(mockPostRepository)
       .overrideProvider(getRepositoryToken(FamilyMember))
       .useValue(mockFamilyMemberRepository)
-      .overrideProvider(JwtServiceStrategy)
-      .useValue(mockJwtServiceStrategy)
       .overrideGuard(JwtServiceAuthGuard)
       .useClass(MockJwtAuthGuard)
       .compile();
