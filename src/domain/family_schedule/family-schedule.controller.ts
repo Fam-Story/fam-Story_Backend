@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { ResponseFamilyScheduleDto } from './dto';
 import { CreateFamilyScheduleDto, UpdateFamilyScheduleDto } from './dto';
-import { ApiResponse, ResponseCode } from '../../common';
+import { CustomApiResponse, ResponseCode } from '../../common';
 import {
   ApiBearerAuth,
   ApiOkResponse,
@@ -46,7 +46,7 @@ export class FamilyScheduleController {
       await this.familyScheduleService.createFamilySchedule(
         createFamilyScheduleDto,
       );
-    return ApiResponse.success(
+    return CustomApiResponse.success(
       ResponseCode.FAMILY_SCHEDULE_CREATED_SUCCESS,
       familyScheduleId,
     );
@@ -59,7 +59,7 @@ export class FamilyScheduleController {
   })
   @ApiOkResponse({
     description: '날짜와 일정 내용 등 가족 일정을 수정한다.',
-    type: ApiResponse<null>,
+    type: CustomApiResponse<null>,
   })
   @Put('')
   async updateFamilySchedule(
@@ -68,7 +68,7 @@ export class FamilyScheduleController {
     await this.familyScheduleService.updateFamilySchedule(
       updateFamilyScheduleDto,
     );
-    return ApiResponse.success(
+    return CustomApiResponse.success(
       ResponseCode.FAMILY_SCHEDULE_UPDATE_SUCCESS,
       null,
     );
@@ -81,12 +81,12 @@ export class FamilyScheduleController {
   })
   @ApiOkResponse({
     description: '가족 일정을 삭제한다.',
-    type: ApiResponse<null>,
+    type: CustomApiResponse<null>,
   })
   @Delete('')
   async deleteFamilySchedule(@Query('scheduleId') familyScheduleId: number) {
     await this.familyScheduleService.deleteFamilySchedule(familyScheduleId);
-    return ApiResponse.success(
+    return CustomApiResponse.success(
       ResponseCode.FAMILY_SCHEDULE_DELETE_SUCCESS,
       null,
     );
@@ -104,7 +104,7 @@ export class FamilyScheduleController {
   async findFamilyScheduleById(@Query('scheduleId') familyScheduleId: number) {
     const responseFamilyScheduleDto: ResponseFamilyScheduleDto =
       await this.familyScheduleService.findFamilyScheduleById(familyScheduleId);
-    return ApiResponse.success(
+    return CustomApiResponse.success(
       ResponseCode.FAMILY_SCHEDULE_READ_SUCCESS,
       responseFamilyScheduleDto,
     );
@@ -131,7 +131,7 @@ export class FamilyScheduleController {
         year,
         targetMonth,
       );
-    return ApiResponse.success(
+    return CustomApiResponse.success(
       ResponseCode.FAMILY_SCHEDULE_READ_SUCCESS,
       familyScheduleList,
     );

@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { InteractionService } from './interaction.service';
 import { CreateInteractionDto } from './dto/create-interaction.dto';
-import { ApiResponse, ResponseCode } from '../../common';
+import { CustomApiResponse, ResponseCode } from '../../common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
 import { ResponseInteractionDto } from './dto/response-interaction.dto';
@@ -37,7 +37,7 @@ export class InteractionController {
     const savedInteractionId =
       await this.interactionService.createInteraction(createInteractionDto);
     //TODO: FCM으로 메시지 전송하기
-    return ApiResponse.success(
+    return CustomApiResponse.success(
       ResponseCode.INTERACTION_CREATED_SUCCESS,
       savedInteractionId,
     );
@@ -58,7 +58,7 @@ export class InteractionController {
     const interactions =
       await this.interactionService.findAllInteractions(dstMemberId);
     await this.interactionService.checkAllInteractions(dstMemberId);
-    return ApiResponse.success(
+    return CustomApiResponse.success(
       ResponseCode.INTERACTION_READ_SUCCESS,
       interactions,
     );
@@ -77,6 +77,6 @@ export class InteractionController {
   @Delete('')
   async deleteInteraction(@Query('familyMemberId') dstMemberId: number) {
     await this.interactionService.deleteAllInteractions(dstMemberId);
-    return ApiResponse.success(ResponseCode.INTERACTION_DELETED_SUCCESS, null);
+    return CustomApiResponse.success(ResponseCode.INTERACTION_DELETED_SUCCESS, null);
   }
 }

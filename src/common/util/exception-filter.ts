@@ -4,7 +4,7 @@ import {
   ArgumentsHost,
   HttpException,
 } from '@nestjs/common';
-import { ApiResponse } from '../api';
+import { CustomApiResponse } from '../api';
 import { BaseException } from '../exception/base.exeception';
 
 @Catch(HttpException)
@@ -22,7 +22,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     if (exception instanceof BaseException) {
       // 예외 유형이 BaseException 일 때
       const responseCode = exception.getResponseCode();
-      response.status(status).json(ApiResponse.fail(responseCode, null));
+      response.status(status).json(CustomApiResponse.fail(responseCode, null));
     } else {
       //아니라면
       if (!message) {
@@ -31,7 +31,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       response
         .status(status)
         .json(
-          ApiResponse.fail({ code: status, message: error || message }, null),
+          CustomApiResponse.fail({ code: status, message: error || message }, null),
         );
     }
   }

@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { CreatePhotoDto, PhotoService, UpdatePhotoDto } from '../photo';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { ApiResponse, ResponseCode } from '../../common';
+import { CustomApiResponse, ResponseCode } from '../../common';
 import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
 
 @ApiTags('사진 API')
@@ -28,7 +28,7 @@ export class PhotoController {
   })
   async createPhoto(@Body() createPhotoDto: CreatePhotoDto) {
     const photoId = await this.photoService.createPhoto(createPhotoDto);
-    return ApiResponse.success(ResponseCode.PHOTO_CREATED_SUCCESS, photoId);
+    return CustomApiResponse.success(ResponseCode.PHOTO_CREATED_SUCCESS, photoId);
   }
 
   //사진 삭제
@@ -39,7 +39,7 @@ export class PhotoController {
   })
   async deletePhoto(@Query('photoId') photoId: number) {
     await this.photoService.deletePhoto(photoId);
-    return ApiResponse.success(ResponseCode.PHOTO_DELETE_SUCCESS, null);
+    return CustomApiResponse.success(ResponseCode.PHOTO_DELETE_SUCCESS, null);
   }
 
   //사진 수정
@@ -50,7 +50,7 @@ export class PhotoController {
   })
   async updatePhoto(@Body() updatePhotoDto: UpdatePhotoDto) {
     await this.photoService.updatePhotoInfo(updatePhotoDto);
-    return ApiResponse.success(ResponseCode.PHOTO_UPDATE_SUCCESS, null);
+    return CustomApiResponse.success(ResponseCode.PHOTO_UPDATE_SUCCESS, null);
   }
 
   //사진 리스트 반환 (pagination 적용)
@@ -66,6 +66,6 @@ export class PhotoController {
     @Query('limit') limit: number,
   ) {
     const photos = await this.photoService.getPhotos(familyId, page, limit);
-    return ApiResponse.success(ResponseCode.PHOTO_READ_SUCCESS, photos);
+    return CustomApiResponse.success(ResponseCode.PHOTO_READ_SUCCESS, photos);
   }
 }
