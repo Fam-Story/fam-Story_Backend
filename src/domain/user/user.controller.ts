@@ -6,7 +6,6 @@ import {
   HttpStatus,
   Post,
   Put,
-  Query,
   Req,
   Res,
   UseGuards,
@@ -52,10 +51,10 @@ export class UserController {
     createUserDto.password = await this.userService.hashPassword(
       createUserDto.password, //비밀번호 암호화
     );
-    return this.userService.saveUser(createUserDto).then((result) => {
+    return this.userService.saveUser(createUserDto).then(() => {
       res
         .status(HttpStatus.CREATED)
-        .json(ApiResponse.success(ResponseCode.USER_CREATED_SUCCESS, result));
+        .json(ApiResponse.success(ResponseCode.USER_CREATED_SUCCESS, null));
     });
   }
 
@@ -91,12 +90,14 @@ export class UserController {
     description: '회원 정보를 수정하면 statusCode 200을 반환한다.',
     type: ApiResponse<null>,
   })
-  async update(@Res() res, @Body() updateUserDto: UpdateUserDto) {
-    return await this.userService.updateUser(updateUserDto).then((result) => {
-      res
-        .status(HttpStatus.OK)
-        .json(ApiResponse.success(ResponseCode.USER_UPDATE_SUCCESS, result));
-    });
+  async update(@Req() req, @Res() res, @Body() updateUserDto: UpdateUserDto) {
+    return await this.userService
+      .updateUser(req.user.id, updateUserDto)
+      .then((result) => {
+        res
+          .status(HttpStatus.OK)
+          .json(ApiResponse.success(ResponseCode.USER_UPDATE_SUCCESS, result));
+      });
   }
 
   @Delete('')
@@ -110,8 +111,8 @@ export class UserController {
     description: '회원 삭제에 성공하면 statuscode 200을 반환한다.',
     type: ApiResponse<null>,
   })
-  async delete(@Res() res, @Query('userId') id: number) {
-    return await this.userService.deleteUser(id).then((result) => {
+  async delete(@Req() req, @Res() res) {
+    return await this.userService.deleteUser(req.user.id).then((result) => {
       res
         .status(HttpStatus.OK)
         .json(ApiResponse.success(ResponseCode.USER_DELETE_SUCCESS, result));
@@ -130,14 +131,8 @@ export class UserController {
   )
   @ApiBearerAuth('access-token')
   @UseGuards(JwtServiceAuthGuard)
-  async findOne(@Req() req, @Res() res, @Query('userId') id: number) {
-    if (req.user.id != id) {
-      //passport는 기본적으로 req.user에 저장함
-      return res
-        .status(HttpStatus.UNAUTHORIZED)
-        .json(ApiResponse.fail(ResponseCode.USER_FORBIDDEN, null));
-    }
-    return await this.userService.findUserById(id).then((result) => {
+  async findOne(@Req() req, @Res() res) {
+    return await this.userService.findUserById(req.user.id).then((result) => {
       res
         .status(HttpStatus.OK)
         .json(ApiResponse.success(ResponseCode.USER_READ_SUCCESS, result));
