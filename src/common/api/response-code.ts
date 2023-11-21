@@ -121,12 +121,13 @@ export class ResponseCode {
     message: '게시글 생성 성공',
   };
 
-  //403
+  //401
   static readonly USER_LOGIN_FAIL = {
     code: HttpStatus.UNAUTHORIZED,
     message: '유저 로그인 실패',
   };
 
+  //403
   static readonly USER_FORBIDDEN = {
     code: HttpStatus.FORBIDDEN,
     message: '다른 유저의 정보를 조회할 수 없습니다.',

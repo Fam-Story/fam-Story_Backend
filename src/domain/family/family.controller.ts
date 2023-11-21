@@ -7,6 +7,7 @@ import {
   Put,
   Query,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { FamilyService } from './family.service';
 import { CreateFamilyDto, ResponseFamilyDto, UpdateFamilyDto } from './dto';
@@ -16,7 +17,7 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { ApiResponse, ResponseCode } from '../../common';
+import { CustomApiResponse, ResponseCode } from '../../common';
 import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
 import { CustomApiCreatedResponse } from '../../common/api/response-created.decorator';
 import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
@@ -31,14 +32,14 @@ export class FamilyController {
   //회원이 속한 가족 정보 전송
   @Get('')
   @ApiOperation({
-    summary: '[가족] 가족 정보 반환',
+    summary: '[가족] 회원이 속한 가족 정보 반환',
     description: '회원이 속한 가족 정보를 반환한다.',
   })
   @CustomApiOKResponse(ResponseFamilyDto, '회원이 속한 가족 정보를 반환한다.')
-  async findFamilyByUserId(@Query('userId') userId: number) {
+  async findFamilyByUserId(@Req() req) {
     const responseFamilyDto: ResponseFamilyDto =
-      await this.familyService.findFamilyById(userId);
-    return ApiResponse.success(
+      await this.familyService.findFamilyById(req.user.id);
+    return CustomApiResponse.success(
       ResponseCode.FAMILY_READ_SUCCESS,
       responseFamilyDto,
     );
@@ -46,14 +47,17 @@ export class FamilyController {
 
   //가족 생성페이지에서 가족 생성
   @Post('')
-  @ApiOperation({ summary: '[가족] 가족 생성', description: '가족을 생성한다.' })
+  @ApiOperation({
+    summary: '[가족] 가족 생성',
+    description: '가족을 생성한다.',
+  })
   @CustomApiCreatedResponse(
     Number,
     '가족 생성을 성공하면 Status Code 201과 familyId를 반환한다.',
   )
   async createFamily(@Body() createFamilyDto: CreateFamilyDto) {
     const familyId = await this.familyService.createFamily(createFamilyDto);
-    return ApiResponse.success(ResponseCode.FAMILY_CREATED_SUCCESS, familyId);
+    return CustomApiResponse.success(ResponseCode.FAMILY_CREATED_SUCCESS, familyId);
   }
 
   //가족 정보 수정
@@ -64,20 +68,27 @@ export class FamilyController {
   })
   @ApiOkResponse({
     description: '가족의 이름을 수정한다.',
-    type: ApiResponse<null>,
+    type: CustomApiResponse<null>,
   })
   async updateFamily(@Body() updateFamilyDto: UpdateFamilyDto) {
     await this.familyService.updateFamily(updateFamilyDto);
-    return ApiResponse.success(ResponseCode.FAMILY_UPDATE_SUCCESS, null);
+    return CustomApiResponse.success(ResponseCode.FAMILY_UPDATE_SUCCESS, null);
   }
 
   //가족 삭제
   @Delete('')
-  @ApiOperation({ summary: '[가족] 가족 삭제', description: '가족을 삭제한다.' })
-  @ApiOkResponse({ description: '가족을 삭제한다. 이 때 자동으로 가족 구성원 객체는 모두 삭제된다.', type: ApiResponse<null> })
+  @ApiOperation({
+    summary: '[가족] 가족 삭제',
+    description: '가족을 삭제한다.',
+  })
+  @ApiOkResponse({
+    description:
+      '가족을 삭제한다. 이 때 자동으로 가족 구성원 객체는 모두 삭제된다.',
+    type: CustomApiResponse<null>,
+  })
   async deleteFamily(@Query('familyId') familyId: number) {
     await this.familyService.deleteFamily(familyId);
-    return ApiResponse.success(ResponseCode.FAMILY_DELETE_SUCCESS, null);
+    return CustomApiResponse.success(ResponseCode.FAMILY_DELETE_SUCCESS, null);
   }
 
   //초대 키로 가족 정보 검색 (가족 초대) -> 가족 정보 반환
@@ -94,7 +105,7 @@ export class FamilyController {
   async findFamilyByKeyCode(@Query('keyCode') keyCode: string) {
     const responseFamilyDto: ResponseFamilyDto =
       await this.familyService.findFamilyByKeyCode(keyCode);
-    return ApiResponse.success(
+    return CustomApiResponse.success(
       ResponseCode.FAMILY_READ_SUCCESS,
       responseFamilyDto,
     );

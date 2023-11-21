@@ -7,6 +7,7 @@ import {
   Put,
   Query,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { FamilyMemberService, ResponseFamilyMemberDto } from './index';
 import { CreateFamilyMemberDto, UpdateFamilyMemberDto } from './dto';
@@ -16,7 +17,7 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { ApiResponse, ResponseCode } from '../../common';
+import { CustomApiResponse, ResponseCode } from '../../common';
 import { CustomApiCreatedResponse } from '../../common/api/response-created.decorator';
 import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
 import { ResponseFamilyDto } from '../family';
@@ -41,12 +42,14 @@ export class FamilyMemberController {
     '가족 구성원 생성을 성공하면 Status Code 201과 familyMemberId를 반환한다.',
   )
   async createFamilyMember(
+    @Req() req,
     @Body() createFamilyMemberDto: CreateFamilyMemberDto,
   ) {
     const familyMemberId = await this.familyMemberService.createFamilyMember(
+      req.user.id,
       createFamilyMemberDto,
     );
-    return ApiResponse.success(
+    return CustomApiResponse.success(
       ResponseCode.FAMILY_MEMBER_CREATED_SUCCESS,
       familyMemberId,
     );
@@ -60,13 +63,13 @@ export class FamilyMemberController {
   })
   @ApiOkResponse({
     description: '가족 구성원 정보 수정 성공시 200을 반환',
-    type: ApiResponse<number>,
+    type: CustomApiResponse<number>,
   })
   async updateFamilyMember(
     @Body() updateFamilyMemberDto: UpdateFamilyMemberDto,
   ) {
     await this.familyMemberService.updateFamilyMember(updateFamilyMemberDto);
-    return ApiResponse.success(ResponseCode.FAMILY_MEMBER_UPDATE_SUCCESS, null);
+    return CustomApiResponse.success(ResponseCode.FAMILY_MEMBER_UPDATE_SUCCESS, null);
   }
 
   //가족 탈퇴 (즉, 가족 멤버 삭제)
@@ -78,11 +81,11 @@ export class FamilyMemberController {
   })
   @ApiOkResponse({
     description: '가족 멤버를 삭제한다. 유저 탈퇴나, 가족 삭제 시 사용한다.',
-    type: ApiResponse<null>,
+    type: CustomApiResponse<null>,
   })
   async deleteFamilyMember(@Query('familyMemberId') familyMemberId: number) {
     await this.familyMemberService.deleteFamilyMember(familyMemberId);
-    return ApiResponse.success(ResponseCode.FAMILY_MEMBER_DELETE_SUCCESS, null);
+    return CustomApiResponse.success(ResponseCode.FAMILY_MEMBER_DELETE_SUCCESS, null);
   }
 
   //가족 구성원 정보 반환
@@ -95,7 +98,7 @@ export class FamilyMemberController {
   async findFamilyMemberById(@Query('familyMemberId') familyMemberId: number) {
     const responseFamilyMemberDto: ResponseFamilyMemberDto =
       await this.familyMemberService.findFamilyMemberById(familyMemberId);
-    return ApiResponse.success(
+    return CustomApiResponse.success(
       ResponseCode.FAMILY_MEMBER_READ_SUCCESS,
       responseFamilyMemberDto,
     );
@@ -111,7 +114,7 @@ export class FamilyMemberController {
   async findFamilyByMemberId(@Query('familyMemberId') familyMemberId: number) {
     const responseFamilyDto: ResponseFamilyDto =
       await this.familyMemberService.findFamilyByMemberId(familyMemberId);
-    return ApiResponse.success(
+    return CustomApiResponse.success(
       ResponseCode.FAMILY_READ_SUCCESS,
       responseFamilyDto,
     );

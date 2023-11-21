@@ -6,7 +6,6 @@ import {
   HttpStatus,
   Post,
   Put,
-  Query,
   Req,
   Res,
   UseGuards,
@@ -24,7 +23,7 @@ import {
 } from '@nestjs/swagger';
 import { LoginUserDto } from './dto/request/login-user.dto';
 import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
-import { ApiResponse, ResponseCode } from '../../common';
+import { CustomApiResponse, ResponseCode } from '../../common';
 import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
 import { CustomApiCreatedResponse } from '../../common/api/response-created.decorator';
 import { ResponseLoginDto } from '../../auth/dto/response-login.dto';
@@ -44,7 +43,7 @@ export class UserController {
   })
   @CustomApiCreatedResponse(
     Number,
-    '이메일로 중복검사를 실시한 후, 회원가입이 완료되면 회원의 고유 ID를 Integer로 반환한다.',
+    '이메일로 중복검사를 실시한 후, 회원가입이 완료되면 Status Code 201을 보낸다.',
   )
   async createUser(@Res() res, @Body() createUserDto: CreateUserDto) {
     await this.userService.findUserByEmail(createUserDto.email); //이메일로 중복 여부 검사
@@ -52,10 +51,10 @@ export class UserController {
     createUserDto.password = await this.userService.hashPassword(
       createUserDto.password, //비밀번호 암호화
     );
-    return this.userService.saveUser(createUserDto).then((result) => {
+    return this.userService.saveUser(createUserDto).then(() => {
       res
         .status(HttpStatus.CREATED)
-        .json(ApiResponse.success(ResponseCode.USER_CREATED_SUCCESS, result));
+        .json(CustomApiResponse.success(ResponseCode.USER_CREATED_SUCCESS, null));
     });
   }
 
@@ -74,7 +73,7 @@ export class UserController {
   )
   async login(@Req() req, @Body() loginUserDto: LoginUserDto) {
     const responseLoginDto = this.authService.loginServiceUser(req.user);
-    return ApiResponse.success(
+    return CustomApiResponse.success(
       ResponseCode.USER_LOGIN_SUCCESS,
       responseLoginDto,
     );
@@ -89,14 +88,16 @@ export class UserController {
   @UseGuards(JwtServiceAuthGuard)
   @ApiCreatedResponse({
     description: '회원 정보를 수정하면 statusCode 200을 반환한다.',
-    type: ApiResponse<null>,
+    type: CustomApiResponse<null>,
   })
-  async update(@Res() res, @Body() updateUserDto: UpdateUserDto) {
-    return await this.userService.updateUser(updateUserDto).then((result) => {
-      res
-        .status(HttpStatus.OK)
-        .json(ApiResponse.success(ResponseCode.USER_UPDATE_SUCCESS, result));
-    });
+  async update(@Req() req, @Res() res, @Body() updateUserDto: UpdateUserDto) {
+    return await this.userService
+      .updateUser(req.user.id, updateUserDto)
+      .then((result) => {
+        res
+          .status(HttpStatus.OK)
+          .json(CustomApiResponse.success(ResponseCode.USER_UPDATE_SUCCESS, result));
+      });
   }
 
   @Delete('')
@@ -108,13 +109,13 @@ export class UserController {
   @UseGuards(JwtServiceAuthGuard)
   @ApiOkResponse({
     description: '회원 삭제에 성공하면 statuscode 200을 반환한다.',
-    type: ApiResponse<null>,
+    type: CustomApiResponse<null>,
   })
-  async delete(@Res() res, @Query('userId') id: number) {
-    return await this.userService.deleteUser(id).then((result) => {
+  async delete(@Req() req, @Res() res) {
+    return await this.userService.deleteUser(req.user.id).then((result) => {
       res
         .status(HttpStatus.OK)
-        .json(ApiResponse.success(ResponseCode.USER_DELETE_SUCCESS, result));
+        .json(CustomApiResponse.success(ResponseCode.USER_DELETE_SUCCESS, result));
     });
   }
 
@@ -130,17 +131,11 @@ export class UserController {
   )
   @ApiBearerAuth('access-token')
   @UseGuards(JwtServiceAuthGuard)
-  async findOne(@Req() req, @Res() res, @Query('userId') id: number) {
-    if (req.user.id != id) {
-      //passport는 기본적으로 req.user에 저장함
-      return res
-        .status(HttpStatus.UNAUTHORIZED)
-        .json(ApiResponse.fail(ResponseCode.USER_FORBIDDEN, null));
-    }
-    return await this.userService.findUserById(id).then((result) => {
+  async findOne(@Req() req, @Res() res) {
+    return await this.userService.findUserById(req.user.id).then((result) => {
       res
         .status(HttpStatus.OK)
-        .json(ApiResponse.success(ResponseCode.USER_READ_SUCCESS, result));
+        .json(CustomApiResponse.success(ResponseCode.USER_READ_SUCCESS, result));
     });
   }
 }

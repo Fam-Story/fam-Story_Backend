@@ -1,5 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import {CreateFamilyMemberDto, ResponseFamilyMemberDto, UpdateFamilyMemberDto} from './dto';
+import {
+  CreateFamilyMemberDto,
+  ResponseFamilyMemberDto,
+  UpdateFamilyMemberDto,
+} from './dto';
 import { Family, FamilyMember, User } from '../../infra/entities';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -18,9 +22,10 @@ export class FamilyMemberService {
     @InjectRepository(Family) private familyRepository: Repository<Family>,
   ) {}
   async createFamilyMember(
+    userId: number,
     createFamilyMemberDto: CreateFamilyMemberDto,
   ): Promise<number> {
-    const user = await this.validateUser(createFamilyMemberDto.userId);
+    const user = await this.validateUser(userId);
     const family = await this.validateFamily(createFamilyMemberDto.familyId);
 
     const familyMember: FamilyMember = FamilyMember.createFamilyMember(

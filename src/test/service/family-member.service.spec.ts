@@ -52,7 +52,6 @@ describe('FamilyMemberService', () => {
     const createFamilyMemberDto: CreateFamilyMemberDto = {
       role: 1,
       familyId: 1,
-      userId: 1,
     };
     const family: Family = Family.createFamily('test', 'testKeyCode');
     const user: User = User.createUser('test', 'test', 'test', 'test', 1, 1);
@@ -61,6 +60,7 @@ describe('FamilyMemberService', () => {
       family,
       user,
     );
+    user.id = 1;
     familyMember.setId(1);
 
     jest.spyOn(familyMemberRepository, 'save').mockResolvedValue(familyMember);
@@ -68,6 +68,7 @@ describe('FamilyMemberService', () => {
     jest.spyOn(familyRepository, 'findOne').mockResolvedValue(family);
 
     const savedFamilyMemberId = await familyMemberService.createFamilyMember(
+      user.id,
       createFamilyMemberDto,
     );
     expect(savedFamilyMemberId).toEqual(1);

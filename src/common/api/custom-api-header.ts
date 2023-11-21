@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class ApiHeader {
+export class CustomApiHeader {
   @ApiProperty({ example: 200 })
   code: number;
 

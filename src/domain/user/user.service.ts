@@ -19,7 +19,7 @@ export class UserService {
   }
 
   //유저 정보 저장
-  async saveUser(createUserDto: CreateUserDto): Promise<number> {
+  async saveUser(createUserDto: CreateUserDto): Promise<void> {
     const user = User.createUser(
       createUserDto.email,
       createUserDto.password,
@@ -29,12 +29,14 @@ export class UserService {
       createUserDto.gender,
     );
     const savedUser: User = await this.userRepository.save(user);
-    return savedUser.id;
   }
 
   //유저 정보 업데이트
-  async updateUser(updateUserDto: UpdateUserDto): Promise<void> {
-    await this.validateUser(updateUserDto.userId);
+  async updateUser(
+    userId: number,
+    updateUserDto: UpdateUserDto,
+  ): Promise<void> {
+    await this.validateUser(userId);
     await this.userRepository.save(updateUserDto);
   }
 

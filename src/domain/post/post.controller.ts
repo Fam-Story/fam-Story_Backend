@@ -16,7 +16,7 @@ import {
 } from '../post';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CustomApiCreatedResponse } from '../../common/api/response-created.decorator';
-import { ApiResponse, ResponseCode } from '../../common';
+import { CustomApiResponse, ResponseCode } from '../../common';
 import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
 import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
 
@@ -39,7 +39,7 @@ export class PostController {
   )
   async createPost(@Body() createPostDto: CreatePostDto) {
     const postId = await this.postService.createPost(createPostDto);
-    return ApiResponse.success(ResponseCode.POST_CREATED_SUCCESS, postId);
+    return CustomApiResponse.success(ResponseCode.POST_CREATED_SUCCESS, postId);
   }
 
   //포스트 수정
@@ -54,7 +54,7 @@ export class PostController {
   )
   async updatePost(@Body() updatePostDto: UpdatePostDto) {
     await this.postService.updatePost(updatePostDto);
-    return ApiResponse.success(ResponseCode.POST_UPDATE_SUCCESS, null);
+    return CustomApiResponse.success(ResponseCode.POST_UPDATE_SUCCESS, null);
   }
 
   //포스트 삭제
@@ -69,7 +69,7 @@ export class PostController {
   )
   async deletePost(@Query('postId') postId: number) {
     await this.postService.deletePost(postId);
-    return ApiResponse.success(ResponseCode.POST_DELETE_SUCCESS, null);
+    return CustomApiResponse.success(ResponseCode.POST_DELETE_SUCCESS, null);
   }
 
   //포스트 리스트 반환
@@ -85,7 +85,7 @@ export class PostController {
   async findPostList(@Query('familyMemberId') familyMemberId: number) {
     const responsePostDtoList: ResponsePostDto[] =
       await this.postService.findPostListByMemberId(familyMemberId);
-    return ApiResponse.success(
+    return CustomApiResponse.success(
       ResponseCode.POST_READ_SUCCESS,
       responsePostDtoList,
     );
