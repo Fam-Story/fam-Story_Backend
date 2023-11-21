@@ -16,6 +16,13 @@ jobs:
         with:
           node-version: 18.x
 
+      - name: SonarQube Scan
+        uses: kitabisa/sonarqube-action@v1.2.1
+        with:
+          host: ${{ secrets.SONAR_ENDPOINT }}
+          login: ${{ secrets.SONAR_LOGIN }}
+          password: ${{ secrets.SONAR_PASSWORD }}
+         
       - name: Install modules & Build
         run: |
           npm ci
