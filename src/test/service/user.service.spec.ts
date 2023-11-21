@@ -59,8 +59,7 @@ describe('UserService', () => {
       jest.spyOn(userRepository, 'save').mockResolvedValue(user);
       jest.spyOn(userRepository, 'findOne').mockResolvedValue(createUserDto);
 
-      const testId = await userService.saveUser(createUserDto);
-      const result = await userService.findUserById(testId);
+      const result = await userService.findUserById(1);
       expect(result.username).toEqual('test');
     });
   });
@@ -76,7 +75,6 @@ describe('UserService', () => {
         1,
       );
       const updateUserDto: UpdateUserDto = {
-        userId: 1,
         email: 'test@test.com',
         username: 'test',
         password: 'test',
@@ -87,7 +85,7 @@ describe('UserService', () => {
       jest.spyOn(userRepository, 'findOne').mockResolvedValue(user);
       jest.spyOn(userRepository, 'save').mockResolvedValue(1);
 
-      await userService.updateUser(updateUserDto);
+      await userService.updateUser(1, updateUserDto);
       expect(userRepository.findOne).toHaveBeenCalled();
       expect(userRepository.save).toHaveBeenCalled();
     });
@@ -118,7 +116,7 @@ describe('UserService', () => {
         new UserException(ResponseCode.USER_NOT_FOUND),
       );
       await expect(
-        userService.updateUser(new UpdateUserDto()),
+        userService.updateUser(1, new UpdateUserDto()),
       ).rejects.toThrowError(new UserException(ResponseCode.USER_NOT_FOUND));
       await expect(userService.findUserById(1)).rejects.toThrowError(
         new UserException(ResponseCode.USER_NOT_FOUND),
