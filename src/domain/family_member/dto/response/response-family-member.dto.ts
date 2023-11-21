@@ -1,4 +1,3 @@
-import { ResponsePostDto } from '../../../post';
 import { ApiProperty } from '@nestjs/swagger';
 import { FamilyMember } from '../../../../infra/entities';
 
@@ -8,9 +7,6 @@ export class ResponseFamilyMemberDto {
 
   @ApiProperty({ example: 1, description: '가족 고유 ID' })
   readonly familyId: number;
-
-  @ApiProperty({ example: 1, description: '유저 고유 ID' })
-  readonly userId: number;
 
   @ApiProperty({
     example: 1,
@@ -27,14 +23,12 @@ export class ResponseFamilyMemberDto {
   private constructor(
     familyMemberId: number,
     familyId: number,
-    userId: number,
     role: number,
     pokeCount: number,
     talkCount: number,
   ) {
     this.familyMemberId = familyMemberId;
     this.familyId = familyId;
-    this.userId = userId;
     this.role = role;
     this.pokeCount = pokeCount;
     this.talkCount = talkCount;
@@ -43,7 +37,6 @@ export class ResponseFamilyMemberDto {
   static of(
     familyMemberId: number,
     familyId: number,
-    userId: number,
     role: number,
     pokeCount: number,
     talkCount: number,
@@ -51,7 +44,6 @@ export class ResponseFamilyMemberDto {
     return new ResponseFamilyMemberDto(
       familyMemberId,
       familyId,
-      userId,
       role,
       pokeCount,
       talkCount,
@@ -62,7 +54,6 @@ export class ResponseFamilyMemberDto {
     return new ResponseFamilyMemberDto(
       familyMember.id,
       familyMember.family.id,
-      familyMember.user.id,
       familyMember.role,
       familyMember.pokeCount,
       familyMember.talkCount,
