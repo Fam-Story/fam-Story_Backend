@@ -97,7 +97,7 @@ export class FamilyMemberController {
   //가족 구성원 정보 반환
   @Get('')
   @ApiOperation({
-    summary: '[가족 구성원] 회원이 가족 구성원 정보 반환',
+    summary: '[가족 구성원] 회원이 속한 가족 구성원 정보 반환',
     description: '회원이 속한 가족 구성원 정보를 반환한다.',
   })
   @CustomApiOKResponse(
