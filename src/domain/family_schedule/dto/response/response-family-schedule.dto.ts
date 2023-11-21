@@ -22,8 +22,8 @@ export class ResponseFamilyScheduleDto {
     this.scheduleId = scheduleId;
     this.scheduleName = scheduleName;
     this.scheduleYear = scheduleDate.getFullYear();
-    this.scheduleMonth = scheduleDate.getMonth();
-    this.scheduleDay = scheduleDate.getDay();
+    this.scheduleMonth = scheduleDate.getMonth() + 1;
+    this.scheduleDay = scheduleDate.getDate(); //일자
   }
 
   static from(familySchedule: FamilySchedule): ResponseFamilyScheduleDto {

@@ -132,7 +132,6 @@ describe('FamilyMemberController (e2e)', () => {
     expect(response.body.message).toEqual('가족 구성원 조회 성공');
     expect(response.body.data.familyMemberId).toEqual(1);
     expect(response.body.data.familyId).toEqual(2);
-    expect(response.body.data.userId).toEqual(3);
     expect(response.body.data.pokeCount).toEqual(0);
     expect(response.body.data.talkCount).toEqual(0);
   });

@@ -27,15 +27,11 @@ export class FamilyMemberService {
   ): Promise<number> {
     const user = await this.validateUser(userId);
     const family = await this.validateFamily(createFamilyMemberDto.familyId);
-    console.log(family);
-    console.log(user);
-
     const familyMember: FamilyMember = FamilyMember.createFamilyMember(
       createFamilyMemberDto.role,
       family,
       user,
     );
-    console.log(familyMember);
     const savedMember = await this.familyMemberRepository.save(familyMember);
     return savedMember.id;
   }
@@ -72,7 +68,6 @@ export class FamilyMemberService {
     familyMemberId: number,
   ): Promise<ResponseFamilyDto> {
     const familyMember = await this.validateFamilyMember(familyMemberId);
-    console.log(familyMember);
     return ResponseFamilyDto.from(familyMember.family);
   }
 
