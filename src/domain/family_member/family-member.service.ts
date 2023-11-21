@@ -27,12 +27,15 @@ export class FamilyMemberService {
   ): Promise<number> {
     const user = await this.validateUser(userId);
     const family = await this.validateFamily(createFamilyMemberDto.familyId);
+    console.log(family);
+    console.log(user);
 
     const familyMember: FamilyMember = FamilyMember.createFamilyMember(
       createFamilyMemberDto.role,
       family,
       user,
     );
+    console.log(familyMember);
     const savedMember = await this.familyMemberRepository.save(familyMember);
     return savedMember.id;
   }
@@ -52,10 +55,16 @@ export class FamilyMemberService {
     await this.familyMemberRepository.delete(familyMemberId);
   }
 
-  async findFamilyMemberById(
-    familyMemberId: number,
+  async findFamilyMemberByUserId(
+    userId: number,
   ): Promise<ResponseFamilyMemberDto> {
-    const familyMember = await this.validateFamilyMember(familyMemberId);
+    await this.validateUser(userId);
+    const familyMember = await this.familyMemberRepository.findOne({
+      where: { user: { id: userId } },
+    });
+    if (!familyMember) {
+      throw new FamilyMemberException(ResponseCode.FAMILY_MEMBER_NOT_FOUND);
+    }
     return ResponseFamilyMemberDto.from(familyMember);
   }
 
@@ -63,6 +72,7 @@ export class FamilyMemberService {
     familyMemberId: number,
   ): Promise<ResponseFamilyDto> {
     const familyMember = await this.validateFamilyMember(familyMemberId);
+    console.log(familyMember);
     return ResponseFamilyDto.from(familyMember.family);
   }
 

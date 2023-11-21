@@ -47,7 +47,7 @@ describe('FamilyMemberController (e2e)', () => {
       findFamilyByMemberId: jest
         .fn()
         .mockResolvedValue(ResponseFamilyDto.from(mockFamily)),
-      findFamilyMemberById: jest
+      findFamilyMemberByUserId: jest
         .fn()
         .mockResolvedValue(ResponseFamilyMemberDto.from(mockFamilyMember)),
     };
