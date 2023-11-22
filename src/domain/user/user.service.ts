@@ -28,7 +28,7 @@ export class UserService {
       createUserDto.age,
       createUserDto.gender,
     );
-    const savedUser: User = await this.userRepository.save(user);
+    await this.userRepository.save(user);
   }
 
   //유저 정보 업데이트

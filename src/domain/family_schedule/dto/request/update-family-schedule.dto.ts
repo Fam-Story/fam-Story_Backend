@@ -24,11 +24,6 @@ export class UpdateFamilyScheduleDto extends PartialType(
   @IsString()
   readonly scheduleName: string;
 
-  @ApiProperty({ example: 2, description: '가족 고유 ID', nullable: false })
-  @IsNotEmpty()
-  @IsNumber()
-  readonly familyId: number;
-
   @ApiProperty({ example: 2023, description: '일정 년도', nullable: false })
   @IsNotEmpty()
   @IsNumber()

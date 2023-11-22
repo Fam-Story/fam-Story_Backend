@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateFamilyMemberDto {
@@ -15,4 +15,11 @@ export class CreateFamilyMemberDto {
   @IsNotEmpty()
   @IsNumber()
   readonly role: number;
+
+  @ApiProperty({
+    example: 1,
+  })
+  @IsNotEmpty()
+  @IsString()
+  readonly fcmToken: string;
 }

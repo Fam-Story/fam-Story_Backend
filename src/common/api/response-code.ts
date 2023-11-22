@@ -174,6 +174,10 @@ export class ResponseCode {
     code: HttpStatus.CONFLICT,
     message: '유저 중복 생성',
   };
+  static readonly FAMILY_MEMBER_ALREADY_EXIST = {
+    code: HttpStatus.CONFLICT,
+    message: '가족 구성원 중복 생성',
+  };
   static readonly FAMILY_CODE_ALREADY_EXIST = {
     code: HttpStatus.CONFLICT,
     message: '가족 코드 중복 생성',

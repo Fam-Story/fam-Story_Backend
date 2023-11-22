@@ -43,7 +43,10 @@ export class FamilyMember {
   receivedInteractions: Interaction[];
 
   @OneToMany(() => Post, (post) => post.srcMember)
-  posts: Post[];
+  sentPosts: Post[];
+
+  @OneToMany(() => Post, (post) => post.dstMember)
+  gotPosts: Post[];
   static createFamilyMember(
     role: number,
     family: Family,

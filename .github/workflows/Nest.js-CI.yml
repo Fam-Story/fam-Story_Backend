@@ -27,13 +27,6 @@ jobs:
         run: |
           npm test
 
-      - name: SonarQube Scan
-        uses: kitabisa/sonarqube-action@v1.2.1
-        with:
-          host: ${{ secrets.SONAR_ENDPOINT }}
-          login: ${{ secrets.SONAR_LOGIN }}
-          password: ${{ secrets.SONAR_PASSWORD }}
-
       - name: Docker login
         uses: docker/login-action@v3.0.0
         with:
