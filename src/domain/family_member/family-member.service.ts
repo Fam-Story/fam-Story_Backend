@@ -26,6 +26,10 @@ export class FamilyMemberService {
     createFamilyMemberDto: CreateFamilyMemberDto,
   ): Promise<number> {
     const user = await this.validateUser(userId);
+    // 이미 가족에 속해있는 경우 오류 발생
+    if (user.belongsToFamily) {
+      throw new FamilyMemberException(ResponseCode.FAMILY_MEMBER_ALREADY_EXIST);
+    }
     const family = await this.validateFamily(createFamilyMemberDto.familyId);
     const familyMember: FamilyMember = FamilyMember.createFamilyMember(
       createFamilyMemberDto.role,
@@ -33,6 +37,15 @@ export class FamilyMemberService {
       user,
     );
     const savedMember = await this.familyMemberRepository.save(familyMember);
+    family.memberNumber += 1;
+    // 가족에 속해 있다고 지정
+    await this.userRepository.update(user.id, {
+      belongsToFamily: () => 'BelongsToFamily + 1',
+    });
+    // 가족 구성원 수 증가
+    await this.familyRepository.update(family.id, {
+      memberNumber: () => 'Member_Number + 1',
+    });
     return savedMember.id;
   }
 
@@ -47,8 +60,23 @@ export class FamilyMemberService {
   }
 
   async deleteFamilyMember(familyMemberId: number) {
-    await this.validateFamilyMember(familyMemberId);
+    const familyMember = await this.familyMemberRepository.findOne({
+      where: { id: familyMemberId },
+      relations: ['family', 'user'],
+    });
+    if (!familyMember) {
+      throw new FamilyMemberException(ResponseCode.FAMILY_MEMBER_NOT_FOUND);
+    }
+    const family = await this.validateFamily(familyMember.family.id);
+    const user = await this.validateUser(familyMember.user.id);
+
     await this.familyMemberRepository.delete(familyMemberId);
+    await this.userRepository.update(user.id, {
+      belongsToFamily: () => 'BelongsToFamily - 1',
+    });
+    await this.familyRepository.update(family.id, {
+      memberNumber: () => 'Member_Number - 1',
+    });
   }
 
   //유저 ID를 통한 가족 구성원 정보 반환
