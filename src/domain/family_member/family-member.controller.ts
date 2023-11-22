@@ -35,7 +35,7 @@ export class FamilyMemberController {
   @ApiOperation({
     summary: '[가족 구성원] 가족 구성원 생성',
     description:
-      '초대 코드를 통해 가족에 참여하면 회원과 매핑된 가족 구성원을 생성한다.',
+      '가족을 생성하거나, 초대 코드를 통해 가족에 참여하면 회원과 매핑된 가족 구성원을 생성한다.',
   })
   @CustomApiCreatedResponse(
     Number,
