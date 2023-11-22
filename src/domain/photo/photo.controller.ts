@@ -8,14 +8,11 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import {
-  CreatePhotoDto,
-  PhotoService,
-  ResponsePhotoDto,
-  UpdatePhotoDto,
-} from '../photo';
+import { PhotoService } from '../photo';
+import { CreatePhotoDto, ResponsePhotoDto, UpdatePhotoDto } from './dto';
 import {
   ApiBearerAuth,
+  ApiOkResponse,
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
@@ -54,7 +51,9 @@ export class PhotoController {
     summary: '[사진] 사진 삭제',
     description: '사진을 삭제한다.',
   })
-  @CustomApiOKResponse(null, '사진 삭제 성공할 시, Status Code 200를 반환한다')
+  @ApiOkResponse({
+    description: '사진 삭제 성공할 시, Status Code 200를 반환한다',
+  })
   async deletePhoto(@Query('photoId') photoId: number) {
     await this.photoService.deletePhoto(photoId);
     return CustomApiResponse.success(ResponseCode.PHOTO_DELETE_SUCCESS, null);
@@ -66,7 +65,9 @@ export class PhotoController {
     summary: '[사진] 사진 정보 수정',
     description: '사진의 정보 수정한다.',
   })
-  @CustomApiOKResponse(null, '사진의 정보를 수정할 시, Status Code 200 반환')
+  @ApiOkResponse({
+    description: '사진의 정보를 수정할 시, Status Code 200 반환',
+  })
   async updatePhoto(@Body() updatePhotoDto: UpdatePhotoDto) {
     await this.photoService.updatePhotoInfo(updatePhotoDto);
     return CustomApiResponse.success(ResponseCode.PHOTO_UPDATE_SUCCESS, null);
