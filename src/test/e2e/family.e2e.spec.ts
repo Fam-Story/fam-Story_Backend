@@ -2,18 +2,21 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { FamilyService, ResponseFamilyDto } from '../../domain/family';
 import { INestApplication } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Family } from '../../infra/entities';
+import { Family, FamilyMember } from '../../infra/entities';
 import { FamilyModule } from '../../module';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import * as request from 'supertest';
 import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
 import { MockJwtAuthGuard } from './mockAuthGuard';
 import { PassportModule } from '@nestjs/passport';
+import { FamilyMemberService } from '../../domain/family_member';
 
 describe('FamilyController (e2e)', () => {
   let app: INestApplication;
   let mockFamilyService: Partial<FamilyService>;
+  let mockFamilyMemberService: Partial<FamilyMemberService>;
   let mockFamilyRepository: Partial<Repository<Family>>;
+  let mockFamilyMemberRepository: Partial<Repository<FamilyMember>>;
   const mockFamily: Family = Family.createFamily('test', 'testKeyCode');
   beforeEach(async () => {
     mockFamilyService = {
@@ -29,7 +32,16 @@ describe('FamilyController (e2e)', () => {
       updateFamily: jest.fn(),
     };
 
+    mockFamilyMemberService = {
+      deleteAllFamilyMember: jest.fn(),
+    };
+
     mockFamilyRepository = {
+      findOne: jest.fn().mockResolvedValue(mockFamily),
+      find: jest.fn(),
+    };
+
+    mockFamilyMemberRepository = {
       findOne: jest.fn().mockResolvedValue(mockFamily),
       find: jest.fn(),
     };
@@ -44,6 +56,10 @@ describe('FamilyController (e2e)', () => {
       .useValue(mockFamilyService)
       .overrideProvider(getRepositoryToken(Family))
       .useValue(mockFamilyRepository)
+      .overrideProvider(FamilyMemberService)
+      .useValue(mockFamilyMemberService)
+      .overrideProvider(getRepositoryToken(FamilyMember))
+      .useValue(mockFamilyMemberRepository)
       .overrideGuard(JwtServiceAuthGuard)
       .useClass(MockJwtAuthGuard)
       .compile();
