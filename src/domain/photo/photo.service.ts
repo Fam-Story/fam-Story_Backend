@@ -40,7 +40,14 @@ export class PhotoService {
     });
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
-    return photos.slice(startIndex, endIndex);
+    return photos.slice(startIndex, endIndex).map((photo) => {
+      return ResponsePhotoDto.of(
+        photo.id,
+        photo.name,
+        photo.s3ImageUrl,
+        photo.createdDate,
+      );
+    });
   }
 
   //사진 상세 조회
