@@ -21,12 +21,19 @@ export class Post {
   @Column('date', { name: 'Created_Date' })
   createdDate: Date;
 
-  @ManyToOne(() => FamilyMember, (familyMember) => familyMember.posts, {
+  @ManyToOne(() => FamilyMember, (familyMember) => familyMember.sentPosts, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
   @JoinColumn([{ name: 'Src_Member_ID', referencedColumnName: 'id' }])
   srcMember: FamilyMember;
+
+  @ManyToOne(() => FamilyMember, (familyMember) => familyMember.gotPosts, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn([{ name: 'Dst_Member_ID', referencedColumnName: 'id' }])
+  dstMember: FamilyMember;
 
   static createPost(
     title: string,
