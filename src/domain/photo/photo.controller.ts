@@ -8,11 +8,20 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import {CreatePhotoDto, PhotoService, ResponsePhotoDto, UpdatePhotoDto} from '../photo';
-import {ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags} from '@nestjs/swagger';
+import {
+  CreatePhotoDto,
+  PhotoService,
+  ResponsePhotoDto,
+  UpdatePhotoDto,
+} from '../photo';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { CustomApiResponse, ResponseCode } from '../../common';
 import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
-import {CustomApiOKResponse} from "../../common/api/response-ok.decorator";
+import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
 
 @ApiTags('사진 API')
 @Controller('photo')
