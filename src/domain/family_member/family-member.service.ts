@@ -123,6 +123,26 @@ export class FamilyMemberService {
     return ResponseFamilyDto.from(familyMember.family);
   }
 
+  //가족 삭제 시 모든 구성원 제거
+  async deleteAllFamilyMember(familyId: number) {
+    await this.validateFamily(familyId);
+
+    // 가족에 속해있는 유저들의 belongsToFamily 0으로 초기화
+    const familyMembers = await this.familyMemberRepository.find({
+      where: { family: { id: familyId } },
+      relations: ['user'],
+    });
+    for (const familyMember of familyMembers) {
+      await this.userRepository.update(familyMember.user.id, {
+        belongsToFamily: () => 'BelongsToFamily - 1',
+      });
+    }
+
+    await this.familyMemberRepository.delete({
+      family: { id: familyId },
+    });
+  }
+
   //가족 ID를 통한 모든 가족 구성원 정보 반환
   async findAllFamilyMemberByFamilyId(
     familyId: number,
