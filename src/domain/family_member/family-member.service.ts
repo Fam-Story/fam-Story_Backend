@@ -61,6 +61,7 @@ export class FamilyMemberService {
     if (!familyMember) {
       throw new FamilyMemberException(ResponseCode.FAMILY_MEMBER_NOT_FOUND);
     }
+    console.log(familyMember);
     return ResponseFamilyMemberDto.from(familyMember);
   }
 
@@ -78,6 +79,7 @@ export class FamilyMemberService {
     const familyMembers = await this.familyMemberRepository.find({
       where: { family: { id: familyId } },
     });
+    console.log(familyMembers);
     return familyMembers.map((familyMember) =>
       ResponseFamilyMemberDto.from(familyMember),
     );
