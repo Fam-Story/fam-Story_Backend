@@ -57,18 +57,25 @@ export class FamilyMemberService {
     await this.validateUser(userId);
     const familyMember = await this.familyMemberRepository.findOne({
       where: { user: { id: userId } },
+      relations: ['user'],
     });
     if (!familyMember) {
       throw new FamilyMemberException(ResponseCode.FAMILY_MEMBER_NOT_FOUND);
     }
-    console.log(familyMember);
     return ResponseFamilyMemberDto.from(familyMember);
   }
 
   async findFamilyByMemberId(
     familyMemberId: number,
   ): Promise<ResponseFamilyDto> {
-    const familyMember = await this.validateFamilyMember(familyMemberId);
+    const familyMember = await this.familyMemberRepository.findOne({
+      where: { id: familyMemberId },
+      relations: ['family'], // Family 테이블과 Join
+    });
+
+    if (!familyMember) {
+      throw new FamilyMemberException(ResponseCode.FAMILY_MEMBER_NOT_FOUND);
+    }
     return ResponseFamilyDto.from(familyMember.family);
   }
 
@@ -78,8 +85,8 @@ export class FamilyMemberService {
     await this.validateFamily(familyId);
     const familyMembers = await this.familyMemberRepository.find({
       where: { family: { id: familyId } },
+      relations: ['user'],
     });
-    console.log(familyMembers);
     return familyMembers.map((familyMember) =>
       ResponseFamilyMemberDto.from(familyMember),
     );
