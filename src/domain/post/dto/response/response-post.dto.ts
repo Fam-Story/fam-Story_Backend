@@ -22,15 +22,15 @@ export class ResponsePostDto {
 
   private constructor(
     postId: number,
-    familyId: number,
-    s3ImageUrl: string,
-    name: string,
+    familyMemberId: number,
+    title: string,
+    context: string,
     createdDate: Date,
   ) {
     this.postId = postId;
-    this.familyMemberId = familyId;
-    this.title = s3ImageUrl;
-    this.context = name;
+    this.familyMemberId = familyMemberId;
+    this.title = title;
+    this.context = context;
     this.createdDate = createdDate;
   }
 

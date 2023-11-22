@@ -44,6 +44,7 @@ export class PostService {
     await this.validateFamilyMember(familyMemberId);
     const postList = await this.postRepository.find({
       where: { srcMember: { id: familyMemberId } },
+      relations: ['familyMember'],
     });
     return postList.map((post) => ResponsePostDto.from(post));
   }
