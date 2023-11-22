@@ -94,8 +94,28 @@ export class FamilyMemberController {
     );
   }
 
-  //가족 구성원 정보 반환
   @Get('')
+  @ApiOperation({
+    summary: '[가족 구성원] 구성원 ID를 통한 가족 구성원 정보 반환',
+    description: '가족 구성원 ID를 통해 가족 구성원 정보를 반환한다.',
+  })
+  @CustomApiOKResponse(
+    ResponseFamilyMemberDto,
+    '특정 가족 구성원 정보를 반환한다.',
+  )
+  async findFamilyMemberByMemberId(
+    @Query('familyMemberId') familyMemberId: number,
+  ) {
+    const responseFamilyMemberDto: ResponseFamilyMemberDto =
+      await this.familyMemberService.findFamilyMemberByMemberId(familyMemberId);
+    return CustomApiResponse.success(
+      ResponseCode.FAMILY_MEMBER_READ_SUCCESS,
+      responseFamilyMemberDto,
+    );
+  }
+
+  //회원이 속한 가족 구성원 정보 반환
+  @Get('/user')
   @ApiOperation({
     summary: '[가족 구성원] 회원이 속한 가족 구성원 정보 반환',
     description: '회원이 속한 가족 구성원 정보를 반환한다.',
@@ -104,7 +124,7 @@ export class FamilyMemberController {
     ResponseFamilyMemberDto,
     '회원이 속한 가족 구성원 정보를 반환한다.',
   )
-  async findFamilyMemberById(@Req() req) {
+  async findFamilyMemberByUserId(@Req() req) {
     const responseFamilyMemberDto: ResponseFamilyMemberDto =
       await this.familyMemberService.findFamilyMemberByUserId(req.user.id);
     return CustomApiResponse.success(

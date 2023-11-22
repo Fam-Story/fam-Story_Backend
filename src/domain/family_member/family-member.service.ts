@@ -51,6 +51,7 @@ export class FamilyMemberService {
     await this.familyMemberRepository.delete(familyMemberId);
   }
 
+  //유저 ID를 통한 가족 구성원 정보 반환
   async findFamilyMemberByUserId(
     userId: number,
   ): Promise<ResponseFamilyMemberDto> {
@@ -65,6 +66,21 @@ export class FamilyMemberService {
     return ResponseFamilyMemberDto.from(familyMember);
   }
 
+  //가족 구성원 ID를 통한 가족 구성원 정보 반환
+  async findFamilyMemberByMemberId(
+    familyMemberId: number,
+  ): Promise<ResponseFamilyMemberDto> {
+    const familyMember = await this.familyMemberRepository.findOne({
+      where: { id: familyMemberId },
+      relations: ['user'],
+    });
+    if (!familyMember) {
+      throw new FamilyMemberException(ResponseCode.FAMILY_MEMBER_NOT_FOUND);
+    }
+    return ResponseFamilyMemberDto.from(familyMember);
+  }
+
+  //가족 구성원 ID를 통한 가족 정보 반환
   async findFamilyByMemberId(
     familyMemberId: number,
   ): Promise<ResponseFamilyDto> {
@@ -79,6 +95,7 @@ export class FamilyMemberService {
     return ResponseFamilyDto.from(familyMember.family);
   }
 
+  //가족 ID를 통한 모든 가족 구성원 정보 반환
   async findAllFamilyMemberByFamilyId(
     familyId: number,
   ): Promise<ResponseFamilyMemberDto[]> {

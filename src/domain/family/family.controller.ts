@@ -32,13 +32,16 @@ export class FamilyController {
   //회원이 속한 가족 정보 전송
   @Get('')
   @ApiOperation({
-    summary: '[가족] 회원이 속한 가족 정보 반환',
-    description: '회원이 속한 가족 정보를 반환한다.',
+    summary: '[가족] 가족 정보 반환',
+    description: '가족 고유 ID를 통해 가족 정보를 반환한다.',
   })
-  @CustomApiOKResponse(ResponseFamilyDto, '회원이 속한 가족 정보를 반환한다.')
-  async findFamilyByUserId(@Req() req) {
+  @CustomApiOKResponse(
+    ResponseFamilyDto,
+    '가족 고유 ID를 통해 가족 정보를 반환한다.',
+  )
+  async findFamilyByFamilyId(@Query('familyId') familyId: number) {
     const responseFamilyDto: ResponseFamilyDto =
-      await this.familyService.findFamilyById(req.user.id);
+      await this.familyService.findFamilyById(familyId);
     return CustomApiResponse.success(
       ResponseCode.FAMILY_READ_SUCCESS,
       responseFamilyDto,
