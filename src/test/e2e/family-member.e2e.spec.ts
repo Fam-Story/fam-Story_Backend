@@ -48,6 +48,9 @@ describe('FamilyMemberController (e2e)', () => {
       findAllFamilyMemberByFamilyId: jest
         .fn()
         .mockResolvedValue([ResponseFamilyMemberDto.from(mockFamilyMember)]),
+      findFamilyMemberByMemberId: jest
+        .fn()
+        .mockResolvedValue(ResponseFamilyMemberDto.from(mockFamilyMember)),
     };
 
     mockFamilyRepository = {
@@ -122,14 +125,23 @@ describe('FamilyMemberController (e2e)', () => {
     expect(response.body.message).toEqual('가족 구성원 삭제 성공');
   });
 
-  it('should get Family Member info with user id', async () => {
+  it('should get Family Member info with familyMember id', async () => {
     const response = await request(app.getHttpServer())
       .get('/family-member')
       .query({ id: 1 })
       .expect(200);
     expect(response.body.message).toEqual('가족 구성원 조회 성공');
     expect(response.body.data.familyMemberId).toEqual(1);
-    expect(response.body.data.familyId).toEqual(2);
+    expect(response.body.data.pokeCount).toEqual(0);
+    expect(response.body.data.talkCount).toEqual(0);
+  });
+
+  it('should get Family Member info with user id', async () => {
+    const response = await request(app.getHttpServer())
+      .get('/family-member/user')
+      .expect(200);
+    expect(response.body.message).toEqual('가족 구성원 조회 성공');
+    expect(response.body.data.familyMemberId).toEqual(1);
     expect(response.body.data.pokeCount).toEqual(0);
     expect(response.body.data.talkCount).toEqual(0);
   });
@@ -153,7 +165,6 @@ describe('FamilyMemberController (e2e)', () => {
 
     expect(response.body.message).toEqual('가족 구성원 조회 성공');
     expect(response.body.data[0].familyMemberId).toEqual(1);
-    expect(response.body.data[0].familyId).toEqual(2);
     expect(response.body.data[0].pokeCount).toEqual(0);
     expect(response.body.data[0].talkCount).toEqual(0);
   });
