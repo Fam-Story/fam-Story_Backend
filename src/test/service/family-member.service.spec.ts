@@ -13,6 +13,7 @@ describe('FamilyMemberService', () => {
     findOne: jest.fn(),
     save: jest.fn(),
     delete: jest.fn(),
+    update: jest.fn(),
   });
 
   let familyMemberService: FamilyMemberService;
@@ -105,6 +106,8 @@ describe('FamilyMemberService', () => {
     jest
       .spyOn(familyMemberRepository, 'findOne')
       .mockResolvedValue(familyMember);
+    jest.spyOn(familyRepository, 'findOne').mockResolvedValue(family);
+    jest.spyOn(userRepository, 'findOne').mockResolvedValue(user);
     jest.spyOn(familyMemberRepository, 'delete').mockResolvedValue(null);
 
     await familyMemberService.deleteFamilyMember(1);

@@ -97,10 +97,14 @@ describe('PhotoService', () => {
     jest.spyOn(familyRepository, 'findOne').mockResolvedValue(family);
     jest.spyOn(photoRepository, 'find').mockResolvedValue(photoList);
 
-    const result: Photo[] = await photoService.getPhotos(family.id, 1, 1);
+    const result: ResponsePhotoDto[] = await photoService.getPhotos(
+      family.id,
+      1,
+      1,
+    );
 
     expect(result.length).toEqual(1);
-    expect(result[0].name).toEqual('testone');
+    expect(result[0].photoName).toEqual('testone');
   });
 
   it('should get photo info', async () => {
