@@ -26,3 +26,10 @@ jobs:
           npm test
           npm run test:e2e
 
+      - name: SonarQube Scan
+        uses: kitabisa/sonarqube-action@v1.2.1
+        with:
+          host: ${{ secrets.SONAR_ENDPOINT }}
+          login: ${{ secrets.SONAR_LOGIN }}
+          password: ${{ secrets.SONAR_PASSWORD }}
+
