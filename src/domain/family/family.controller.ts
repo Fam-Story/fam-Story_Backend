@@ -20,13 +20,17 @@ import { CustomApiResponse, ResponseCode } from '../../common';
 import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
 import { CustomApiCreatedResponse } from '../../common/api/response-created.decorator';
 import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
+import {FamilyMemberService} from "../family_member";
 
 @ApiTags('가족 API')
 @Controller('family')
 @UseGuards(JwtServiceAuthGuard)
 @ApiBearerAuth('access-token')
 export class FamilyController {
-  constructor(private readonly familyService: FamilyService) {}
+  constructor(
+    private readonly familyService: FamilyService,
+    private readonly familyMemberService: FamilyMemberService,
+  ) {}
 
   //회원이 속한 가족 정보 전송
   @Get('')
@@ -92,6 +96,7 @@ export class FamilyController {
     type: CustomApiResponse<null>,
   })
   async deleteFamily(@Query('familyId') familyId: number) {
+    await this.familyMemberService.deleteAllFamilyMember(familyId);
     await this.familyService.deleteFamily(familyId);
     return CustomApiResponse.success(ResponseCode.FAMILY_DELETE_SUCCESS, null);
   }
