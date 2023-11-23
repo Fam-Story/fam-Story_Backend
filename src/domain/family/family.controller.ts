@@ -23,7 +23,7 @@ import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
 import { FamilyMemberService } from '../family_member';
 
 @ApiTags('가족 API')
-@Controller('family')
+@Controller('api/family')
 @UseGuards(JwtServiceAuthGuard)
 @ApiBearerAuth('access-token')
 export class FamilyController {

@@ -24,7 +24,7 @@ import { ResponseFamilyDto } from '../family';
 import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
 
 @ApiTags('가족 멤버 API')
-@Controller('family-member')
+@Controller('api/family-member')
 @UseGuards(JwtServiceAuthGuard)
 @ApiBearerAuth('access-token')
 export class FamilyMemberController {

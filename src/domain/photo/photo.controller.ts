@@ -21,7 +21,7 @@ import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
 import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
 
 @ApiTags('사진 API')
-@Controller('photo')
+@Controller('api/photo')
 @UseGuards(JwtServiceAuthGuard)
 @ApiBearerAuth('access-token')
 export class PhotoController {
