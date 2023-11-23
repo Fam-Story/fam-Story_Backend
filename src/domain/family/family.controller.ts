@@ -20,7 +20,7 @@ import { CustomApiResponse, ResponseCode } from '../../common';
 import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
 import { CustomApiCreatedResponse } from '../../common/api/response-created.decorator';
 import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
-import {FamilyMemberService} from "../family_member";
+import { FamilyMemberService } from '../family_member';
 
 @ApiTags('가족 API')
 @Controller('family')
