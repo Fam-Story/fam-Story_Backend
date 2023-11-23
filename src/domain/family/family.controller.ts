@@ -29,7 +29,6 @@ import { FamilyMemberService } from '../family_member';
 export class FamilyController {
   constructor(
     private readonly familyService: FamilyService,
-    private readonly familyMemberService: FamilyMemberService,
   ) {}
 
   //회원이 속한 가족 정보 전송
@@ -96,7 +95,6 @@ export class FamilyController {
     type: CustomApiResponse<null>,
   })
   async deleteFamily(@Query('familyId') familyId: number) {
-    await this.familyMemberService.deleteAllFamilyMember(familyId);
     await this.familyService.deleteFamily(familyId);
     return CustomApiResponse.success(ResponseCode.FAMILY_DELETE_SUCCESS, null);
   }
