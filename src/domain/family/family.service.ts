@@ -13,7 +13,7 @@ export class FamilyService {
     @InjectRepository(Family) private familyRepository: Repository<Family>,
     @InjectRepository(FamilyMember)
     private familyMemberRepository: Repository<FamilyMember>,
-    @InjectRepository(FamilyMember) private userRepository: Repository<User>,
+    @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
 
   //가족 고유 해쉬키 생성
