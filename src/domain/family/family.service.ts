@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as crypto from 'crypto';
 import { CreateFamilyDto, ResponseFamilyDto, UpdateFamilyDto } from './dto';
-import { Family } from '../../infra/entities';
+import { Family, FamilyMember, User } from '../../infra/entities';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { FamilyException } from '../../common/exception/family.exception';
@@ -11,6 +11,9 @@ import { ResponseCode } from '../../common';
 export class FamilyService {
   constructor(
     @InjectRepository(Family) private familyRepository: Repository<Family>,
+    @InjectRepository(FamilyMember)
+    private familyMemberRepository: Repository<FamilyMember>,
+    @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
 
   //가족 고유 해쉬키 생성
@@ -47,9 +50,22 @@ export class FamilyService {
     return ResponseFamilyDto.from(family);
   }
 
-  //가족 삭제
+  //가족과 가족 구성원 모두 삭제
   async deleteFamily(familyId: number): Promise<void> {
     await this.validateFamily(familyId);
+    const familyMembers = await this.familyMemberRepository.find({
+      where: { family: { id: familyId } },
+      relations: ['user'],
+    });
+    for (const familyMember of familyMembers) {
+      await this.userRepository.update(familyMember.user.id, {
+        belongsToFamily: false,
+      });
+    }
+
+    await this.familyMemberRepository.delete({
+      family: { id: familyId },
+    });
     await this.familyRepository.delete(familyId);
   }
 

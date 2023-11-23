@@ -5,7 +5,8 @@ import {
   UpdateFamilyDto,
 } from '../../domain/family';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Family } from '../../infra/entities';
+import { Family, FamilyMember, User } from '../../infra/entities';
+import { FamilyMemberModule } from '../../module';
 
 describe('FamilyService', () => {
   const mockRepository = () => ({
@@ -13,10 +14,13 @@ describe('FamilyService', () => {
     findOne: jest.fn(),
     save: jest.fn(),
     delete: jest.fn(),
+    update: jest.fn(),
   });
 
   let familyService: FamilyService;
   let familyRepository;
+  let familyMemberRepository;
+  let userRepository;
 
   beforeEach(async () => {
     const moduleRef: TestingModule = await Test.createTestingModule({
@@ -26,10 +30,20 @@ describe('FamilyService', () => {
           provide: getRepositoryToken(Family),
           useFactory: mockRepository,
         },
+        {
+          provide: getRepositoryToken(FamilyMember),
+          useFactory: mockRepository,
+        },
+        {
+          provide: getRepositoryToken(User),
+          useFactory: mockRepository,
+        },
       ],
     }).compile();
     familyService = moduleRef.get<FamilyService>(FamilyService);
     familyRepository = moduleRef.get(getRepositoryToken(Family));
+    familyMemberRepository = moduleRef.get(getRepositoryToken(FamilyMember));
+    userRepository = moduleRef.get(getRepositoryToken(User));
   });
 
   it('should be defined', () => {
@@ -88,9 +102,19 @@ describe('FamilyService', () => {
       createFamilyDto.familyName,
       familyKeyCode,
     );
+    const user = User.createUser('test', 'test', 'test', 'test', 1, 1)
+    const familyMember = FamilyMember.createFamilyMember(1, family, user);
+    familyMember.setId(1);
+    family.setId(1);
+    user.setId(1);
+
     jest.spyOn(familyRepository, 'save').mockResolvedValue(1);
     jest.spyOn(familyRepository, 'findOne').mockResolvedValue(family);
     jest.spyOn(familyRepository, 'delete').mockResolvedValue(null);
+    jest
+      .spyOn(familyMemberRepository, 'find')
+      .mockResolvedValue([familyMember]);
+    jest.spyOn(userRepository, 'update').mockResolvedValue(null);
 
     //when
     const savedFamilyId = await familyService.createFamily(createFamilyDto);

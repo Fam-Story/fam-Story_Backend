@@ -26,7 +26,7 @@ import { FamilyScheduleService } from './family-schedule.service';
 import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
 
 @ApiTags('가족 일정 API')
-@Controller('family-schedule')
+@Controller('api/family-schedule')
 @UseGuards(JwtServiceAuthGuard)
 @ApiBearerAuth('access-token')
 export class FamilyScheduleController {

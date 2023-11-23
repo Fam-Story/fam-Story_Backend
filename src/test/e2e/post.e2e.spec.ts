@@ -65,7 +65,7 @@ describe('PostController (e2e)', () => {
   });
 
   it('should create post', async () => {
-    const response = await request(app.getHttpServer()).post('/post').send({
+    const response = await request(app.getHttpServer()).post('/api/post').send({
       srcMemberId: 1,
       title: 'test',
       context: 'testContext',
@@ -76,7 +76,7 @@ describe('PostController (e2e)', () => {
   });
 
   it('should update post', async () => {
-    const response = await request(app.getHttpServer()).put('/post').send({
+    const response = await request(app.getHttpServer()).put('/api/post').send({
       postId: 1,
       srcMemberId: 1,
       title: 'test',
@@ -87,14 +87,14 @@ describe('PostController (e2e)', () => {
 
   it('should delete post', async () => {
     const response = await request(app.getHttpServer())
-      .delete('/post')
+      .delete('/api/post')
       .query('postId=1');
     expect(response.body.message).toBe('게시글 삭제 성공');
   });
 
   it('should find post list by member id', async () => {
     const response = await request(app.getHttpServer())
-      .get('/post')
+      .get('/api/post')
       .query('familyMemberId=1');
 
     expect(response.body.message).toBe('게시글 조회 성공');

@@ -70,7 +70,7 @@ describe('InteractionController', () => {
   it('should create interaction', async () => {
     //given
     const response = await request(app.getHttpServer())
-      .post('/interaction')
+      .post('/api/interaction')
       .send({
         srcMemberId: 1,
         dstMemberId: 2,
@@ -85,7 +85,7 @@ describe('InteractionController', () => {
   it('should check interaction', async () => {
     //given
     const response = await request(app.getHttpServer())
-      .get('/interaction')
+      .get('/api/interaction')
       .query({ memberId: 2 })
       .expect(200);
 
@@ -98,7 +98,7 @@ describe('InteractionController', () => {
   it('should delete interaction', async () => {
     //given
     const response = await request(app.getHttpServer())
-      .delete('/interaction')
+      .delete('/api/interaction')
       .query({ memberId: 2 })
       .expect(200);
 

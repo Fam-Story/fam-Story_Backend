@@ -21,7 +21,7 @@ import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
 import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
 
 @ApiTags('게시글 API')
-@Controller('post')
+@Controller('api/post')
 @UseGuards(JwtServiceAuthGuard)
 @ApiBearerAuth('access-token')
 export class PostController {

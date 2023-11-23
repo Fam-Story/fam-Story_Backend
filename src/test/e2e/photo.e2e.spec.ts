@@ -65,7 +65,7 @@ describe('PhotoController (e2e)', () => {
 
   it('should create photo', async () => {
     const response = await request(app.getHttpServer())
-      .post('/photo')
+      .post('/api/photo')
       .send({
         s3imageUrl: 'test',
         name: 'test',
@@ -80,7 +80,7 @@ describe('PhotoController (e2e)', () => {
 
   it('should update photo', async () => {
     const response = await request(app.getHttpServer())
-      .put('/photo')
+      .put('/api/photo')
       .send({
         photoId: 1,
         name: 'test',
@@ -92,7 +92,7 @@ describe('PhotoController (e2e)', () => {
 
   it('should delete post', async () => {
     const response = await request(app.getHttpServer())
-      .delete('/photo')
+      .delete('/api/photo')
       .query({ photoId: 1 })
       .expect(200);
 
@@ -101,7 +101,7 @@ describe('PhotoController (e2e)', () => {
 
   it('should get photos', async () => {
     const response = await request(app.getHttpServer())
-      .get('/photo/list')
+      .get('/api/photo/list')
       .query({ familyId: 1, page: 1, limit: 10 })
       .expect(200);
 

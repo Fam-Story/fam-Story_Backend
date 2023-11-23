@@ -29,7 +29,7 @@ import { CustomApiCreatedResponse } from '../../common/api/response-created.deco
 import { ResponseLoginDto } from '../../auth/dto/response-login.dto';
 
 @ApiTags('회원 API')
-@Controller('user')
+@Controller('api/user')
 export class UserController {
   constructor(
     private readonly userService: UserService,

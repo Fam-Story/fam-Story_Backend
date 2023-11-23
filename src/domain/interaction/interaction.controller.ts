@@ -16,7 +16,7 @@ import { ResponseInteractionDto } from './dto/response-interaction.dto';
 import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
 
 @ApiTags('상호작용 API')
-@Controller('interaction')
+@Controller('api/interaction')
 @UseGuards(JwtServiceAuthGuard)
 @ApiBearerAuth('access-token')
 export class InteractionController {
