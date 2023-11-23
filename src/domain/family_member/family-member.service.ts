@@ -40,7 +40,7 @@ export class FamilyMemberService {
     family.memberNumber += 1;
     // 가족에 속해 있다고 지정
     await this.userRepository.update(user.id, {
-      belongsToFamily: () => 'BelongsToFamily + 1',
+      belongsToFamily: true,
     });
     // 가족 구성원 수 증가
     await this.familyRepository.update(family.id, {
@@ -72,7 +72,7 @@ export class FamilyMemberService {
 
     await this.familyMemberRepository.delete(familyMemberId);
     await this.userRepository.update(user.id, {
-      belongsToFamily: () => 'BelongsToFamily - 1',
+      belongsToFamily: false,
     });
     await this.familyRepository.update(family.id, {
       memberNumber: () => 'Member_Number - 1',

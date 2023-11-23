@@ -59,7 +59,7 @@ export class FamilyService {
     });
     for (const familyMember of familyMembers) {
       await this.userRepository.update(familyMember.user.id, {
-        belongsToFamily: () => 'BelongsToFamily - 1',
+        belongsToFamily: false,
       });
     }
 
