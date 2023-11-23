@@ -76,7 +76,7 @@ describe('FamilyScheduleController', () => {
 
   it('should return familySchedule id with path: /create (POST)', async () => {
     const response = await request(app.getHttpServer())
-      .post('/family-schedule')
+      .post('/api/family-schedule')
       .send({
         scheduleName: 'test',
         scheduleDate: '2021-10-10',
@@ -90,7 +90,7 @@ describe('FamilyScheduleController', () => {
 
   it('should update FamilySchedule with path: /update (PATCH)', async () => {
     const response = await request(app.getHttpServer())
-      .put('/family-schedule')
+      .put('/api/family-schedule')
       .send({
         familyScheduleId: 1,
         scheduleName: 'test',
@@ -105,7 +105,7 @@ describe('FamilyScheduleController', () => {
 
   it('should delete FamilySchedule with path: /delete/:id (DELETE)', async () => {
     const response = await request(app.getHttpServer())
-      .delete('/family-schedule')
+      .delete('/api/family-schedule')
       .query({ id: 1 })
       .expect(200);
 
@@ -115,7 +115,7 @@ describe('FamilyScheduleController', () => {
 
   it('should return familySchedule info with path: /:id (GET)', async () => {
     const response = await request(app.getHttpServer())
-      .get('/family-schedule')
+      .get('/api/family-schedule')
       .query({ id: 1 })
       .expect(200);
 
@@ -126,7 +126,7 @@ describe('FamilyScheduleController', () => {
 
   it('should return familySchedule list with path: /list/:familyId (GET)', async () => {
     const response = await request(app.getHttpServer())
-      .get('/family-schedule/list')
+      .get('/api/family-schedule/list')
       .query({ familyId: 1, year: 2021, targetMonth: 10 })
       .expect(200);
 

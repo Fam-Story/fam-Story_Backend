@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { FamilyService, ResponseFamilyDto } from '../../domain/family';
 import { INestApplication } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Family, FamilyMember } from '../../infra/entities';
+import { Family, FamilyMember, User } from '../../infra/entities';
 import { FamilyModule } from '../../module';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import * as request from 'supertest';
@@ -17,7 +17,15 @@ describe('FamilyController (e2e)', () => {
   let mockFamilyMemberService: Partial<FamilyMemberService>;
   let mockFamilyRepository: Partial<Repository<Family>>;
   let mockFamilyMemberRepository: Partial<Repository<FamilyMember>>;
+  let mockUserRepository: Partial<Repository<User>>;
+
+  const mockUser: User = User.createUser('test', 'test', 'test', 'test', 1, 1);
   const mockFamily: Family = Family.createFamily('test', 'testKeyCode');
+  const mockFamilyMember: FamilyMember = FamilyMember.createFamilyMember(
+    1,
+    mockFamily,
+    mockUser,
+  );
   beforeEach(async () => {
     mockFamilyService = {
       findFamilyById: jest
@@ -32,17 +40,17 @@ describe('FamilyController (e2e)', () => {
       updateFamily: jest.fn(),
     };
 
-    mockFamilyMemberService = {
-      deleteAllFamilyMember: jest.fn(),
-    };
-
     mockFamilyRepository = {
       findOne: jest.fn().mockResolvedValue(mockFamily),
       find: jest.fn(),
     };
 
     mockFamilyMemberRepository = {
-      findOne: jest.fn().mockResolvedValue(mockFamily),
+      findOne: jest.fn().mockResolvedValue(mockFamilyMember),
+      find: jest.fn().mockResolvedValue([mockFamilyMember]),
+    };
+
+    mockUserRepository = {
       find: jest.fn(),
     };
 
@@ -54,6 +62,8 @@ describe('FamilyController (e2e)', () => {
     })
       .overrideProvider(FamilyService)
       .useValue(mockFamilyService)
+      .overrideProvider(getRepositoryToken(User))
+      .useValue(mockUserRepository)
       .overrideProvider(getRepositoryToken(Family))
       .useValue(mockFamilyRepository)
       .overrideProvider(FamilyMemberService)
@@ -70,7 +80,7 @@ describe('FamilyController (e2e)', () => {
 
   it('should return family info with path: /family (GET)', async () => {
     const response = await request(app.getHttpServer())
-      .get('/family')
+      .get('/api/family')
       .query({ id: 1 })
       .expect(200);
 
@@ -81,7 +91,7 @@ describe('FamilyController (e2e)', () => {
 
   it('should return family info with path: /family/keycode (GET)', async () => {
     const response = await request(app.getHttpServer())
-      .get('/family/join')
+      .get('/api/family/join')
       .query({ keyCode: 'testKeyCode' })
       .expect(200);
 
@@ -92,7 +102,7 @@ describe('FamilyController (e2e)', () => {
 
   it('should return id of created family with path: /family/create (POST)', async () => {
     const response = await request(app.getHttpServer())
-      .post('/family')
+      .post('/api/family')
       .send({ familyName: 'test' })
       .expect(201);
 
@@ -102,7 +112,7 @@ describe('FamilyController (e2e)', () => {
 
   it('should return status code 200 when update family', async () => {
     const response = await request(app.getHttpServer())
-      .put('/family')
+      .put('/api/family')
       .send({ familyId: 1, familyName: 'test' })
       .expect(200);
 
@@ -111,7 +121,7 @@ describe('FamilyController (e2e)', () => {
 
   it('should return status code 200 when delete family', async () => {
     const response = await request(app.getHttpServer())
-      .delete('/family')
+      .delete('/api/family')
       .query({ id: 1 })
       .expect(200);
 

@@ -175,25 +175,4 @@ describe('FamilyMemberService', () => {
     const result = await familyMemberService.findFamilyMemberByMemberId(1);
     expect(result.familyMemberId).toEqual(1);
   });
-
-  it('should delete all of family-member by family id', async () => {
-    const family: Family = Family.createFamily('test', 'testKeyCode');
-    const user = User.createUser('test', 'test', 'test', 'test', 1, 1);
-    const familyMember = FamilyMember.createFamilyMember(1, family, user);
-    user.belongsToFamily = true;
-
-    familyMember.setId(1);
-    user.id = 2;
-    family.setId(3);
-
-    jest.spyOn(familyRepository, 'findOne').mockResolvedValue(family);
-    jest
-      .spyOn(familyMemberRepository, 'find')
-      .mockResolvedValue([familyMember]);
-    jest.spyOn(familyMemberRepository, 'delete').mockResolvedValue(null);
-
-    await familyMemberService.deleteAllFamilyMember(3);
-    expect(familyMemberRepository.delete).toBeCalled();
-    expect(userRepository.update).toBeCalled();
-  });
 });

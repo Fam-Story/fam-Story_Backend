@@ -92,7 +92,7 @@ describe('FamilyMemberController (e2e)', () => {
 
   it('should create familyMember with path: /familymember/create (POST)', async () => {
     const response = await request(app.getHttpServer())
-      .post('/family-member')
+      .post('/api/family-member')
       .send({
         familyId: 1,
         userId: 1,
@@ -106,7 +106,7 @@ describe('FamilyMemberController (e2e)', () => {
 
   it('should update familyMember with path: /familymember/update (Patch)', async () => {
     const response = await request(app.getHttpServer())
-      .put('/family-member')
+      .put('/api/family-member')
       .send({
         familyMemberId: 1,
         role: 2,
@@ -118,7 +118,7 @@ describe('FamilyMemberController (e2e)', () => {
 
   it('should delete familyMember with path: /familymember/delete (Delete)', async () => {
     const response = await request(app.getHttpServer())
-      .delete('/family-member')
+      .delete('/api/family-member')
       .query({ id: 1 })
       .expect(200);
 
@@ -127,7 +127,7 @@ describe('FamilyMemberController (e2e)', () => {
 
   it('should get Family Member info with familyMember id', async () => {
     const response = await request(app.getHttpServer())
-      .get('/family-member')
+      .get('/api/family-member')
       .query({ id: 1 })
       .expect(200);
     expect(response.body.message).toEqual('가족 구성원 조회 성공');
@@ -138,7 +138,7 @@ describe('FamilyMemberController (e2e)', () => {
 
   it('should get Family Member info with user id', async () => {
     const response = await request(app.getHttpServer())
-      .get('/family-member/user')
+      .get('/api/family-member/user')
       .expect(200);
     expect(response.body.message).toEqual('가족 구성원 조회 성공');
     expect(response.body.data.familyMemberId).toEqual(1);
@@ -148,7 +148,7 @@ describe('FamilyMemberController (e2e)', () => {
 
   it('should get Family info with member id', async () => {
     const response = await request(app.getHttpServer())
-      .get('/family-member/family')
+      .get('/api/family-member/family')
       .query({ id: 1 })
       .expect(200);
 
@@ -159,7 +159,7 @@ describe('FamilyMemberController (e2e)', () => {
 
   it('should get Family Member list with family id', async () => {
     const response = await request(app.getHttpServer())
-      .get('/family-member/list')
+      .get('/api/family-member/list')
       .query({ id: 1 })
       .expect(200);
 
