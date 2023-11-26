@@ -1,9 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { InteractionService } from '../../domain/interaction/interaction.service';
-import { FamilyMember, Interaction } from '../../infra/entities';
+import { InteractionService } from '../../domain/interaction';
+import { Family, FamilyMember, Interaction, User } from '../../infra/entities';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CreateInteractionDto } from '../../domain/interaction';
-import { ResponseInteractionDto } from '../../domain/interaction/dto/response-interaction.dto';
 
 describe('InteractionService', () => {
   const mockRepository = () => ({
@@ -43,8 +42,13 @@ describe('InteractionService', () => {
 
   it('should create interaction', async () => {
     //given
-    const dstFamilyMember = FamilyMember.createFamilyMember(1, null, null);
-    dstFamilyMember.setId(2);
+    const family = Family.createFamily('test', 'test');
+    const user = User.createUser('test', 'test', 'test', 'test', 10, 1);
+    user.setId(1);
+    family.setId(2);
+    const dstFamilyMember = FamilyMember.createFamilyMember(1, family, user);
+    dstFamilyMember.fcmToken = 'test';
+    dstFamilyMember.setId(3);
     const createInteractionDto: CreateInteractionDto = {
       srcMemberId: 1,
       dstMemberId: 2,
@@ -55,6 +59,7 @@ describe('InteractionService', () => {
       dstFamilyMember,
       createInteractionDto.interactionType,
     );
+    interaction.id = 4;
 
     jest
       .spyOn(familyMemberRepository, 'findOne')
@@ -64,7 +69,12 @@ describe('InteractionService', () => {
     const savedInteraction =
       await interactionService.createInteraction(createInteractionDto);
 
-    expect(savedInteraction).toEqual(interaction.id);
+    expect(savedInteraction[0]).toEqual(interaction.id);
+    expect(savedInteraction[1]).toEqual(interaction.dstMember.fcmToken);
+    expect(savedInteraction[2]).toEqual(
+      interaction.dstMember.family.familyName,
+    );
+    expect(savedInteraction[3]).toEqual(interaction.dstMember.user.username);
   });
 
   it('should find all interactions', async () => {

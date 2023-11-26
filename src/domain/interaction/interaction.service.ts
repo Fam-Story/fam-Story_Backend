@@ -16,8 +16,13 @@ export class InteractionService {
     private familyMemberRepository: Repository<FamilyMember>,
   ) {}
   async createInteraction(createInteractionDto: CreateInteractionDto) {
+    const srcFamilyMember = await this.familyMemberRepository.findOne({
+      where: { id: createInteractionDto.srcMemberId },
+      relations: ['user'],
+    });
     const dstFamilyMember = await this.familyMemberRepository.findOne({
       where: { id: createInteractionDto.dstMemberId },
+      relations: ['user'],
     });
     const interaction: Interaction = Interaction.createInteraction(
       createInteractionDto.srcMemberId,
@@ -25,12 +30,13 @@ export class InteractionService {
       createInteractionDto.interactionType,
     );
     const savedInteraction = await this.interactionRepository.save(interaction);
-    return savedInteraction.id;
+    return [
+      savedInteraction.id,
+      dstFamilyMember.fcmToken,
+      srcFamilyMember.user.username,
+      dstFamilyMember.user.username,
+    ];
   }
-
-  //sendInteraction(interactionId: number, dstFamilyMember: FamilyMember) {
-  //using fcm
-  //}
 
   async findAllInteractions(familyMemberId: number) {
     await this.validateFamilyMember(familyMemberId);

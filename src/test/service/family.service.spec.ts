@@ -6,7 +6,6 @@ import {
 } from '../../domain/family';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Family, FamilyMember, User } from '../../infra/entities';
-import { FamilyMemberModule } from '../../module';
 
 describe('FamilyService', () => {
   const mockRepository = () => ({
@@ -102,7 +101,7 @@ describe('FamilyService', () => {
       createFamilyDto.familyName,
       familyKeyCode,
     );
-    const user = User.createUser('test', 'test', 'test', 'test', 1, 1)
+    const user = User.createUser('test', 'test', 'test', 'test', 1, 1);
     const familyMember = FamilyMember.createFamilyMember(1, family, user);
     familyMember.setId(1);
     family.setId(1);
