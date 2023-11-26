@@ -35,6 +35,5 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 *.iml
-src/common/util/firebase-admin.json
 
 .env.dev
