@@ -14,13 +14,19 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
 import { ResponseInteractionDto } from './dto/response-interaction.dto';
 import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
+import { FirebaseCloudMessagingHandler } from '../../common/util/fcm-handler';
+import { InteractionType } from '../../common/util/interactionType';
+import { Interaction } from '../../infra/entities';
 
 @ApiTags('상호작용 API')
 @Controller('api/interaction')
 @UseGuards(JwtServiceAuthGuard)
 @ApiBearerAuth('access-token')
 export class InteractionController {
-  constructor(private readonly interactionService: InteractionService) {}
+  constructor(
+    private readonly interactionService: InteractionService,
+    private readonly fcmHandler: FirebaseCloudMessagingHandler,
+  ) {}
 
   //상호작용 전송 (생성 및 FCM으로 전송)
   @ApiOperation({
@@ -34,12 +40,29 @@ export class InteractionController {
   )
   @Post('')
   async createInteraction(@Body() createInteractionDto: CreateInteractionDto) {
-    const savedInteractionId =
+    const savedInteraction =
       await this.interactionService.createInteraction(createInteractionDto);
-    //TODO: FCM으로 메시지 전송하기
+
+    const interactionId = Number(savedInteraction[0]);
+    const memberToken = String(savedInteraction[1]);
+    const srcMemberName = String(savedInteraction[2]);
+    const dstMemberName = String(savedInteraction[3]);
+
+    const interaction: InteractionType = InteractionType.getInteraction(
+      createInteractionDto.interactionType,
+      srcMemberName,
+      dstMemberName,
+    );
+
+    await this.fcmHandler.sendNotification(
+      memberToken,
+      interaction.title,
+      interaction.body,
+    );
+
     return CustomApiResponse.success(
       ResponseCode.INTERACTION_CREATED_SUCCESS,
-      savedInteractionId,
+      Number(interactionId),
     );
   }
 
