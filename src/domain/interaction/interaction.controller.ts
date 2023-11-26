@@ -16,7 +16,6 @@ import { ResponseInteractionDto } from './dto/response-interaction.dto';
 import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
 import { FirebaseCloudMessagingHandler } from '../../common/util/fcm-handler';
 import { InteractionType } from '../../common/util/interactionType';
-import { Interaction } from '../../infra/entities';
 
 @ApiTags('상호작용 API')
 @Controller('api/interaction')
