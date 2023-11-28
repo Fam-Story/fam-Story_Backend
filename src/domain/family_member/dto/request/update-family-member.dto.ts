@@ -12,13 +12,4 @@ export class UpdateFamilyMemberDto extends PartialType(CreateFamilyMemberDto) {
   @IsNotEmpty()
   @IsNumber()
   readonly familyMemberId: number;
-
-  @ApiProperty({
-    example: 1,
-    description: '가족 멤버의 역할, (1: 부, 2: 모, 3: 아들, 4: 딸)',
-    nullable: false,
-  })
-  @IsNotEmpty()
-  @IsNumber()
-  readonly role: number;
 }
