@@ -6,12 +6,4 @@ export class UpdatePostDto extends PartialType(CreatePostDto) {
   @IsNotEmpty()
   @IsNumber()
   postId: number;
-
-  @IsNotEmpty()
-  @IsString()
-  title: string;
-
-  @IsNotEmpty()
-  @IsString()
-  context: string;
 }
