@@ -74,7 +74,9 @@ describe('UserService', () => {
         20,
         1,
       );
+      user.setId(1);
       const updateUserDto: UpdateUserDto = {
+        userId: 1,
         email: 'test@test.com',
         username: 'test',
         password: 'test',
