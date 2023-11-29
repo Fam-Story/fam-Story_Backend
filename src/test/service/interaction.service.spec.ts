@@ -46,7 +46,7 @@ describe('InteractionService', () => {
     const user = User.createUser('test', 'test', 'test', 'test', 10, 1);
     user.setId(1);
     family.setId(2);
-    const dstFamilyMember = FamilyMember.createFamilyMember(1, family, user);
+    const dstFamilyMember = FamilyMember.createFamilyMember(1, family, user, '');
     dstFamilyMember.fcmToken = 'test';
     dstFamilyMember.setId(3);
     const createInteractionDto: CreateInteractionDto = {
@@ -80,7 +80,7 @@ describe('InteractionService', () => {
   it('should find all interactions', async () => {
     //given
     const familyMemberId = 1;
-    const dstFamilyMember = FamilyMember.createFamilyMember(1, null, null);
+    const dstFamilyMember = FamilyMember.createFamilyMember(1, null, null, '');
     dstFamilyMember.setId(2);
     const interaction = Interaction.createInteraction(1, dstFamilyMember, 2);
     interaction.id = 3;
@@ -102,7 +102,7 @@ describe('InteractionService', () => {
   it('should check all interactions', async () => {
     //given
     const familyMemberId = 1;
-    const dstFamilyMember = FamilyMember.createFamilyMember(1, null, null);
+    const dstFamilyMember = FamilyMember.createFamilyMember(1, null, null, '');
     const interaction = Interaction.createInteraction(1, dstFamilyMember, 2);
     const interactions = [interaction];
 
@@ -121,7 +121,7 @@ describe('InteractionService', () => {
     //given
     const interactionId = 1;
     const interaction = Interaction.createInteraction(1, null, 2);
-    const familyMember = FamilyMember.createFamilyMember(1, null, null);
+    const familyMember = FamilyMember.createFamilyMember(1, null, null, '');
 
     jest.spyOn(interactionRepository, 'findOne').mockResolvedValue(interaction);
     jest.spyOn(interactionRepository, 'delete').mockResolvedValue(null);

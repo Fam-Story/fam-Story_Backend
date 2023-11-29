@@ -35,6 +35,7 @@ export class FamilyMemberService {
       createFamilyMemberDto.role,
       family,
       user,
+      createFamilyMemberDto.fcmToken,
     );
     const savedMember = await this.familyMemberRepository.save(familyMember);
     family.memberNumber += 1;
