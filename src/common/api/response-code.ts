@@ -182,4 +182,10 @@ export class ResponseCode {
     code: HttpStatus.CONFLICT,
     message: '가족 코드 중복 생성',
   };
+
+  //500
+  static readonly INTERACTION_SEND_FAIL = {
+    code: HttpStatus.INTERNAL_SERVER_ERROR,
+    message: '상호작용 전송 실패',
+  };
 }

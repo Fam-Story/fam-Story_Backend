@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import * as firebase from 'firebase-admin';
 import * as process from 'process';
+import {InteractionException} from "../exception/interaction.exception";
+import {ResponseCode} from "../api";
 
 const firebase_params = {
   type: process.env.FIREBASE_TYPE,
@@ -35,10 +37,11 @@ export class FirebaseCloudMessagingHandler {
       .messaging()
       .send(message)
       .then((response) => {
+        console.log(response);
         return response;
       })
-      .catch((error) => {
-        return error;
+      .catch(() => {
+        throw new InteractionException(ResponseCode.INTERACTION_SEND_FAIL);
       });
   }
 }
