@@ -54,6 +54,7 @@ export class FamilyMember {
     role: number,
     family: Family,
     user: User,
+    fcmToken: string,
   ): FamilyMember {
     const familyMember = new FamilyMember();
     familyMember.role = role;
@@ -61,6 +62,7 @@ export class FamilyMember {
     familyMember.talkCount = 0;
     familyMember.family = family;
     familyMember.user = user;
+    familyMember.fcmToken = fcmToken;
     return familyMember;
   }
 
