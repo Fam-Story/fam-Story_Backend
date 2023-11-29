@@ -28,6 +28,7 @@ describe('FamilyMemberController (e2e)', () => {
     1,
     mockFamily,
     mockUser,
+    'test',
   );
   mockFamilyMember.setId(1);
 
