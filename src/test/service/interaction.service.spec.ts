@@ -46,7 +46,12 @@ describe('InteractionService', () => {
     const user = User.createUser('test', 'test', 'test', 'test', 10, 1);
     user.setId(1);
     family.setId(2);
-    const dstFamilyMember = FamilyMember.createFamilyMember(1, family, user, '');
+    const dstFamilyMember = FamilyMember.createFamilyMember(
+      1,
+      family,
+      user,
+      '',
+    );
     dstFamilyMember.fcmToken = 'test';
     dstFamilyMember.setId(3);
     const createInteractionDto: CreateInteractionDto = {
