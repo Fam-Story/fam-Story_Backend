@@ -9,6 +9,7 @@ describe('FamilyScheduleService', () => {
     findOne: jest.fn(),
     save: jest.fn(),
     delete: jest.fn(),
+    update: jest.fn(),
   });
 
   const family = Family.createFamily('testFamily', 'testKeyCode');
@@ -98,12 +99,12 @@ describe('FamilyScheduleService', () => {
       .spyOn(familyScheduleRepository, 'findOne')
       .mockResolvedValue(familySchedule);
     jest
-      .spyOn(familyScheduleRepository, 'save')
+      .spyOn(familyScheduleRepository, 'update')
       .mockResolvedValue(familySchedule);
 
     await familyScheduleService.updateFamilySchedule(updateFamilyScheduleDto);
 
-    expect(familyScheduleRepository.save).toBeCalledTimes(1);
+    expect(familyScheduleRepository.update).toBeCalledTimes(1);
   });
 
   it('should delete family schedule', async () => {

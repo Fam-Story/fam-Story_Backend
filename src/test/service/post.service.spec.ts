@@ -9,6 +9,7 @@ describe('PostService', () => {
     findOne: jest.fn(),
     save: jest.fn(),
     delete: jest.fn(),
+    update: jest.fn(),
   });
 
   let postService: PostService;
@@ -96,14 +97,14 @@ describe('PostService', () => {
     };
 
     jest.spyOn(postRepository, 'findOne').mockResolvedValue(post);
-    jest.spyOn(postRepository, 'save').mockResolvedValue(post);
+    jest.spyOn(postRepository, 'update').mockResolvedValue(post);
     jest
       .spyOn(familyMemberRepository, 'findOne')
       .mockResolvedValue(familyMember);
 
     await postService.updatePost(updatePostDto);
 
-    expect(postRepository.save).toHaveBeenCalled();
+    expect(postRepository.update).toHaveBeenCalled();
   });
 
   it('should delete post', async () => {

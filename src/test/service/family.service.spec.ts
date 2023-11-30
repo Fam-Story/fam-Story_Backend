@@ -130,12 +130,12 @@ describe('FamilyService', () => {
       familyName: 'testUpdated',
     };
     const family = Family.createFamily('test', familyKeyCode);
-    jest.spyOn(familyRepository, 'save').mockResolvedValue(1);
+    jest.spyOn(familyRepository, 'update').mockResolvedValue(1);
     jest.spyOn(familyRepository, 'findOne').mockResolvedValue(family);
 
     await familyService.updateFamily(updateFamilyDto);
 
-    expect(familyRepository.save).toBeCalledTimes(1);
+    expect(familyRepository.update).toBeCalledTimes(1);
     expect(familyRepository.findOne).toBeCalledTimes(1);
   });
 });
