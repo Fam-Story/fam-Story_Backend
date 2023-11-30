@@ -22,10 +22,18 @@ export class PostService {
     );
     const family = await this.validateFamily(createPostDto.familyId);
 
+    const createDate = new Date(
+      createPostDto.createdYear,
+      createPostDto.createdMonth,
+      createPostDto.createdDay,
+    );
+    createDate.setHours(createPostDto.createdHour);
+    createDate.setMinutes(createPostDto.createdMinute);
+
     const post: Post = Post.createPost(
       createPostDto.title,
       createPostDto.context,
-      createPostDto.createdDate,
+      createDate,
       familyMember,
       family,
     );
