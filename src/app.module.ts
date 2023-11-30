@@ -12,6 +12,7 @@ import {
 import { MysqlModule } from './infra/database/mysql.module';
 import { AuthModule } from './auth';
 import { ConfigModule } from '@nestjs/config';
+import { ChatGateway } from './chat/chat.gateway';
 
 @Module({
   imports: [
@@ -29,6 +30,6 @@ import { ConfigModule } from '@nestjs/config';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ChatGateway],
 })
 export class AppModule {}

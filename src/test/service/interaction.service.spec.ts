@@ -1,5 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { InteractionService, CreateInteractionDto } from '../../domain/interaction';
+import {
+  InteractionService,
+  CreateInteractionDto,
+} from '../../domain/interaction';
 import { Family, FamilyMember, Interaction, User } from '../../infra/entities';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
