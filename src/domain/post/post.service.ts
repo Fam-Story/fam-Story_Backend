@@ -18,12 +18,14 @@ export class PostService {
     const familyMember: FamilyMember =
       await this.familyMemberRepository.findOne({
         where: { id: createPostDto.srcMemberId },
+        relations: ['family'],
       });
     const post: Post = Post.createPost(
       createPostDto.title,
       createPostDto.context,
       createPostDto.createdDate,
       familyMember,
+      familyMember.family,
     );
     const savedPost = await this.postRepository.save(post);
     return savedPost.id;
