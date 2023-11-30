@@ -17,8 +17,20 @@ export class ResponsePostDto {
   @ApiProperty({ example: '푸앙이가 먹는 모습', description: '포스트의 내용' })
   readonly context: string;
 
-  @ApiProperty({ example: '2021-10-10', description: '포스트가 작성된 날짜' })
-  readonly createdDate: Date;
+  @ApiProperty({ example: 2021, description: '포스트가 작성된 날짜의 연도' })
+  readonly createdYear: number;
+
+  @ApiProperty({ example: 10, description: '포스트가 작성된 날짜의 월' })
+  readonly createdMonth: number;
+
+  @ApiProperty({ example: 1, description: '포스트가 작성된 날짜의 일' })
+  readonly createdDay: number;
+
+  @ApiProperty({ example: 20, description: '포스트가 작성된 날짜의 시' })
+  readonly createdHour: number;
+
+  @ApiProperty({ example: 5, description: '포스트가 작성된 날짜의 분' })
+  readonly createdMinute: number;
 
   @ApiProperty({
     example: 1,
@@ -31,14 +43,22 @@ export class ResponsePostDto {
     familyMemberId: number,
     title: string,
     context: string,
-    createdDate: Date,
+    createdYear: number,
+    createdMonth: number,
+    createdDay: number,
+    createdHour: number,
+    createdMinute: number,
     familyId: number,
   ) {
     this.postId = postId;
     this.familyMemberId = familyMemberId;
     this.title = title;
     this.context = context;
-    this.createdDate = createdDate;
+    this.createdYear = createdYear;
+    this.createdMonth = createdMonth;
+    this.createdDay = createdDay;
+    this.createdHour = createdHour;
+    this.createdMinute = createdMinute;
     this.familyId = familyId;
   }
 
@@ -47,7 +67,11 @@ export class ResponsePostDto {
     familyMemberId: number,
     title: string,
     context: string,
-    createdDate: Date,
+    createdYear: number,
+    createdMonth: number,
+    createdDay: number,
+    createdHour: number,
+    createdMinute: number,
     familyId: number,
   ): ResponsePostDto {
     return new ResponsePostDto(
@@ -55,7 +79,11 @@ export class ResponsePostDto {
       familyMemberId,
       title,
       context,
-      createdDate,
+      createdYear,
+      createdMonth,
+      createdDay,
+      createdHour,
+      createdMinute,
       familyId,
     );
   }
@@ -66,7 +94,11 @@ export class ResponsePostDto {
       post.srcMember.id,
       post.title,
       post.context,
-      post.createdDate,
+      post.createdDate.getFullYear(),
+      post.createdDate.getMonth(),
+      post.createdDate.getDate(),
+      post.createdDate.getHours(),
+      post.createdDate.getMinutes(),
       post.family.id,
     );
   }
