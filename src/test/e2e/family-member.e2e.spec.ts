@@ -149,9 +149,12 @@ describe('FamilyMemberController (e2e)', () => {
 
   it('should get Family info with member id', async () => {
     const response = await request(app.getHttpServer())
-      .get('/api/family-member/family')
-      .query({ id: 1 })
-      .expect(200);
+      .post('/api/family-member/family')
+      .send({
+        familyMemberId: 1,
+        fcmtoken: 'test',
+      })
+      .expect(201);
 
     expect(response.body.message).toEqual('가족 조회 성공');
     expect(response.body.data.familyName).toEqual('test');
