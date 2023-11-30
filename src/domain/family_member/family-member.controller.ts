@@ -22,7 +22,7 @@ import { CustomApiCreatedResponse } from '../../common/api/response-created.deco
 import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
 import { ResponseFamilyDto } from '../family';
 import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
-import {GetFamilyInfoDto} from "./dto/request/get-family-info.dto";
+import { GetFamilyInfoDto } from './dto/request/get-family-info.dto';
 
 @ApiTags('가족 멤버 API')
 @Controller('api/family-member')

@@ -1,8 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { FamilyMember } from './family-member.entity';
 import { FamilySchedule } from './family-schedule.entity';
-import { Photo } from './photo.entity';
-import {Post} from "./post.entity";
+import { Post } from './post.entity';
 
 @Entity('family', { schema: 'family_app_db' })
 export class Family {

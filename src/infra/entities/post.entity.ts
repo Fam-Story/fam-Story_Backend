@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { FamilyMember } from './family-member.entity';
-import {Family} from "./family.entity";
+import { Family } from './family.entity';
 
 @Entity('post', { schema: 'family_app_db' })
 export class Post {
