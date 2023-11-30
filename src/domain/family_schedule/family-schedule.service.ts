@@ -40,13 +40,10 @@ export class FamilyScheduleService {
       updateFamilyScheduleDto.familyScheduleId,
     );
     await this.validateFamily(updateFamilyScheduleDto.familyId);
-    familySchedule.scheduleDate = new Date(
-      updateFamilyScheduleDto.scheduleYear,
-      updateFamilyScheduleDto.scheduleMonth - 1,
-      updateFamilyScheduleDto.scheduleDay,
+    await this.familyScheduleRepository.update(
+      { id: familySchedule.id },
+      { ...updateFamilyScheduleDto },
     );
-    familySchedule.scheduleName = updateFamilyScheduleDto.scheduleName;
-    await this.familyScheduleRepository.save(familySchedule);
   }
 
   async deleteFamilySchedule(familyScheduleId: number) {

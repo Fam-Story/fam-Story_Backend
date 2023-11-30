@@ -90,13 +90,13 @@ describe('FamilyMemberService', () => {
     user.id = 1;
     familyMember.setId(1);
 
-    jest.spyOn(familyMemberRepository, 'save').mockResolvedValue(familyMember);
+    jest.spyOn(familyMemberRepository, 'update').mockResolvedValue(familyMember);
     jest.spyOn(userRepository, 'findOne').mockResolvedValue(user);
     jest.spyOn(familyRepository, 'findOne').mockResolvedValue(family);
     jest.spyOn(familyMemberRepository, 'findOne').mockResolvedValue(family);
 
     await familyMemberService.updateFamilyMember(updateFamilyMemberDto);
-    expect(familyMemberRepository.save).toBeCalled();
+    expect(familyMemberRepository.update).toBeCalled();
   });
 
   it('should delete family-member', async () => {

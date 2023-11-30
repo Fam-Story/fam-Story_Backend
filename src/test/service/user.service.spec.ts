@@ -13,6 +13,7 @@ describe('UserService', () => {
     findOne: jest.fn(),
     save: jest.fn(),
     delete: jest.fn(),
+    update: jest.fn(),
   });
 
   let userService: UserService;
@@ -65,7 +66,7 @@ describe('UserService', () => {
   });
 
   describe('updateUser', () => {
-    it('should update user', async () => {
+    it('should update user and should crypt password', async () => {
       const user: User = User.createUser(
         'test@test.com',
         'test',
@@ -84,11 +85,13 @@ describe('UserService', () => {
         gender: 1,
       };
       jest.spyOn(userRepository, 'findOne').mockResolvedValue(user);
-      jest.spyOn(userRepository, 'save').mockResolvedValue(1);
+      jest.spyOn(userRepository, 'update').mockResolvedValue(1);
+      jest.spyOn(userService, 'hashPassword').mockResolvedValue('@@#');
 
       await userService.updateUser(1, updateUserDto);
       expect(userRepository.findOne).toHaveBeenCalled();
-      expect(userRepository.save).toHaveBeenCalled();
+      expect(userRepository.update).toHaveBeenCalled();
+      expect(userService.hashPassword).toHaveBeenCalled();
     });
 
     it('should delete user', async () => {

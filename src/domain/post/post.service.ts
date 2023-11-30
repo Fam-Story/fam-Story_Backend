@@ -36,10 +36,8 @@ export class PostService {
   async updatePost(updatePostDto: UpdatePostDto) {
     const post = await this.validatePost(updatePostDto.postId);
     await this.validateFamilyMember(updatePostDto.srcMemberId);
-    post.title = updatePostDto.title;
-    post.context = updatePostDto.context;
 
-    await this.postRepository.save(post);
+    await this.postRepository.update({ id: post.id }, { ...updatePostDto });
   }
 
   async findPostListByFamilyId(familyId: number): Promise<ResponsePostDto[]> {

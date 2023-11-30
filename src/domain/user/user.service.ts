@@ -36,8 +36,11 @@ export class UserService {
     userId: number,
     updateUserDto: UpdateUserDto,
   ): Promise<void> {
-    await this.validateUser(userId);
-    await this.userRepository.save(updateUserDto);
+    const user = await this.validateUser(userId);
+    if (updateUserDto.password !== undefined) {
+      updateUserDto.password = await this.hashPassword(updateUserDto.password);
+    }
+    await this.userRepository.update({ id: user.id }, { ...updateUserDto });
   }
 
   //이메일을 통한 중복 검사

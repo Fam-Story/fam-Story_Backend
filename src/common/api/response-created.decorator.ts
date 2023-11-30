@@ -32,6 +32,7 @@ export const CustomApiCreatedResponse = (
     ApiResponse({ status: 401, description: '인증되지 않은 요청입니다.' }),
     ApiResponse({ status: 403, description: '접근 권한이 없습니다.' }),
     ApiResponse({ status: 404, description: '리소스를 찾을 수 없습니다.' }),
+    ApiResponse({ status: 409, description: '이미 존재하는 리소스입니다.' }),
     ApiResponse({ status: 500, description: '서버 내부 오류가 발생했습니다.' }),
   );
 };
