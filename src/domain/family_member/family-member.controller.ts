@@ -22,6 +22,7 @@ import { CustomApiCreatedResponse } from '../../common/api/response-created.deco
 import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
 import { ResponseFamilyDto } from '../family';
 import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
+import {GetFamilyInfoDto} from "./dto/request/get-family-info.dto";
 
 @ApiTags('가족 멤버 API')
 @Controller('api/family-member')
@@ -133,16 +134,16 @@ export class FamilyMemberController {
     );
   }
 
-  //가족 정보 반환
-  @Get('/family')
+  //가족 정보 반환 (FCM 토큰까지 같이 보내기로 변경)
+  @Post('/family')
   @ApiOperation({
     summary: '[가족 구성원] 가족 구성원이 속한 가족의 정보 조회',
     description: '가족 구성원이 속한 가족 정보를 반환한다.',
   })
-  @CustomApiOKResponse(ResponseFamilyDto, '가족 정보를 반환한다.')
-  async findFamilyByMemberId(@Query('familyMemberId') familyMemberId: number) {
+  @CustomApiCreatedResponse(ResponseFamilyDto, '가족 정보를 반환한다.')
+  async findFamilyByMemberId(@Body() getFamilyInfoDto: GetFamilyInfoDto) {
     const responseFamilyDto: ResponseFamilyDto =
-      await this.familyMemberService.findFamilyByMemberId(familyMemberId);
+      await this.familyMemberService.findFamilyByMemberId(getFamilyInfoDto);
     return CustomApiResponse.success(
       ResponseCode.FAMILY_READ_SUCCESS,
       responseFamilyDto,
