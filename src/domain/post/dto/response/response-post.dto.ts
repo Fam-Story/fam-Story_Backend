@@ -20,28 +20,44 @@ export class ResponsePostDto {
   @ApiProperty({ example: '2021-10-10', description: '포스트가 작성된 날짜' })
   readonly createdDate: Date;
 
+  @ApiProperty({
+    example: 1,
+    description: '포스트를 작성한 가족 구성원의 가족 고유 ID',
+  })
+  readonly familyId: number;
+
   private constructor(
     postId: number,
     familyMemberId: number,
     title: string,
     context: string,
     createdDate: Date,
+    familyId: number,
   ) {
     this.postId = postId;
     this.familyMemberId = familyMemberId;
     this.title = title;
     this.context = context;
     this.createdDate = createdDate;
+    this.familyId = familyId;
   }
 
   static of(
     postId: number,
-    familyId: number,
+    familyMemberId: number,
     title: string,
     context: string,
     createdDate: Date,
+    familyId: number,
   ): ResponsePostDto {
-    return new ResponsePostDto(postId, familyId, title, context, createdDate);
+    return new ResponsePostDto(
+      postId,
+      familyMemberId,
+      title,
+      context,
+      createdDate,
+      familyId,
+    );
   }
 
   static from(post: Post) {
@@ -51,6 +67,7 @@ export class ResponsePostDto {
       post.title,
       post.context,
       post.createdDate,
+      post.family.id,
     );
   }
 }
