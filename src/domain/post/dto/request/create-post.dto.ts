@@ -25,8 +25,28 @@ export class CreatePostDto {
   @IsString()
   readonly context: string;
 
-  @ApiProperty({ example: '2021-10-10', description: '포스트가 작성된 날짜' })
+  @ApiProperty({ example: 2021, description: '포스트가 작성된 날짜의 연도' })
   @IsNotEmpty()
-  @IsString()
-  readonly createdDate: Date;
+  @IsNumber()
+  readonly createdYear: number;
+
+  @ApiProperty({ example: 10, description: '포스트가 작성된 날짜의 월' })
+  @IsNotEmpty()
+  @IsNumber()
+  readonly createdMonth: number;
+
+  @ApiProperty({ example: 1, description: '포스트가 작성된 날짜의 일' })
+  @IsNotEmpty()
+  @IsNumber()
+  readonly createdDay: number;
+
+  @ApiProperty({ example: 20, description: '포스트가 작성된 날짜의 시' })
+  @IsNotEmpty()
+  @IsNumber()
+  readonly createdHour: number;
+
+  @ApiProperty({ example: 5, description: '포스트가 작성된 날짜의 분' })
+  @IsNotEmpty()
+  @IsNumber()
+  readonly createdMinute: number;
 }
