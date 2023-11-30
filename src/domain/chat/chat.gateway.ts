@@ -7,9 +7,9 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { UseGuards } from '@nestjs/common';
-import { JwtServiceAuthGuard } from '../auth/guards/jwt-service-auth.guard';
+import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ChatMessage } from '../infra/entities/message.entity';
+import { ChatMessage } from '../../infra/entities/message.entity';
 import { Repository } from 'typeorm';
 import { ChatService } from './chat.service';
 import { CreateChatDto } from './dto/create-chat.dto';

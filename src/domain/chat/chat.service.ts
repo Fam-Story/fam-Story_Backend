@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { ChatMessage } from '../infra/entities/message.entity';
+import { ChatMessage } from '../../infra/entities/message.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateChatDto } from './dto/create-chat.dto';
 import { ResponseChatDto } from './dto/response-chat.dto';
-import { FamilyMember } from '../infra/entities';
-import { ResponseCode } from '../common';
-import { FamilyException } from '../common/exception/family.exception';
+import { FamilyMember } from '../../infra/entities';
+import { ResponseCode } from '../../common';
+import { FamilyException } from '../../common/exception/family.exception';
 
 @Injectable()
 export class ChatService {

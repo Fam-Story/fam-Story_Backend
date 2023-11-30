@@ -1,9 +1,9 @@
 import { Controller, Delete, Get, Query, Req, UseGuards } from '@nestjs/common';
 import { ChatService } from './chat.service';
-import { CustomApiOKResponse } from '../common/api/response-ok.decorator';
+import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
 import { ResponseChatDto } from './dto/response-chat.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { JwtServiceAuthGuard } from '../auth/guards/jwt-service-auth.guard';
+import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
 
 @ApiTags('채팅 API')
 @UseGuards(JwtServiceAuthGuard)

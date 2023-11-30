@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ChatService } from '../../chat/chat.service';
+import { ChatService } from '../../domain/chat/chat.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { ChatMessage } from '../../infra/entities/message.entity';
 import { FamilyMember } from '../../infra/entities';
