@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PostService, ResponsePostDto } from '../../domain/post';
 import { INestApplication } from '@nestjs/common';
-import { FamilyMember, Post } from '../../infra/entities';
+import { Family, FamilyMember, Post } from '../../infra/entities';
 import { Repository } from 'typeorm';
 import { PostModule } from '../../module';
 import { getRepositoryToken } from '@nestjs/typeorm';
@@ -14,12 +14,14 @@ describe('PostController (e2e)', () => {
   let app: INestApplication;
   let mockPostService: Partial<PostService>;
   let mockPostRepository: Partial<Repository<Post>>;
+  let mockFamilyRepository: Partial<Repository<Family>>;
   let mockFamilyMemberRepository: Partial<Repository<FamilyMember>>;
   const post: Post = Post.createPost(
     'testTitle',
     'testContext',
     new Date(),
     FamilyMember.createFamilyMember(1, null, null, ''),
+    Family.createFamily('test', 'test'),
   );
 
   beforeEach(async () => {
@@ -27,7 +29,7 @@ describe('PostController (e2e)', () => {
       createPost: jest.fn().mockResolvedValue(1),
       updatePost: jest.fn(),
       deletePost: jest.fn(),
-      findPostListByMemberId: jest
+      findPostListByFamilyId: jest
         .fn()
         .mockResolvedValue([ResponsePostDto.from(post)]),
     };
@@ -36,6 +38,11 @@ describe('PostController (e2e)', () => {
       find: jest.fn(),
     };
     mockFamilyMemberRepository = {
+      findOne: jest.fn(),
+      find: jest.fn(),
+    };
+
+    mockFamilyRepository = {
       findOne: jest.fn(),
       find: jest.fn(),
     };
@@ -52,6 +59,8 @@ describe('PostController (e2e)', () => {
       .useValue(mockPostRepository)
       .overrideProvider(getRepositoryToken(FamilyMember))
       .useValue(mockFamilyMemberRepository)
+      .overrideProvider(getRepositoryToken(Family))
+      .useValue(mockFamilyRepository)
       .overrideGuard(JwtServiceAuthGuard)
       .useClass(MockJwtAuthGuard)
       .compile();

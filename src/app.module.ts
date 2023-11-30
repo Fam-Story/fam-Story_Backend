@@ -6,7 +6,6 @@ import {
   UserModule,
   FamilyMemberModule,
   FamilyScheduleModule,
-  PhotoModule,
   PostModule,
   InteractionModule,
 } from './module';
@@ -21,7 +20,6 @@ import { ConfigModule } from '@nestjs/config';
     MysqlModule,
     FamilyMemberModule,
     FamilyScheduleModule,
-    PhotoModule,
     PostModule,
     InteractionModule,
     AuthModule,

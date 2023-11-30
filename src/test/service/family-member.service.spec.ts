@@ -6,6 +6,7 @@ import {
 } from '../../domain/family_member';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Family, FamilyMember, User } from '../../infra/entities';
+import { GetFamilyInfoDto } from '../../domain/family_member/dto/request/get-family-info.dto';
 
 describe('FamilyMemberService', () => {
   const mockRepository = () => ({
@@ -134,6 +135,10 @@ describe('FamilyMemberService', () => {
     const family: Family = Family.createFamily('test', 'testKeyCode');
     const user = User.createUser('test', 'test', 'test', 'test', 1, 1);
     const familyMember = FamilyMember.createFamilyMember(1, family, user, '');
+    const getFamilyInfoDto: GetFamilyInfoDto = {
+      familyMemberId: 1,
+      fcmToken: 'test',
+    };
     familyMember.setId(1);
     family.setId(1);
 
@@ -142,7 +147,8 @@ describe('FamilyMemberService', () => {
       .mockResolvedValue(familyMember);
     jest.spyOn(familyRepository, 'findOne').mockResolvedValue(family);
 
-    const result = await familyMemberService.findFamilyByMemberId(1);
+    const result =
+      await familyMemberService.findFamilyByMemberId(getFamilyInfoDto);
     expect(result.familyId).toEqual(1);
     expect(result.familyName).toEqual('test');
   });

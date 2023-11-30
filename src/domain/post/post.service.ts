@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePostDto, ResponsePostDto, UpdatePostDto } from './dto';
-import { FamilyMember, Post } from '../../infra/entities';
+import { Family, FamilyMember, Post } from '../../infra/entities';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ResponseCode } from '../../common';
 import { PostException } from '../../common/exception/post.exception';
 import { FamilyMemberException } from '../../common/exception/family-member.exception';
+import { FamilyException } from '../../common/exception/family.exception';
 
 @Injectable()
 export class PostService {
@@ -13,17 +14,20 @@ export class PostService {
     @InjectRepository(FamilyMember)
     private familyMemberRepository: Repository<FamilyMember>,
     @InjectRepository(Post) private postRepository: Repository<Post>,
+    @InjectRepository(Family) private familyRepository: Repository<Family>,
   ) {}
   async createPost(createPostDto: CreatePostDto) {
-    const familyMember: FamilyMember =
-      await this.familyMemberRepository.findOne({
-        where: { id: createPostDto.srcMemberId },
-      });
+    const familyMember = await this.validateFamilyMember(
+      createPostDto.srcMemberId,
+    );
+    const family = await this.validateFamily(createPostDto.familyId);
+
     const post: Post = Post.createPost(
       createPostDto.title,
       createPostDto.context,
       createPostDto.createdDate,
       familyMember,
+      family,
     );
     const savedPost = await this.postRepository.save(post);
     return savedPost.id;
@@ -38,13 +42,11 @@ export class PostService {
     await this.postRepository.save(post);
   }
 
-  async findPostListByMemberId(
-    familyMemberId: number,
-  ): Promise<ResponsePostDto[]> {
-    await this.validateFamilyMember(familyMemberId);
+  async findPostListByFamilyId(familyId: number): Promise<ResponsePostDto[]> {
+    await this.validateFamily(familyId);
     const postList = await this.postRepository.find({
-      where: { srcMember: { id: familyMemberId } },
-      relations: ['familyMember'],
+      where: { family: { id: familyId } },
+      relations: ['family', 'familyMember'],
     });
     return postList.map((post) => ResponsePostDto.from(post));
   }
@@ -72,5 +74,15 @@ export class PostService {
       throw new FamilyMemberException(ResponseCode.FAMILY_MEMBER_NOT_FOUND);
     }
     return familyMember;
+  }
+
+  async validateFamily(familyId: number) {
+    const family = await this.familyRepository.findOne({
+      where: { id: familyId },
+    });
+    if (!family) {
+      throw new FamilyException(ResponseCode.FAMILY_NOT_FOUND);
+    }
+    return family;
   }
 }

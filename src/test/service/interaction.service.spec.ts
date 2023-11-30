@@ -1,8 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { InteractionService } from '../../domain/interaction';
+import { InteractionService, CreateInteractionDto } from '../../domain/interaction';
 import { Family, FamilyMember, Interaction, User } from '../../infra/entities';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { CreateInteractionDto } from '../../domain/interaction';
 
 describe('InteractionService', () => {
   const mockRepository = () => ({

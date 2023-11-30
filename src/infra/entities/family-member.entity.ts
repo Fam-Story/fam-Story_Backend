@@ -48,8 +48,6 @@ export class FamilyMember {
   @OneToMany(() => Post, (post) => post.srcMember)
   sentPosts: Post[];
 
-  @OneToMany(() => Post, (post) => post.dstMember)
-  gotPosts: Post[];
   static createFamilyMember(
     role: number,
     family: Family,

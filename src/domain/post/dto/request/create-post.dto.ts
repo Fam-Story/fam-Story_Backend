@@ -10,6 +10,11 @@ export class CreatePostDto {
   @IsNumber()
   readonly srcMemberId: number;
 
+  @ApiProperty({ example: 1, description: '포스트를 작성한 가족의 고유 ID' })
+  @IsNotEmpty()
+  @IsNumber()
+  readonly familyId: number;
+
   @ApiProperty({ example: '푸앙이', description: '포스트의 제목' })
   @IsNotEmpty()
   @IsString()

@@ -12,6 +12,7 @@ import { UserException } from '../../common/exception/user.exception';
 import { ResponseFamilyDto } from '../family';
 import { FamilyMemberException } from '../../common/exception/family-member.exception';
 import { FamilyException } from '../../common/exception/family.exception';
+import { GetFamilyInfoDto } from './dto/request/get-family-info.dto';
 
 @Injectable()
 export class FamilyMemberService {
@@ -111,16 +112,22 @@ export class FamilyMemberService {
 
   //가족 구성원 ID를 통한 가족 정보 반환
   async findFamilyByMemberId(
-    familyMemberId: number,
+    getFamilyInfoDto: GetFamilyInfoDto,
   ): Promise<ResponseFamilyDto> {
     const familyMember = await this.familyMemberRepository.findOne({
-      where: { id: familyMemberId },
+      where: { id: getFamilyInfoDto.familyMemberId },
       relations: ['family'], // Family 테이블과 Join
     });
 
     if (!familyMember) {
       throw new FamilyMemberException(ResponseCode.FAMILY_MEMBER_NOT_FOUND);
     }
+
+    // 가족 구성원의 FCM 토큰 업데이트
+    await this.familyMemberRepository.update(familyMember.id, {
+      fcmToken: getFamilyInfoDto.fcmToken,
+    });
+
     return ResponseFamilyDto.from(familyMember.family);
   }
 
