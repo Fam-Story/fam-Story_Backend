@@ -13,7 +13,7 @@ import { MysqlModule } from './infra/database/mysql.module';
 import { AuthModule } from './auth';
 import { ConfigModule } from '@nestjs/config';
 import { ChatGateway } from './chat/chat.gateway';
-import { ChatModule } from './chat/chat.module';
+import { ChatModule } from './module/chat.module';
 
 @Module({
   imports: [
