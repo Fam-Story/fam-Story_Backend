@@ -133,6 +133,11 @@ export class ResponseCode {
     message: '다른 유저의 정보를 조회할 수 없습니다.',
   };
 
+  static readonly FAMILY_FORBIDDEN = {
+    code: HttpStatus.FORBIDDEN,
+    message: '다른 가족의 정보를 조회할 수 없습니다.',
+  };
+
   //404
   static readonly USER_NOT_FOUND = {
     code: HttpStatus.NOT_FOUND,
