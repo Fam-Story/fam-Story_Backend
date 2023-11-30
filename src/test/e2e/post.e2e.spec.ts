@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PostService, ResponsePostDto } from '../../domain/post';
 import { INestApplication } from '@nestjs/common';
-import { FamilyMember, Post } from '../../infra/entities';
+import {Family, FamilyMember, Post} from '../../infra/entities';
 import { Repository } from 'typeorm';
 import { PostModule } from '../../module';
 import { getRepositoryToken } from '@nestjs/typeorm';
@@ -20,6 +20,7 @@ describe('PostController (e2e)', () => {
     'testContext',
     new Date(),
     FamilyMember.createFamilyMember(1, null, null, ''),
+    Family.createFamily('test', 'test'),
   );
 
   beforeEach(async () => {
@@ -27,7 +28,7 @@ describe('PostController (e2e)', () => {
       createPost: jest.fn().mockResolvedValue(1),
       updatePost: jest.fn(),
       deletePost: jest.fn(),
-      findPostListByMemberId: jest
+      findPostListByFamilyId: jest
         .fn()
         .mockResolvedValue([ResponsePostDto.from(post)]),
     };

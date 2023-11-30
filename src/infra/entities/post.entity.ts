@@ -41,12 +41,14 @@ export class Post {
     context: string,
     createdDate: Date,
     srcMember: FamilyMember,
+    family: Family,
   ): Post {
     const post = new Post();
     post.title = title;
     post.context = context;
     post.createdDate = createdDate;
     post.srcMember = srcMember;
+    post.family = family;
     return post;
   }
 }

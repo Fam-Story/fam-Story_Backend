@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CreatePostDto, PostService, UpdatePostDto } from '../../domain/post';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { FamilyMember, Post } from '../../infra/entities';
+import {Family, FamilyMember, Post} from '../../infra/entities';
 
 describe('PostService', () => {
   const mockRepository = () => ({
@@ -40,8 +40,15 @@ describe('PostService', () => {
   });
 
   it('should create post', async () => {
+    const family = Family.createFamily('test', 'test');
     const familyMember = FamilyMember.createFamilyMember(1, null, null, '');
-    const post = Post.createPost('test', 'test', new Date(), familyMember);
+    const post = Post.createPost(
+      'test',
+      'test',
+      new Date(),
+      familyMember,
+      family,
+    );
     post.id = 1;
 
     const createPostDto: CreatePostDto = {
@@ -62,8 +69,15 @@ describe('PostService', () => {
   });
 
   it('should update post', async () => {
+    const family = Family.createFamily('test', 'test');
     const familyMember = FamilyMember.createFamilyMember(1, null, null, '');
-    const post = Post.createPost('test', 'test', new Date(), familyMember);
+    const post = Post.createPost(
+      'test',
+      'test',
+      new Date(),
+      familyMember,
+      family,
+    );
     post.id = 1;
 
     const updatePostDto: UpdatePostDto = {
@@ -86,7 +100,7 @@ describe('PostService', () => {
 
   it('should delete post', async () => {
     const familyMember = FamilyMember.createFamilyMember(1, null, null, '');
-    const post = Post.createPost('test', 'test', new Date(), familyMember);
+    const post = Post.createPost('test', 'test', new Date(), familyMember, null);
     post.id = 1;
 
     jest.spyOn(postRepository, 'findOne').mockResolvedValue(post);
@@ -98,9 +112,16 @@ describe('PostService', () => {
   });
 
   it('should get post list', async () => {
+    const family = Family.createFamily('test', 'test');
     const familyMember = FamilyMember.createFamilyMember(1, null, null, '');
     familyMember.id = 1;
-    const post = Post.createPost('test', 'test', new Date(), familyMember);
+    const post = Post.createPost(
+      'test',
+      'test',
+      new Date(),
+      familyMember,
+      family,
+    );
     post.id = 1;
 
     const postList = [post];
@@ -110,7 +131,7 @@ describe('PostService', () => {
       .spyOn(familyMemberRepository, 'findOne')
       .mockResolvedValue(familyMember);
 
-    const result = await postService.findPostListByMemberId(1);
+    const result = await postService.findPostListByFamilyId(1);
 
     expect(result.length).toEqual(1);
     expect(result[0].title).toEqual('test');
