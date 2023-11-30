@@ -57,8 +57,10 @@ export class FamilyMemberService {
     const familyMember = await this.validateFamilyMember(
       updateFamilyMemberDto.familyMemberId,
     );
-    familyMember.role = updateFamilyMemberDto.role;
-    await this.familyMemberRepository.save(familyMember);
+    await this.familyMemberRepository.update(
+      { id: familyMember.id },
+      { ...updateFamilyMemberDto },
+    );
   }
 
   async deleteFamilyMember(familyMemberId: number) {
