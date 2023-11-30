@@ -10,6 +10,7 @@ import { Family } from './family.entity';
 import { User } from './user.entity';
 import { Interaction } from './interaction.entity';
 import { Post } from './post.entity';
+import { ChatMessage } from './message.entity';
 
 @Entity('family_member', { schema: 'family_app_db' })
 export class FamilyMember {
@@ -47,6 +48,9 @@ export class FamilyMember {
 
   @OneToMany(() => Post, (post) => post.srcMember)
   sentPosts: Post[];
+
+  @OneToMany(() => ChatMessage, (chatMessage) => chatMessage.familyMember)
+  chatMessages: ChatMessage[];
 
   static createFamilyMember(
     role: number,

@@ -1,33 +1,49 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Family } from './family.entity';
+import { FamilyMember } from './family-member.entity';
 
 @Entity()
 export class ChatMessage {
   @PrimaryGeneratedColumn({ type: 'int', name: 'ID' })
   id: number;
 
-  @Column('varchar', { name: 'Context', length: 50 })
-  context: string;
+  @Column('varchar', { name: 'Content', length: 50 })
+  content: string;
 
   @Column('datetime', { name: 'Created_At' })
   createdDate: Date;
 
-  @Column('int', { name: 'Member_ID' })
-  srcMemberId: number;
+  @ManyToOne(() => FamilyMember, (familyMember) => familyMember.chatMessages, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn([{ name: 'Member_ID', referencedColumnName: 'id' }])
+  familyMember: FamilyMember;
 
-  @Column('int', { name: 'Family_ID' })
-  familyId: number;
+  @ManyToOne(() => Family, (family) => family.chatMessages, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn([{ name: 'Family_ID', referencedColumnName: 'id' }])
+  family: Family;
 
   static createMessage(
-    context: string,
+    content: string,
     createdDate: Date,
-    srcMemberId: number,
-    familyId: number,
+    familyMember: FamilyMember,
+    family: Family,
   ): ChatMessage {
     const message = new ChatMessage();
-    message.context = context;
+    message.content = content;
     message.createdDate = createdDate;
-    message.srcMemberId = srcMemberId;
-    message.familyId = familyId;
+    message.familyMember = familyMember;
+    message.family = family;
     return message;
   }
 }
