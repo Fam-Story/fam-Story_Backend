@@ -1,26 +1,40 @@
 import { Injectable } from '@nestjs/common';
+import { ChatMessage } from '../infra/entities/message.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateChatDto } from './dto/create-chat.dto';
-import { UpdateChatDto } from './dto/update-chat.dto';
 
 @Injectable()
 export class ChatService {
-  create(createChatDto: CreateChatDto) {
-    return 'This action adds a new chat';
+  constructor(
+    @InjectRepository(ChatMessage)
+    private readonly chatRepository: Repository<ChatMessage>,
+  ) {}
+  async saveChat(createChatDto: CreateChatDto, date: Date) {
+    const parsedFamilyId: number = parseInt(createChatDto.familyId);
+    const parsedFamilyMemberId: number = parseInt(createChatDto.familyMemberId);
+
+    const messageInstance = this.chatRepository.create({
+      familyMember: { id: parsedFamilyMemberId },
+      family: { id: parsedFamilyId },
+      content: createChatDto.message,
+      createdDate: date,
+    });
+    await this.chatRepository.save(messageInstance);
   }
 
-  findAll() {
-    return `This action returns all chat`;
+  findAllChat(familyId: number) {
+    return this.chatRepository.find({
+      where: { family: { id: familyId } },
+      relations: ['familyMember'],
+      order: { createdDate: 'ASC' },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} chat`;
-  }
-
-  update(id: number, updateChatDto: UpdateChatDto) {
-    return `This action updates a #${id} chat`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} chat`;
+  async deleteAllChat(familyId: number) {
+    const chatMessages = await this.chatRepository.find({
+      where: { family: { id: familyId } },
+    });
+    await this.chatRepository.remove(chatMessages);
   }
 }
