@@ -13,7 +13,9 @@ import { ChatMessage } from '../infra/entities/message.entity';
 import { Repository } from 'typeorm';
 
 @UseGuards(JwtServiceAuthGuard)
-@WebSocketGateway()
+@WebSocketGateway({
+  cors: true,
+})
 export class ChatGateway {
   @WebSocketServer()
   server: Server;
@@ -57,4 +59,14 @@ export class ChatGateway {
       createdAt: message.createdDate, // 메시지가 저장된 시간
     });
   }
+
+  @SubscribeMessage('leaveFamily')
+  async handleLeaveRoom(
+    @MessageBody() data: { familyId: string },
+    @ConnectedSocket() client: Socket,
+  ) {
+    const familyId = data.familyId;
+    client.leave(familyId);
+  }
+
 }
