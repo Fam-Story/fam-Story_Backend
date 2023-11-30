@@ -63,7 +63,11 @@ describe('PostService', () => {
       srcMemberId: 1,
       title: 'test',
       context: 'test',
-      createdDate: new Date(),
+      createdYear: 2021,
+      createdMonth: 10,
+      createdDay: 1,
+      createdHour: 20,
+      createdMinute: 5,
     };
 
     jest
@@ -93,7 +97,12 @@ describe('PostService', () => {
       postId: 1,
       title: 'test',
       context: 'test',
-      createdDate: new Date(),
+      srcMemberId: 1,
+      createdYear: 2021,
+      createdMonth: 10,
+      createdDay: 1,
+      createdHour: 20,
+      createdMinute: 5,
     };
 
     jest.spyOn(postRepository, 'findOne').mockResolvedValue(post);
