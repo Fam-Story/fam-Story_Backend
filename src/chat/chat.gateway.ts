@@ -68,5 +68,4 @@ export class ChatGateway {
     const familyId = data.familyId;
     client.leave(familyId);
   }
-
 }
