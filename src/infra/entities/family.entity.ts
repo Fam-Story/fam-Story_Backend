@@ -2,6 +2,7 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { FamilyMember } from './family-member.entity';
 import { FamilySchedule } from './family-schedule.entity';
 import { Photo } from './photo.entity';
+import {Post} from "./post.entity";
 
 @Entity('family', { schema: 'family_app_db' })
 export class Family {
@@ -26,8 +27,8 @@ export class Family {
   @OneToMany(() => FamilySchedule, (familySchedule) => familySchedule.family)
   familySchedules: FamilySchedule[];
 
-  @OneToMany(() => Photo, (photo) => photo.family)
-  photos: Photo[];
+  @OneToMany(() => Post, (post) => post.family)
+  posts: Post[];
 
   static createFamily(familyName: string, keyCode: string): Family {
     const family = new Family();

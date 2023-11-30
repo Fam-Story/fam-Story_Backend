@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { FamilyMember } from './family-member.entity';
+import {Family} from "./family.entity";
 
 @Entity('post', { schema: 'family_app_db' })
 export class Post {
@@ -28,12 +29,12 @@ export class Post {
   @JoinColumn([{ name: 'Src_Member_ID', referencedColumnName: 'id' }])
   srcMember: FamilyMember;
 
-  @ManyToOne(() => FamilyMember, (familyMember) => familyMember.gotPosts, {
+  @ManyToOne(() => Family, (family) => family.posts, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
-  @JoinColumn([{ name: 'Dst_Member_ID', referencedColumnName: 'id' }])
-  dstMember: FamilyMember;
+  @JoinColumn([{ name: 'Family_ID', referencedColumnName: 'id' }])
+  family: Family;
 
   static createPost(
     title: string,
