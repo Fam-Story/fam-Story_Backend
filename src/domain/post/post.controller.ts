@@ -73,7 +73,6 @@ export class PostController {
   }
 
   //포스트 리스트 반환
-  //TODO: 모든 포스트 불러오도록 수정
   @Get('')
   @ApiOperation({
     summary: '[게시글] 특정 가족에 등록된 모든 게시글 반환',
