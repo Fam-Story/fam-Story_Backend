@@ -73,18 +73,19 @@ export class PostController {
   }
 
   //포스트 리스트 반환
+  //TODO: 모든 포스트 불러오도록 수정
   @Get('')
   @ApiOperation({
-    summary: '[게시글] 특정 구성원의 모든 게시글 반환',
-    description: '특정 구성원에게 등록된 모든 게시글들을 반환한다.',
+    summary: '[게시글] 특정 가족에 등록된 모든 게시글 반환',
+    description: '특정 가족에 등록된 모든 게시글들을 반환한다.',
   })
   @CustomApiOKResponse(
     ResponsePostDto,
     '모든 게시글에 대한 정보를 배열 형태로 반환한다.',
   )
-  async findPostList(@Query('familyMemberId') familyMemberId: number) {
+  async findPostList(@Query('familyId') familyId: number) {
     const responsePostDtoList: ResponsePostDto[] =
-      await this.postService.findPostListByMemberId(familyMemberId);
+      await this.postService.findPostListByFamilyId(familyId);
     return CustomApiResponse.success(
       ResponseCode.POST_READ_SUCCESS,
       responsePostDtoList,

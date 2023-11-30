@@ -38,13 +38,11 @@ export class PostService {
     await this.postRepository.save(post);
   }
 
-  async findPostListByMemberId(
-    familyMemberId: number,
-  ): Promise<ResponsePostDto[]> {
-    await this.validateFamilyMember(familyMemberId);
+  async findPostListByFamilyId(familyId: number): Promise<ResponsePostDto[]> {
+    await this.validateFamilyMember(familyId);
     const postList = await this.postRepository.find({
-      where: { srcMember: { id: familyMemberId } },
-      relations: ['familyMember'],
+      where: { family: { id: familyId } },
+      relations: ['family', 'familyMember'],
     });
     return postList.map((post) => ResponsePostDto.from(post));
   }
