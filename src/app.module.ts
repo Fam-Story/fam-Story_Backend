@@ -32,6 +32,6 @@ import { ChatModule } from './module/chat.module';
     ChatModule,
   ],
   controllers: [AppController],
-  providers: [AppService, ChatGateway],
+  providers: [AppService],
 })
 export class AppModule {}
