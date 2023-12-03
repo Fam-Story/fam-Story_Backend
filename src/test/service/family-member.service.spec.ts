@@ -90,7 +90,9 @@ describe('FamilyMemberService', () => {
     user.id = 1;
     familyMember.setId(1);
 
-    jest.spyOn(familyMemberRepository, 'update').mockResolvedValue(familyMember);
+    jest
+      .spyOn(familyMemberRepository, 'update')
+      .mockResolvedValue(familyMember);
     jest.spyOn(userRepository, 'findOne').mockResolvedValue(user);
     jest.spyOn(familyRepository, 'findOne').mockResolvedValue(family);
     jest.spyOn(familyMemberRepository, 'findOne').mockResolvedValue(family);
