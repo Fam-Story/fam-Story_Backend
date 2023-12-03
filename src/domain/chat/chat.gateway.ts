@@ -10,7 +10,6 @@ import { UseGuards } from '@nestjs/common';
 import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ChatMessage } from '../../infra/entities/message.entity';
-import { Repository } from 'typeorm';
 import { ChatService } from './chat.service';
 import { CreateChatDto } from './dto/create-chat.dto';
 
@@ -24,7 +23,6 @@ export class ChatGateway {
 
   constructor(
     @InjectRepository(ChatMessage)
-    private readonly chatRepository: Repository<ChatMessage>,
     private readonly chatService: ChatService,
   ) {}
 
