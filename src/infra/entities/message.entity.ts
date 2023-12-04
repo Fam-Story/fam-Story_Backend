@@ -8,7 +8,7 @@ import {
 import { Family } from './family.entity';
 import { FamilyMember } from './family-member.entity';
 
-@Entity()
+@Entity('chat_message', { schema: 'family_app_db' })
 export class ChatMessage {
   @PrimaryGeneratedColumn({ type: 'int', name: 'ID' })
   id: number;
