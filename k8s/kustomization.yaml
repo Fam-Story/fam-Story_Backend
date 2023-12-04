@@ -5,4 +5,4 @@ resources:
 images:
 - name: synoti21/famstory-backend
   newName: synoti21/famstory-backend
-  newTag: cee294b9
+  newTag: 7c136729
