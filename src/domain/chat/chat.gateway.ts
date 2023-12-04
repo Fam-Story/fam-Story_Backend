@@ -3,7 +3,7 @@ import {
   SubscribeMessage,
   MessageBody,
   ConnectedSocket,
-  WebSocketServer,
+  WebSocketServer, OnGatewayConnection,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { UseGuards } from '@nestjs/common';
@@ -15,7 +15,7 @@ import { CreateChatDto } from './dto/create-chat.dto';
   namespace: 'chat',
   cors: true,
 })
-export class ChatGateway {
+export class ChatGateway implements OnGatewayConnection{
   @WebSocketServer()
   server: Server;
 
@@ -26,6 +26,7 @@ export class ChatGateway {
     @MessageBody() data: { familyId: string },
     @ConnectedSocket() client: Socket,
   ) {
+    console.log(data.familyId);
     const familyId = data.familyId;
     client.join(familyId);
   }
@@ -35,6 +36,7 @@ export class ChatGateway {
     @MessageBody() createChatDto: CreateChatDto,
     @ConnectedSocket() client: Socket,
   ) {
+    console.log(createChatDto);
     const createDate = new Date();
     await this.chatService.saveChat(createChatDto, createDate);
 
@@ -53,5 +55,9 @@ export class ChatGateway {
   ) {
     const familyId = data.familyId;
     client.leave(familyId);
+  }
+
+  handleConnection(@ConnectedSocket() socket: Socket): any {
+    console.log(`${socket.id} socket connected`);
   }
 }
