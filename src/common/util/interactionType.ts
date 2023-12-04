@@ -11,23 +11,23 @@ export class InteractionType {
     switch (type) {
       case 1:
         return new InteractionType(
-          '팔로우',
-          `${source}님이 ${target}님을 팔로우 하셨습니다.`,
+          '콕콕!',
+          `${source}님이 ${target}님을 찔렀어요.`,
         );
       case 2:
         return new InteractionType(
-          '찌르기',
-          `${source}님이 ${target}님을 찌르셨습니다.`,
+          '하트!',
+          `${source}님이 ${target}님에게 하트를 보냈어요.`,
         );
       case 3:
         return new InteractionType(
-          '좋아요',
-          `${source}님이 ${target}님의 게시물을 좋아합니다.`,
+          '우우우~!',
+          `${source}님이 ${target}에게 야유를 보냈어요.`,
         );
       case 4:
         return new InteractionType(
-          '댓글',
-          `${source}님이 ${target}님의 게시물에 댓글을 남겼습니다.`,
+          '칭찬해요!',
+          `${source}님이 ${target}님을 칭찬해요.`,
         );
     }
   }
