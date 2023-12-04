@@ -36,6 +36,7 @@ export class ChatService {
     //해당 유저가 이 가족에 속해있는지 확인
     const familyMember = await this.familyMemberRepository.findOne({
       where: { user: { id: userId }, family: { id: familyId } },
+      relations: ['user', 'family'],
     });
     if (!familyMember) {
       throw new FamilyException(ResponseCode.FAMILY_FORBIDDEN);
@@ -48,9 +49,15 @@ export class ChatService {
     });
     return chatMessages.map((chatMessage) => {
       const responseChatDto = new ResponseChatDto();
-      responseChatDto.familyMemberName = chatMessage.familyMember.user.username;
+      responseChatDto.nickname = chatMessage.familyMember.user.nickname;
       responseChatDto.message = chatMessage.content;
       responseChatDto.role = chatMessage.familyMember.role;
+      responseChatDto.createdTime = chatMessage.createdDate.toLocaleTimeString(
+        'ko-KR',
+        {
+          hour12: false,
+        },
+      );
       return responseChatDto;
     });
   }
