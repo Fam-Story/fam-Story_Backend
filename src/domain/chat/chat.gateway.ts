@@ -15,6 +15,7 @@ import { CreateChatDto } from './dto/create-chat.dto';
 
 @UseGuards(JwtServiceAuthGuard)
 @WebSocketGateway({
+  namespace: 'chat',
   cors: true,
 })
 export class ChatGateway {
