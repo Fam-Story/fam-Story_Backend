@@ -2,12 +2,13 @@ import { Controller, Delete, Get, Query, Req, UseGuards } from '@nestjs/common';
 import { ChatService } from './chat.service';
 import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
 import { ResponseChatDto } from './dto/response-chat.dto';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import {ApiBearerAuth, ApiOperation, ApiTags} from '@nestjs/swagger';
 import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
 
 @ApiTags('채팅 API')
 @UseGuards(JwtServiceAuthGuard)
 @Controller('api/chat')
+@ApiBearerAuth('access-token')
 export class ChatController {
   constructor(private readonly chatService: ChatService) {}
   @Get('')
