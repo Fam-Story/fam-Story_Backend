@@ -86,6 +86,14 @@ export class ResponseCode {
     code: HttpStatus.OK,
     message: '게시글 삭제 성공',
   };
+  static readonly CHAT_READ_SUCCESS = {
+    code: HttpStatus.OK,
+    message: '채팅 조회 성공',
+  };
+  static readonly CHAT_DELETE_SUCCESS = {
+    code: HttpStatus.OK,
+    message: '채팅 삭제 성공',
+  };
 
   //201
   static readonly USER_CREATED_SUCCESS = {
@@ -138,6 +146,11 @@ export class ResponseCode {
     message: '다른 가족의 정보를 조회할 수 없습니다.',
   };
 
+  static readonly CHAT_FORBIDDEN = {
+    code: HttpStatus.FORBIDDEN,
+    message: '다른 가족 채팅방의 정보를 조회할 수 없습니다.',
+  };
+
   //404
   static readonly USER_NOT_FOUND = {
     code: HttpStatus.NOT_FOUND,
@@ -172,6 +185,10 @@ export class ResponseCode {
   static readonly POST_NOT_FOUND = {
     code: HttpStatus.NOT_FOUND,
     message: '게시글 조회 실패',
+  };
+  static readonly CHAT_NOT_FOUND = {
+    code: HttpStatus.NOT_FOUND,
+    message: '채팅 조회 실패',
   };
 
   //409
