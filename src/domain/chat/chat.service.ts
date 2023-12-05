@@ -7,6 +7,7 @@ import { ResponseChatDto } from './dto/response-chat.dto';
 import { FamilyMember } from '../../infra/entities';
 import { ResponseCode } from '../../common';
 import { FamilyException } from '../../common/exception/family.exception';
+import {FamilyMemberException} from "../../common/exception/family-member.exception";
 
 @Injectable()
 export class ChatService {
@@ -17,6 +18,8 @@ export class ChatService {
     private readonly familyMemberRepository: Repository<FamilyMember>,
   ) {}
   async saveChat(createChatDto: CreateChatDto, date: Date) {
+    await this.validateFamilyMember(parseInt(createChatDto.familyMemberId));
+
     const parsedFamilyId: number = parseInt(createChatDto.familyId);
     const parsedFamilyMemberId: number = parseInt(createChatDto.familyMemberId);
 
@@ -34,31 +37,54 @@ export class ChatService {
     familyId: number,
   ): Promise<ResponseChatDto[]> {
     //해당 유저가 이 가족에 속해있는지 확인
-    const familyMember = await this.familyMemberRepository.findOne({
-      where: { user: { id: userId }, family: { id: familyId } },
-    });
-    if (!familyMember) {
-      throw new FamilyException(ResponseCode.FAMILY_FORBIDDEN);
-    }
+    await this.validateUser(userId, familyId);
 
     const chatMessages: ChatMessage[] = await this.chatRepository.find({
       where: { family: { id: familyId } },
-      relations: ['familyMember', 'user'],
+      relations: ['familyMember', 'familyMember.user'],
       order: { createdDate: 'ASC' },
     });
     return chatMessages.map((chatMessage) => {
       const responseChatDto = new ResponseChatDto();
-      responseChatDto.familyMemberName = chatMessage.familyMember.user.username;
+      responseChatDto.nickname = chatMessage.familyMember.user.nickname;
       responseChatDto.message = chatMessage.content;
       responseChatDto.role = chatMessage.familyMember.role;
+      responseChatDto.createdTime = chatMessage.createdDate
+        .toLocaleTimeString('ko-KR', {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false,
+        })
+        .slice(0, 5);
       return responseChatDto;
     });
   }
 
-  async deleteAllChat(familyId: number) {
+  async deleteAllChat(userId: number, familyId: number) {
+    await this.validateUser(userId, familyId);
     const chatMessages = await this.chatRepository.find({
       where: { family: { id: familyId } },
     });
     await this.chatRepository.remove(chatMessages);
+  }
+
+  async validateFamilyMember(familyMemberId: number) {
+    const family = await this.familyMemberRepository.findOne({
+      where: { id: familyMemberId },
+    });
+    if (!family) {
+      throw new FamilyMemberException(ResponseCode.FAMILY_MEMBER_NOT_FOUND);
+    }
+  }
+
+  async validateUser(userId: number, familyId: number) {
+    const familyMember = await this.familyMemberRepository.findOne({
+      where: { user: { id: userId }, family: { id: familyId } },
+      relations: ['user', 'family'],
+    });
+    if (!familyMember) {
+      throw new FamilyException(ResponseCode.CHAT_FORBIDDEN);
+    }
   }
 }
