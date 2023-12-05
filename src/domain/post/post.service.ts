@@ -54,6 +54,9 @@ export class PostService {
       where: { family: { id: familyId } },
       relations: ['family', 'srcMember'], //데이터베이스 칼럼 명이 아닌, 연관관계 필드명
     });
+    postList.forEach((post) => {
+      post.createdDate = new Date(post.createdDate);
+    });
     return postList.map((post) => ResponsePostDto.from(post));
   }
 
