@@ -82,7 +82,7 @@ describe('FamilyMemberService', () => {
   it('should update family-member', async () => {
     const updateFamilyMemberDto: UpdateFamilyMemberDto = {
       role: 1,
-      familyMemberId: 1,
+      id: 1,
     };
     const family: Family = Family.createFamily('test', 'testKeyCode');
     const user: User = User.createUser('test', 'test', 'test', 'test', 1, 1);

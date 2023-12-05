@@ -71,7 +71,7 @@ export class FamilyService {
 
   //가족 정보 업데이트
   async updateFamily(updateFamilyDto: UpdateFamilyDto): Promise<void> {
-    const family = await this.validateFamily(updateFamilyDto.familyId);
+    const family = await this.validateFamily(updateFamilyDto.id);
     await this.familyRepository.update(
       { id: family.id },
       { ...updateFamilyDto },

@@ -7,5 +7,5 @@ export class UpdatePostDto extends PartialType(CreatePostDto) {
   @ApiProperty({ example: 1, description: '포스트의 고유 ID' })
   @IsNotEmpty()
   @IsNumber()
-  postId: number;
+  id: number;
 }

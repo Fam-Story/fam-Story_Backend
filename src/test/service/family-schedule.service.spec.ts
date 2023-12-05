@@ -86,7 +86,7 @@ describe('FamilyScheduleService', () => {
     );
     familySchedule.setId(1);
     const updateFamilyScheduleDto = {
-      familyScheduleId: 1,
+      id: 1,
       scheduleName: 'testSchedule',
       scheduleYear: 2021,
       scheduleMonth: 10,

@@ -13,5 +13,5 @@ export class UpdateFamilyScheduleDto extends PartialType(
   })
   @IsNotEmpty()
   @IsNumber()
-  readonly familyScheduleId: number;
+  readonly id: number;
 }

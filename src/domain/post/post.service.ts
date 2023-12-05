@@ -42,7 +42,7 @@ export class PostService {
   }
 
   async updatePost(updatePostDto: UpdatePostDto) {
-    const post = await this.validatePost(updatePostDto.postId);
+    const post = await this.validatePost(updatePostDto.id);
     await this.validateFamilyMember(updatePostDto.srcMemberId);
 
     await this.postRepository.update({ id: post.id }, { ...updatePostDto });

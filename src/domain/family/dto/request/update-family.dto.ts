@@ -7,5 +7,5 @@ export class UpdateFamilyDto extends PartialType(CreateFamilyDto) {
   @ApiProperty({ example: 1, description: '가족 ID', nullable: false })
   @IsNotEmpty()
   @IsNumber()
-  familyId: number;
+  id: number;
 }
