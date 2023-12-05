@@ -24,7 +24,7 @@ export class PostService {
 
     const createDate = new Date(
       createPostDto.createdYear,
-      createPostDto.createdMonth,
+      createPostDto.createdMonth - 1,
       createPostDto.createdDay,
     );
     createDate.setHours(createPostDto.createdHour);
