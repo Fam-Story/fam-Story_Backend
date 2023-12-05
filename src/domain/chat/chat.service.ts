@@ -17,6 +17,8 @@ export class ChatService {
     private readonly familyMemberRepository: Repository<FamilyMember>,
   ) {}
   async saveChat(createChatDto: CreateChatDto, date: Date) {
+    await this.validateFamilyMember(parseInt(createChatDto.familyMemberId));
+
     const parsedFamilyId: number = parseInt(createChatDto.familyId);
     const parsedFamilyMemberId: number = parseInt(createChatDto.familyMemberId);
 
@@ -66,13 +68,22 @@ export class ChatService {
     await this.chatRepository.remove(chatMessages);
   }
 
+  async validateFamilyMember(familyMemberId: number) {
+    const family = await this.familyMemberRepository.findOne({
+      where: { id: familyMemberId },
+    });
+    if (!family) {
+      throw new FamilyException(ResponseCode.FAMILY_MEMBER_NOT_FOUND);
+    }
+  }
+
   async validateUser(userId: number, familyId: number) {
     const familyMember = await this.familyMemberRepository.findOne({
       where: { user: { id: userId }, family: { id: familyId } },
       relations: ['user', 'family'],
     });
     if (!familyMember) {
-      throw new FamilyException(ResponseCode.FAMILY_FORBIDDEN);
+      throw new FamilyException(ResponseCode.CHAT_FORBIDDEN);
     }
   }
 }

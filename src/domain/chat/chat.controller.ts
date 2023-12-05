@@ -4,7 +4,7 @@ import { CustomApiOKResponse } from '../../common/api/response-ok.decorator';
 import { ResponseChatDto } from './dto/response-chat.dto';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtServiceAuthGuard } from '../../auth/guards/jwt-service-auth.guard';
-import {CustomApiResponse, ResponseCode} from "../../common";
+import { CustomApiResponse, ResponseCode } from '../../common';
 
 @ApiTags('채팅 API')
 @UseGuards(JwtServiceAuthGuard)
@@ -18,7 +18,7 @@ export class ChatController {
     description: '가족의 모든 채팅 기록들을 조회한다.',
   })
   @CustomApiOKResponse(ResponseChatDto, '가족 채팅 조회 성공')
-  getAllChat(@Req() req, @Query('familyId') familyId: number) {
+  async getAllChat(@Req() req, @Query('familyId') familyId: number) {
     const chatMessages: ResponseChatDto[] = await this.chatService.findAllChat(
       req.user.id,
       familyId,
