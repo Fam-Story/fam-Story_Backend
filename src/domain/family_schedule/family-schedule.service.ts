@@ -37,7 +37,7 @@ export class FamilyScheduleService {
 
   async updateFamilySchedule(updateFamilyScheduleDto: UpdateFamilyScheduleDto) {
     const familySchedule = await this.validateFamilySchedule(
-      updateFamilyScheduleDto.familyScheduleId,
+      updateFamilyScheduleDto.id,
     );
     await this.validateFamily(updateFamilyScheduleDto.familyId);
     await this.familyScheduleRepository.update(

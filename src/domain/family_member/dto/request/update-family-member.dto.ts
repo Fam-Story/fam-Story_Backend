@@ -11,5 +11,5 @@ export class UpdateFamilyMemberDto extends PartialType(CreateFamilyMemberDto) {
   })
   @IsNotEmpty()
   @IsNumber()
-  readonly familyMemberId: number;
+  readonly id: number;
 }

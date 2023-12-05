@@ -55,7 +55,7 @@ export class FamilyMemberService {
     updateFamilyMemberDto: UpdateFamilyMemberDto,
   ): Promise<void> {
     const familyMember = await this.validateFamilyMember(
-      updateFamilyMemberDto.familyMemberId,
+      updateFamilyMemberDto.id,
     );
     await this.familyMemberRepository.update(
       { id: familyMember.id },
