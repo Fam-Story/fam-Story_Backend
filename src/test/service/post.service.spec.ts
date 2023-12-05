@@ -94,7 +94,7 @@ describe('PostService', () => {
     post.id = 1;
 
     const updatePostDto: UpdatePostDto = {
-      postId: 1,
+      id: 1,
       title: 'test',
       context: 'test',
       srcMemberId: 1,

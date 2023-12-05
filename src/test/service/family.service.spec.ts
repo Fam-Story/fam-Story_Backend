@@ -126,7 +126,7 @@ describe('FamilyService', () => {
     //given
     const familyKeyCode = familyService.createFamilyKeyCode();
     const updateFamilyDto: UpdateFamilyDto = {
-      familyId: 1,
+      id: 1,
       familyName: 'testUpdated',
     };
     const family = Family.createFamily('test', familyKeyCode);
