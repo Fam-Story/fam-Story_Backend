@@ -52,7 +52,7 @@ export class PostService {
     await this.validateFamily(familyId);
     const postList = await this.postRepository.find({
       where: { family: { id: familyId } },
-      relations: ['family', 'familyMember'],
+      relations: ['family', 'srcMember'], //데이터베이스 칼럼 명이 아닌, 연관관계 필드명
     });
     return postList.map((post) => ResponsePostDto.from(post));
   }
