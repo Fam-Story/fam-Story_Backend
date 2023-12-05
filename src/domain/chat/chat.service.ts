@@ -44,7 +44,7 @@ export class ChatService {
 
     const chatMessages: ChatMessage[] = await this.chatRepository.find({
       where: { family: { id: familyId } },
-      relations: ['familyMember', 'user'],
+      relations: ['familyMember', 'familyMember.user'],
       order: { createdDate: 'ASC' },
     });
     return chatMessages.map((chatMessage) => {
@@ -52,12 +52,14 @@ export class ChatService {
       responseChatDto.nickname = chatMessage.familyMember.user.nickname;
       responseChatDto.message = chatMessage.content;
       responseChatDto.role = chatMessage.familyMember.role;
-      responseChatDto.createdTime = chatMessage.createdDate.toLocaleTimeString(
-        'ko-KR',
-        {
+      responseChatDto.createdTime = chatMessage.createdDate
+        .toLocaleTimeString('ko-KR', {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
           hour12: false,
-        },
-      );
+        })
+        .slice(0, 5);
       return responseChatDto;
     });
   }
