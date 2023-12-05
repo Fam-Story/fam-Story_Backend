@@ -19,7 +19,7 @@ export class Post {
   @Column('varchar', { name: 'Context', length: 50 })
   context: string;
 
-  @Column('date', { name: 'Created_Date' })
+  @Column('datetime', { name: 'Created_Date' })
   createdDate: Date;
 
   @ManyToOne(() => FamilyMember, (familyMember) => familyMember.sentPosts, {
