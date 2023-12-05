@@ -27,7 +27,7 @@ export class ChatController {
     description: '가족이 삭제될 때, 가족의 채팅내역 또한 모두 삭제한다.',
   })
   @CustomApiOKResponse(ResponseChatDto, '가족 채팅 삭제 성공')
-  deleteChat(@Query('familyId') familyId: number) {
-    return this.chatService.deleteAllChat(familyId);
+  deleteChat(@Req() req, @Query('familyId') familyId: number) {
+    return this.chatService.deleteAllChat(req.user.id, familyId);
   }
 }

@@ -34,13 +34,7 @@ export class ChatService {
     familyId: number,
   ): Promise<ResponseChatDto[]> {
     //해당 유저가 이 가족에 속해있는지 확인
-    const familyMember = await this.familyMemberRepository.findOne({
-      where: { user: { id: userId }, family: { id: familyId } },
-      relations: ['user', 'family'],
-    });
-    if (!familyMember) {
-      throw new FamilyException(ResponseCode.FAMILY_FORBIDDEN);
-    }
+    await this.validateUser(userId, familyId);
 
     const chatMessages: ChatMessage[] = await this.chatRepository.find({
       where: { family: { id: familyId } },
@@ -64,10 +58,21 @@ export class ChatService {
     });
   }
 
-  async deleteAllChat(familyId: number) {
+  async deleteAllChat(userId: number, familyId: number) {
+    await this.validateUser(userId, familyId);
     const chatMessages = await this.chatRepository.find({
       where: { family: { id: familyId } },
     });
     await this.chatRepository.remove(chatMessages);
+  }
+
+  async validateUser(userId: number, familyId: number) {
+    const familyMember = await this.familyMemberRepository.findOne({
+      where: { user: { id: userId }, family: { id: familyId } },
+      relations: ['user', 'family'],
+    });
+    if (!familyMember) {
+      throw new FamilyException(ResponseCode.FAMILY_FORBIDDEN);
+    }
   }
 }
