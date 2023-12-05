@@ -7,6 +7,7 @@ import { ResponseChatDto } from './dto/response-chat.dto';
 import { FamilyMember } from '../../infra/entities';
 import { ResponseCode } from '../../common';
 import { FamilyException } from '../../common/exception/family.exception';
+import {FamilyMemberException} from "../../common/exception/family-member.exception";
 
 @Injectable()
 export class ChatService {
@@ -73,7 +74,7 @@ export class ChatService {
       where: { id: familyMemberId },
     });
     if (!family) {
-      throw new FamilyException(ResponseCode.FAMILY_MEMBER_NOT_FOUND);
+      throw new FamilyMemberException(ResponseCode.FAMILY_MEMBER_NOT_FOUND);
     }
   }
 

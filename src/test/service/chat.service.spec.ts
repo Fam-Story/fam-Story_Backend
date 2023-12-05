@@ -61,6 +61,7 @@ describe('ChatService', () => {
           family,
         ),
       );
+    jest.spyOn(familyMemberRepository, 'findOne').mockResolvedValue(familyMember);
     jest.spyOn(chatRepository, 'save').mockResolvedValue(createChatDto);
     await service.saveChat(createChatDto, date);
     expect(chatRepository.save).toHaveBeenCalled();
