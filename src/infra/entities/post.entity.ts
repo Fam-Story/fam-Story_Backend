@@ -16,7 +16,7 @@ export class Post {
   @Column('varchar', { name: 'Title', length: 50 })
   title: string;
 
-  @Column('varchar', { name: 'Context', length: 50 })
+  @Column('varchar', { name: 'Context', length: 300 })
   context: string;
 
   @Column('datetime', { name: 'Created_Date' })
