@@ -21,4 +21,10 @@ export class CreateChatDto {
     description: '채팅 내용',
   })
   readonly message: string;
+
+  @ApiProperty({
+    example: '1',
+    description: '가족 구성원 역할',
+  })
+  readonly role: string;
 }
