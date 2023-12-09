@@ -46,11 +46,20 @@ describe('ChatService', () => {
       familyId: '1',
       familyMemberId: '1',
       message: 'hello',
+      role: '1',
     };
     const family = Family.createFamily('test', 'test');
     const familyMember = FamilyMember.createFamilyMember(1, family, null, null);
 
     const date = new Date();
+    const dateString = date
+      .toLocaleTimeString('ko-KR', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+      })
+      .slice(0, 5);
     jest
       .spyOn(chatRepository, 'create')
       .mockResolvedValue(
@@ -61,9 +70,11 @@ describe('ChatService', () => {
           family,
         ),
       );
-    jest.spyOn(familyMemberRepository, 'findOne').mockResolvedValue(familyMember);
+    jest
+      .spyOn(familyMemberRepository, 'findOne')
+      .mockResolvedValue(familyMember);
     jest.spyOn(chatRepository, 'save').mockResolvedValue(createChatDto);
-    await service.saveChat(createChatDto, date);
+    await service.saveChat(createChatDto, dateString);
     expect(chatRepository.save).toHaveBeenCalled();
   });
 
@@ -90,6 +101,7 @@ describe('ChatService', () => {
     expect(chat).toEqual([
       {
         createdTime: '11:11',
+        familyMemberId: '2',
         nickname: 'testNickname',
         role: 1,
         message: 'hello',

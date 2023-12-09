@@ -17,7 +17,7 @@ export class ChatService {
     @InjectRepository(FamilyMember)
     private readonly familyMemberRepository: Repository<FamilyMember>,
   ) {}
-  async saveChat(createChatDto: CreateChatDto, date: Date) {
+  async saveChat(createChatDto: CreateChatDto, date: string) {
     await this.validateFamilyMember(parseInt(createChatDto.familyMemberId));
 
     const parsedFamilyId: number = parseInt(createChatDto.familyId);
@@ -46,6 +46,7 @@ export class ChatService {
     });
     return chatMessages.map((chatMessage) => {
       const responseChatDto = new ResponseChatDto();
+      responseChatDto.familyMemberId = chatMessage.familyMember.id.toString();
       responseChatDto.nickname = chatMessage.familyMember.user.nickname;
       responseChatDto.message = chatMessage.content;
       responseChatDto.role = chatMessage.familyMember.role;
