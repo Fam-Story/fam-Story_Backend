@@ -17,6 +17,12 @@ export class ResponseFamilyMemberDto {
   })
   readonly role: number;
 
+  @ApiProperty({
+    example: '졸려',
+    description: '가족 멤버의 상태 메시지',
+  })
+  readonly introMessage: string;
+
   @ApiProperty({ example: 1, description: '가족 멤버의 총 찌르기 횟수' })
   readonly pokeCount: number;
 
@@ -28,6 +34,7 @@ export class ResponseFamilyMemberDto {
     name: string,
     nickname: string,
     role: number,
+    introMessage: string,
     pokeCount: number,
     talkCount: number,
   ) {
@@ -35,16 +42,17 @@ export class ResponseFamilyMemberDto {
     this.name = name;
     this.nickname = nickname;
     this.role = role;
+    this.introMessage = introMessage;
     this.pokeCount = pokeCount;
     this.talkCount = talkCount;
   }
 
   static of(
     familyMemberId: number,
-    familyId: number,
     name: string,
     nickname: string,
     role: number,
+    introMessage: string,
     pokeCount: number,
     talkCount: number,
   ): ResponseFamilyMemberDto {
@@ -53,6 +61,7 @@ export class ResponseFamilyMemberDto {
       name,
       nickname,
       role,
+      introMessage,
       pokeCount,
       talkCount,
     );
@@ -64,6 +73,7 @@ export class ResponseFamilyMemberDto {
       familyMember.user.username,
       familyMember.user.nickname,
       familyMember.role,
+      familyMember.introMessage,
       familyMember.pokeCount,
       familyMember.talkCount,
     );

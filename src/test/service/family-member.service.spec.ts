@@ -56,6 +56,7 @@ describe('FamilyMemberService', () => {
       role: 1,
       familyId: 1,
       fcmToken: 'test',
+      introMessage: 'test',
     };
     const family: Family = Family.createFamily('test', 'testKeyCode');
     const user: User = User.createUser('test', 'test', 'test', 'test', 1, 1);
