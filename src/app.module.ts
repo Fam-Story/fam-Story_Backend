@@ -12,7 +12,6 @@ import {
 import { MysqlModule } from './infra/database/mysql.module';
 import { AuthModule } from './auth';
 import { ConfigModule } from '@nestjs/config';
-import { ChatGateway } from './domain/chat/chat.gateway';
 import { ChatModule } from './module/chat.module';
 
 @Module({

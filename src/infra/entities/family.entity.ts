@@ -2,7 +2,7 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { FamilyMember } from './family-member.entity';
 import { FamilySchedule } from './family-schedule.entity';
 import { Post } from './post.entity';
-import {ChatMessage} from "./message.entity";
+import { ChatMessage } from './message.entity';
 
 @Entity('family', { schema: 'family_app_db' })
 export class Family {

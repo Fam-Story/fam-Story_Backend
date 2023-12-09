@@ -7,7 +7,7 @@ import { ResponseChatDto } from './dto/response-chat.dto';
 import { FamilyMember } from '../../infra/entities';
 import { ResponseCode } from '../../common';
 import { FamilyException } from '../../common/exception/family.exception';
-import {FamilyMemberException} from "../../common/exception/family-member.exception";
+import { FamilyMemberException } from '../../common/exception/family-member.exception';
 
 @Injectable()
 export class ChatService {
