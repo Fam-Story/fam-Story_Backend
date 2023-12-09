@@ -29,6 +29,9 @@ export class FamilyMember {
   @Column('varchar', { name: 'Fcm_Token', length: 255 })
   fcmToken: string;
 
+  @Column('varchar', { name: 'Intro_Message', length: 50 })
+  introMessage: string;
+
   @ManyToOne(() => Family, (family) => family.familyMembers, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
