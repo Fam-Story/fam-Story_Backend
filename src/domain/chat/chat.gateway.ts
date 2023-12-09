@@ -53,6 +53,7 @@ export class ChatGateway implements OnGatewayConnection {
     this.server.to(createChatDto.familyId).emit('receiveMessage', {
       familyMemberId: createChatDto.familyMemberId,
       message: createChatDto.message,
+      nickname: createChatDto.nickname,
       createdAt: createTimeString, // 메시지가 저장된 시간
       role: createChatDto.role,
     });
