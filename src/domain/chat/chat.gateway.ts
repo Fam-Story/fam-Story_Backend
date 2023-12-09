@@ -38,7 +38,8 @@ export class ChatGateway implements OnGatewayConnection {
     @ConnectedSocket() client: Socket,
   ) {
     console.log(createChatDto);
-    const createTime = new Date()
+    const createTime = new Date();
+    const createTimeString = createTime
       .toLocaleTimeString('ko-KR', {
         hour: '2-digit',
         minute: '2-digit',
@@ -52,7 +53,7 @@ export class ChatGateway implements OnGatewayConnection {
     this.server.to(createChatDto.familyId).emit('receiveMessage', {
       familyMemberId: createChatDto.familyMemberId,
       message: createChatDto.message,
-      createdAt: createTime, // 메시지가 저장된 시간
+      createdAt: createTimeString, // 메시지가 저장된 시간
       role: createChatDto.role,
     });
   }
