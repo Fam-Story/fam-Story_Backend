@@ -42,6 +42,7 @@ export class InteractionService {
     await this.validateFamilyMember(familyMemberId);
     const interactions = await this.interactionRepository.find({
       where: { dstMember: { id: familyMemberId } },
+      relations: ['dstMember'],
     });
     return interactions.map((interaction) =>
       ResponseInteractionDto.from(interaction),
@@ -51,6 +52,7 @@ export class InteractionService {
   async checkAllInteractions(familyMemberId: number) {
     const interactions = await this.interactionRepository.find({
       where: { dstMember: { id: familyMemberId } },
+      relations: ['dstMember'],
     });
     interactions.forEach((interaction) => {
       interaction.isChecked = true;
