@@ -52,29 +52,11 @@ describe('ChatService', () => {
     const familyMember = FamilyMember.createFamilyMember(1, family, null, null);
 
     const date = new Date();
-    const dateString = date
-      .toLocaleTimeString('ko-KR', {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false,
-      })
-      .slice(0, 5);
-    jest
-      .spyOn(chatRepository, 'create')
-      .mockResolvedValue(
-        ChatMessage.createMessage(
-          createChatDto.message,
-          date,
-          familyMember,
-          family,
-        ),
-      );
     jest
       .spyOn(familyMemberRepository, 'findOne')
       .mockResolvedValue(familyMember);
     jest.spyOn(chatRepository, 'save').mockResolvedValue(createChatDto);
-    await service.saveChat(createChatDto, dateString);
+    await service.saveChat(createChatDto, date);
     expect(chatRepository.save).toHaveBeenCalled();
   });
 
