@@ -46,6 +46,7 @@ describe('ChatService', () => {
       familyId: '1',
       familyMemberId: '1',
       message: 'hello',
+      nickname: 'test',
       role: '1',
     };
     const family = Family.createFamily('test', 'test');
@@ -83,7 +84,7 @@ describe('ChatService', () => {
     expect(chat).toEqual([
       {
         createdTime: '11:11',
-        familyMemberId: '2',
+        familyMemberId: 2,
         nickname: 'testNickname',
         role: 1,
         message: 'hello',

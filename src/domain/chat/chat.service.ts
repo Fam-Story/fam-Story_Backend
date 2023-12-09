@@ -46,7 +46,7 @@ export class ChatService {
     });
     return chatMessages.map((chatMessage) => {
       const responseChatDto = new ResponseChatDto();
-      responseChatDto.familyMemberId = chatMessage.familyMember.id.toString();
+      responseChatDto.familyMemberId = chatMessage.familyMember.id;
       responseChatDto.nickname = chatMessage.familyMember.user.nickname;
       responseChatDto.message = chatMessage.content;
       responseChatDto.role = chatMessage.familyMember.role;
