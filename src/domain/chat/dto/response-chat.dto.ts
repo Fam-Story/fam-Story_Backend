@@ -5,7 +5,7 @@ export class ResponseChatDto {
     example: '1',
     description: '가족 구성원 ID',
   })
-  familyMemberId: string;
+  familyMemberId: number;
   @ApiProperty({
     example: '푸앙이',
     description: '가족 구성원 별명',

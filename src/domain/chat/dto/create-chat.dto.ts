@@ -17,6 +17,13 @@ export class CreateChatDto {
   readonly familyMemberId: string;
 
   @ApiProperty({
+    example: '푸앙이',
+    description: '가족 구성원 닉네임',
+  })
+  @IsNumberString()
+  readonly nickname: string;
+
+  @ApiProperty({
     example: '안녕하세요',
     description: '채팅 내용',
   })
