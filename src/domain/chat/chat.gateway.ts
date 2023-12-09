@@ -3,7 +3,8 @@ import {
   SubscribeMessage,
   MessageBody,
   ConnectedSocket,
-  WebSocketServer, OnGatewayConnection,
+  WebSocketServer,
+  OnGatewayConnection,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { UseGuards } from '@nestjs/common';
@@ -15,7 +16,7 @@ import { CreateChatDto } from './dto/create-chat.dto';
   namespace: 'chat',
   cors: true,
 })
-export class ChatGateway implements OnGatewayConnection{
+export class ChatGateway implements OnGatewayConnection {
   @WebSocketServer()
   server: Server;
 
@@ -37,14 +38,22 @@ export class ChatGateway implements OnGatewayConnection{
     @ConnectedSocket() client: Socket,
   ) {
     console.log(createChatDto);
-    const createDate = new Date();
-    await this.chatService.saveChat(createChatDto, createDate);
+    const createTime = new Date()
+      .toLocaleTimeString('ko-KR', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+      })
+      .slice(0, 5);
+    await this.chatService.saveChat(createChatDto, createTime);
 
     // 다른 가족 구성원에게 메시지 전송
     this.server.to(createChatDto.familyId).emit('receiveMessage', {
       familyMemberId: createChatDto.familyMemberId,
       message: createChatDto.message,
-      createdAt: createDate, // 메시지가 저장된 시간
+      createdAt: createTime, // 메시지가 저장된 시간
+      role: createChatDto.role,
     });
   }
 

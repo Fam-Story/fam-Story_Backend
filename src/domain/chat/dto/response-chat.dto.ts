@@ -2,6 +2,11 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class ResponseChatDto {
   @ApiProperty({
+    example: '1',
+    description: '가족 구성원 ID',
+  })
+  familyMemberId: string;
+  @ApiProperty({
     example: '푸앙이',
     description: '가족 구성원 별명',
   })
