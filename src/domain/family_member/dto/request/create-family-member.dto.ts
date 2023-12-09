@@ -18,8 +18,18 @@ export class CreateFamilyMemberDto {
 
   @ApiProperty({
     example: 1,
+    description: '가족 멤버의 FCM 토큰',
+    nullable: false,
   })
   @IsNotEmpty()
   @IsString()
   readonly fcmToken: string;
+
+  @ApiProperty({
+    example: '안녕안녕',
+    description: '가족 멤버의 상태 메시지',
+    nullable: true,
+  })
+  @IsString()
+  readonly introMessage: string;
 }
