@@ -32,6 +32,12 @@ export class Interaction {
   @Column('int', { name: 'interactionType' })
   interactionType: number;
 
+  @Column('varchar', { name: 'nickname', length: 45 })
+  nickname: string;
+
+  @Column('int', { name: 'role' })
+  role: number;
+
   static createInteraction(
     srcMemberId: number,
     dstMember: FamilyMember,
