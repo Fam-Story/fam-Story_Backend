@@ -32,6 +32,11 @@ export class FamilyMemberService {
       throw new FamilyMemberException(ResponseCode.FAMILY_MEMBER_ALREADY_EXIST);
     }
     const family = await this.validateFamily(createFamilyMemberDto.familyId);
+
+    if (family.memberNumber >= 5) {
+      throw new FamilyMemberException(ResponseCode.FAMILY_FULL);
+    }
+
     const familyMember: FamilyMember = FamilyMember.createFamilyMember(
       createFamilyMemberDto.role,
       family,
