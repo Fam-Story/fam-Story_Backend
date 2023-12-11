@@ -14,6 +14,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+        timezone: 'Asia/Seoul',
         synchronize: true,
       }),
     }),
