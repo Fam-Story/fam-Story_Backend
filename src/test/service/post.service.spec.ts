@@ -48,7 +48,7 @@ describe('PostService', () => {
 
   it('should create post', async () => {
     const family = Family.createFamily('test', 'test');
-    const familyMember = FamilyMember.createFamilyMember(1, null, null, '');
+    const familyMember = FamilyMember.createFamilyMember(1, null, null, '', '');
     const post = Post.createPost(
       'test',
       'test',
@@ -83,7 +83,7 @@ describe('PostService', () => {
 
   it('should update post', async () => {
     const family = Family.createFamily('test', 'test');
-    const familyMember = FamilyMember.createFamilyMember(1, null, null, '');
+    const familyMember = FamilyMember.createFamilyMember(1, null, null, '',   '');
     const post = Post.createPost(
       'test',
       'test',
@@ -117,7 +117,7 @@ describe('PostService', () => {
   });
 
   it('should delete post', async () => {
-    const familyMember = FamilyMember.createFamilyMember(1, null, null, '');
+    const familyMember = FamilyMember.createFamilyMember(1, null, null, '', '');
     const post = Post.createPost(
       'test',
       'test',
@@ -137,7 +137,7 @@ describe('PostService', () => {
 
   it('should get post list', async () => {
     const family = Family.createFamily('test', 'test');
-    const familyMember = FamilyMember.createFamilyMember(1, null, null, '');
+    const familyMember = FamilyMember.createFamilyMember(1, null, null, '', '');
     familyMember.id = 1;
     const post = Post.createPost(
       'test',

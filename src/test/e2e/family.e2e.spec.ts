@@ -26,6 +26,7 @@ describe('FamilyController (e2e)', () => {
     mockFamily,
     mockUser,
     'test',
+        ''
   );
   beforeEach(async () => {
     mockFamilyService = {

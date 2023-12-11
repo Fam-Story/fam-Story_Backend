@@ -40,7 +40,8 @@ export class FirebaseCloudMessagingHandler {
         console.log(response);
         return response;
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error);
         throw new InteractionException(ResponseCode.INTERACTION_SEND_FAIL);
       });
   }

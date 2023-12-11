@@ -20,7 +20,7 @@ describe('PostController (e2e)', () => {
     'testTitle',
     'testContext',
     new Date(),
-    FamilyMember.createFamilyMember(1, null, null, ''),
+    FamilyMember.createFamilyMember(1, null, null, '', ''),
     Family.createFamily('test', 'test'),
   );
 

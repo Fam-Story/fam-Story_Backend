@@ -30,6 +30,7 @@ describe('ChatController (e2e)', () => {
     family,
     user,
     null,
+    null,
   );
   const chat: ChatMessage = ChatMessage.createMessage(
     'testContent',
