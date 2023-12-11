@@ -102,7 +102,7 @@ describe('FamilyService', () => {
       familyKeyCode,
     );
     const user = User.createUser('test', 'test', 'test', 'test', 1, 1);
-    const familyMember = FamilyMember.createFamilyMember(1, family, user, '');
+    const familyMember = FamilyMember.createFamilyMember(1, family, user, '', '');
     familyMember.setId(1);
     family.setId(1);
     user.setId(1);

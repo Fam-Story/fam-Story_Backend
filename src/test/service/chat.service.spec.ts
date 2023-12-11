@@ -50,7 +50,7 @@ describe('ChatService', () => {
       role: '1',
     };
     const family = Family.createFamily('test', 'test');
-    const familyMember = FamilyMember.createFamilyMember(1, family, null, null);
+    const familyMember = FamilyMember.createFamilyMember(1, family, null, null, null);
 
     const date = new Date();
     jest
@@ -65,7 +65,7 @@ describe('ChatService', () => {
     const userId = 1;
     const user = User.createUser('test', 'test', 'test', 'testNickname', 1, 1);
     const family = Family.createFamily('test', 'test');
-    const familyMember = FamilyMember.createFamilyMember(1, family, user, null);
+    const familyMember = FamilyMember.createFamilyMember(1, family, user, null, null);
     const chatMessage = ChatMessage.createMessage(
       'hello',
       new Date(11, 11, 11, 11, 11, 11),

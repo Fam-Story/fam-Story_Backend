@@ -65,6 +65,7 @@ describe('FamilyMemberService', () => {
       family,
       user,
       createFamilyMemberDto.fcmToken,
+      createFamilyMemberDto.introMessage,
     );
     user.id = 1;
     familyMember.setId(1);
@@ -87,7 +88,7 @@ describe('FamilyMemberService', () => {
     };
     const family: Family = Family.createFamily('test', 'testKeyCode');
     const user: User = User.createUser('test', 'test', 'test', 'test', 1, 1);
-    const familyMember = FamilyMember.createFamilyMember(1, family, user, '');
+    const familyMember = FamilyMember.createFamilyMember(1, family, user, '', '');
     user.id = 1;
     familyMember.setId(1);
 
@@ -105,7 +106,7 @@ describe('FamilyMemberService', () => {
   it('should delete family-member', async () => {
     const family: Family = Family.createFamily('test', 'testKeyCode');
     const user = User.createUser('test', 'test', 'test', 'test', 1, 1);
-    const familyMember = FamilyMember.createFamilyMember(1, family, user, '');
+    const familyMember = FamilyMember.createFamilyMember(1, family, user, '', '');
     familyMember.setId(1);
 
     jest
@@ -122,7 +123,7 @@ describe('FamilyMemberService', () => {
   it('should find family-member by user id', async () => {
     const family: Family = Family.createFamily('test', 'testKeyCode');
     const user = User.createUser('test', 'test', 'test', 'test', 1, 1);
-    const familyMember = FamilyMember.createFamilyMember(1, family, user, '');
+    const familyMember = FamilyMember.createFamilyMember(1, family, user, '', '');
     familyMember.setId(1);
 
     jest.spyOn(userRepository, 'findOne').mockResolvedValue(user);
@@ -137,7 +138,7 @@ describe('FamilyMemberService', () => {
   it('should find family by family-member id', async () => {
     const family: Family = Family.createFamily('test', 'testKeyCode');
     const user = User.createUser('test', 'test', 'test', 'test', 1, 1);
-    const familyMember = FamilyMember.createFamilyMember(1, family, user, '');
+    const familyMember = FamilyMember.createFamilyMember(1, family, user, '',  '');
     const getFamilyInfoDto: GetFamilyInfoDto = {
       familyMemberId: 1,
       fcmToken: 'test',
@@ -159,7 +160,7 @@ describe('FamilyMemberService', () => {
   it('should find all family-member by family id', async () => {
     const family: Family = Family.createFamily('test', 'testKeyCode');
     const user = User.createUser('test', 'test', 'test', 'test', 1, 1);
-    const familyMember = FamilyMember.createFamilyMember(1, family, user, '');
+    const familyMember = FamilyMember.createFamilyMember(1, family, user, '', '');
     familyMember.setId(10);
     family.setId(1);
 
@@ -175,7 +176,7 @@ describe('FamilyMemberService', () => {
   it('should find family-member by family-member id', async () => {
     const family: Family = Family.createFamily('test', 'testKeyCode');
     const user = User.createUser('test', 'test', 'test', 'test', 1, 1);
-    const familyMember = FamilyMember.createFamilyMember(1, family, user, '');
+    const familyMember = FamilyMember.createFamilyMember(1, family, user, '', '');
     familyMember.setId(1);
 
     jest
