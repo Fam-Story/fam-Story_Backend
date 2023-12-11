@@ -42,12 +42,16 @@ export class Interaction {
     srcMemberId: number,
     dstMember: FamilyMember,
     interactionType: number,
+    nickname: string,
+    role: number,
   ) {
     const interaction: Interaction = new Interaction();
     interaction.srcMemberId = srcMemberId;
     interaction.dstMember = dstMember;
     interaction.isChecked = false;
     interaction.interactionType = interactionType;
+    interaction.nickname = nickname;
+    interaction.role = role;
 
     return interaction;
   }
