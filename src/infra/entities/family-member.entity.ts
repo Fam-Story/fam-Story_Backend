@@ -60,6 +60,7 @@ export class FamilyMember {
     family: Family,
     user: User,
     fcmToken: string,
+    introMessage: string,
   ): FamilyMember {
     const familyMember = new FamilyMember();
     familyMember.role = role;
@@ -68,6 +69,7 @@ export class FamilyMember {
     familyMember.family = family;
     familyMember.user = user;
     familyMember.fcmToken = fcmToken;
+    familyMember.introMessage = introMessage;
     return familyMember;
   }
 
