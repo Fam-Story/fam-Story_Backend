@@ -24,6 +24,18 @@ export class ResponseInteractionDto {
   readonly isChecked: boolean;
   @ApiProperty({ example: 1, description: '상호작용 타입', nullable: false })
   readonly interactionType: number;
+  @ApiProperty({
+    example: 1,
+    description: '상호작용을 보낸 구성원의 닉네임',
+    nullable: false,
+  })
+  readonly srcMemberNickname: string;
+  @ApiProperty({
+    example: 1,
+    description: '상호작용을 보낸 구성원의 역할',
+    nullable: false,
+  })
+  readonly srcMemberRole: number;
 
   constructor(
     interactionId: number,
