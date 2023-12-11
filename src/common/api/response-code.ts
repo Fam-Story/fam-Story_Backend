@@ -210,4 +210,10 @@ export class ResponseCode {
     code: HttpStatus.INTERNAL_SERVER_ERROR,
     message: '상호작용 전송 실패',
   };
+
+  //503
+  static readonly FAMILY_FULL = {
+    code: HttpStatus.SERVICE_UNAVAILABLE,
+    message: '가족 가득 참',
+  };
 }
