@@ -28,6 +28,8 @@ export class InteractionService {
       createInteractionDto.srcMemberId,
       dstFamilyMember,
       createInteractionDto.interactionType,
+      srcFamilyMember.user.username,
+      srcFamilyMember.role,
     );
     const savedInteraction = await this.interactionRepository.save(interaction);
     return [
@@ -44,6 +46,7 @@ export class InteractionService {
       where: { dstMember: { id: familyMemberId } },
       relations: ['dstMember'],
     });
+
     return interactions.map((interaction) =>
       ResponseInteractionDto.from(interaction),
     );

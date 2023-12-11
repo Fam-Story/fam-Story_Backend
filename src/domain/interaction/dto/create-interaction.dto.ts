@@ -24,14 +24,4 @@ export class CreateInteractionDto {
   @IsNotEmpty()
   @IsNumber()
   interactionType: number;
-
-  @ApiProperty({ example: 1, nullable: false, description: '상호작용 타입' })
-  @IsNotEmpty()
-  @IsString()
-  srcMemberNickname: string;
-
-  @ApiProperty({ example: 1, nullable: false, description: '상호작용 타입' })
-  @IsNotEmpty()
-  @IsNumber()
-  srcMemberRole: number;
 }
