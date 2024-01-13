@@ -8,9 +8,10 @@
 - Chat room that is specially provided for family members to talk freely.
 - Family schedule shared with members such as wedding anniversary, or birthday.
 - Posts for freely saying anything with members.
-- Join Family room with secret code, and have a private room with family.
+- Either create or join Family room with secret code, and have a private room with family.
+  
+  ![스크린샷 2024-01-14 오전 1 58 11](https://github.com/Fam-Story/fam-Story_Backend/assets/58936172/eed78b67-98ba-4ab1-aaff-15f61c229cca)
 
-  ![스크린샷 2024-01-14 오전 1 44 09](https://github.com/Fam-Story/fam-Story_Backend/assets/58936172/e57d60b7-3798-43a9-a0ba-3c60a1859fc9)
 
 ---
 ## Tech Stacks
